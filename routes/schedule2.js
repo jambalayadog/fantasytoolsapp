@@ -37,7 +37,7 @@ router.get('/', function(req, res, next) {
             var combined_data = JSON.stringify({schedule_data: schedule_data, teamstats_data: teamstats_data})
             console.log('1 ', (schedule_data).substring(0,50))
             console.log('2 ', (teamstats_data).substring(0,55))
-            console.log('3 ', (combined_data).substring(0,60))
+            console.log('3b ', (combined_data).substring(0,60))
             res.render('schedule2', {schedule_data: schedule_data, teamstats_data: teamstats_data});
             //res.render('schedule2', JSON.stringify({schedule_data: schedule_data, teamstats_data: teamstats_data}));
         });
