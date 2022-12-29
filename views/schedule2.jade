@@ -65,12 +65,12 @@ block content
                                 th.highlight(id="highlighted_column", class="week" + week, data-column="week" + week)
                                     div.datecontainer(data-column="week" + week)
                                         div(id='week'+week)=`Week: ${week}`
-                                        div.datetext=new Date(search_date.setDate(search_date.getDate() + 1)).toDateString()
+                                        div.datetext=new Date(search_date.setDate(search_date.getDate())).toDateString()   //  + 1
                             - } else {
                                 th(class="week" + week, data-column="week" + week)
                                     div.datecontainer(data-column="week" + week)
                                         div(id='week'+week)=`Week: ${week}`
-                                        div.datetext=new Date(search_date.setDate(search_date.getDate() + 1)).toDateString()
+                                        div.datetext=new Date(search_date.setDate(search_date.getDate())).toDateString()    //  + 1
                             - }
                         - }
                         - day += 1
