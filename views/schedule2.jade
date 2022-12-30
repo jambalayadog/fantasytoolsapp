@@ -57,7 +57,7 @@ block content
                     while day <= days - 2
                         - var search_date = new Date(first_monday)
                         //- console.log(`${day} - first_date: ${search_date}`)
-                        - search_date.setDate(search_date.getDate() + day)
+                        - search_date.setDate(search_date.getDate() + day - 1)
                         //- console.log(`-search_date: ${search_date}`)
                         - if (day % 7 == 0) {
                             //- console.log(`-${day} --new week header: ${search_date}`)
