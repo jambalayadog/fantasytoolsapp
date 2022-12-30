@@ -26,18 +26,19 @@ block content
     - var teamlist = {schedule_data}
     //- console.log('hey', {schedule_data},  typeof({schedule_data}))
     - var teamdata = {teamstats_data}
-    //- console.log(teamdata)
-    - for (team in {teamstats_data}) {
+    - //console.log(teamdata)
+    - //for (team in {teamstats_data}) {
         //- console.log('undefined: ', ({teamstats_data}[team]))
         //- console.log('team: ', team)
         //- console.log('team2: ', ({teamstats_data}[team]).substring(0,80))
         - //get via team abbreviation the team's win-loss-ot record, as well as GF and GA
-        - for (const [teamAbbr, teamStats] of Object.entries(JSON.parse({teamstats_data}[team]))) {
+        - //for (const [teamAbbr, teamStats] of Object.entries(JSON.parse({teamstats_data}[team]))) {
             //- console.log(teamAbbr, teamStats)
-        - }
-    - }
+        - //}
+    - //}
     //- console.log('team3: ', ({teamstats_data}['teamstats_data']).substring(0,90))
-    - var teamRecords = JSON.parse({teamstats_data}['teamstats_data'])
+    - //var teamRecords = JSON.parse({teamstats_data}['teamstats_data'])
+    - var teamRecords = {teamstats_data}['teamstats_data']
     //- console.log('team4: ', JSON.parse({teamstats_data}['teamstats_data']))
     //- console.log('team5: ', teamRecords)
     div.header
@@ -80,9 +81,12 @@ block content
                 //each val, key in JSON.parse(JSON.stringify({schedule_data}))
                 //each teamleague in JSON.parse(JSON.stringify({schedule_data}))
                 - var teams = 0
-                - for (teamSchedule in JSON.parse(JSON.stringify({schedule_data}))) {
-                    - console.log(({schedule_data}[teamSchedule]).substring(0,50))
-                    - for (const [team, gameSchedule] of Object.entries(JSON.parse({schedule_data}[teamSchedule]))) {
+                - //for (teamSchedule in JSON.parse(JSON.stringify({schedule_data}))) {
+                - for (teamSchedule in {schedule_data}) {
+                    - //console.log(({schedule_data}[teamSchedule]).substring(0,50))
+                    - //console.log(({schedule_data}[teamSchedule]))
+                    - //for (const [team, gameSchedule] of Object.entries(JSON.parse({schedule_data}[teamSchedule]))) {
+                    - for (const [team, gameSchedule] of Object.entries({schedule_data}[teamSchedule])) {
                         //- console.log(key, gameSchedule)
                         //- if (team == "ANA") {
                         - var image_name = team + '.png'

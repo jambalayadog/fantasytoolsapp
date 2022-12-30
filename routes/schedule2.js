@@ -4,20 +4,47 @@ var fs = require('fs')
 
 
 const schedule_file = "files/01_NHLScheduleByTeam.json"
+const schedule_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/01_NHLScheduleByTeam.json"
 var schedule_data
 
 const teamStats_file = "files/02_NHLTeamStats.json"
+const teamStats_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/02_NHLTeamStats.json"
+
 var teamstats_data
 
 
 
+router.get('/', function(req, res, next) {
+
+    fetch(schedule_url)
+    .then((response) => response.json())
+    .then((data) => {
+        schedule_data = data
+        //console.log('1a ', schedule_data, typeof(schedule_data))
+        
+        fetch(teamStats_url)
+        .then((response) => response.json())
+        .then((data) => {
+            teamstats_data = data
+            //console.log('2a ', {teamstats_data})
+            res.render('schedule2', {schedule_data: schedule_data, teamstats_data: teamstats_data});
+        }).catch((err) => {
+            console.log(err);    
+        })
+    }).catch((err) => {
+        console.log(err);
+    });
+
+});
 
 /* GET home page. 
 router.get('/', function(req, res, next) {
     res.render('schedule', { title: 'Express2' });
 });*/
 
-/* GET home page. */
+
+/*
+/* GET home page. *//*
 router.get('/', function(req, res, next) {
     fs.readFile(schedule_file, 'utf8', (err, data) => {
         if (err) {
@@ -45,6 +72,6 @@ router.get('/', function(req, res, next) {
     //console.log('To render: ', (schedule_data).substring(0,50), ' -- type: ', typeof(schedule_data))
     //res.render('schedule', {schedule_data: schedule_data});
 });
-
+*/
 
 module.exports = router;
