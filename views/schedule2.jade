@@ -57,7 +57,7 @@ block content
                     while day <= days - 2
                         - var search_date = new Date(first_monday)
                         //- console.log(`${day} - first_date: ${search_date}`)
-                        - search_date.setDate(search_date.getDate() + day - 1)
+                        - search_date.setDate(search_date.getDate() + day)
                         //- console.log(`-search_date: ${search_date}`)
                         - if (day % 7 == 0) {
                             //- console.log(`-${day} --new week header: ${search_date}`)
@@ -65,12 +65,12 @@ block content
                                 th.highlight(id="highlighted_column", class="week" + week, data-column="week" + week)
                                     div.datecontainer(data-column="week" + week)
                                         div(id='week'+week)=`Week: ${week}`
-                                        div.datetext=new Date(search_date.setDate(search_date.getDate())).toDateString()
+                                        div.datetext=new Date(search_date.setDate(search_date.getDate() + 1)).toDateString()
                             - } else {
                                 th(class="week" + week, data-column="week" + week)
                                     div.datecontainer(data-column="week" + week)
                                         div(id='week'+week)=`Week: ${week}`
-                                        div.datetext=new Date(search_date.setDate(search_date.getDate())).toDateString()
+                                        div.datetext=new Date(search_date.setDate(search_date.getDate() + 1)).toDateString()
                             - }
                         - }
                         - day += 1
