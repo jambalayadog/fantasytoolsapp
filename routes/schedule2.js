@@ -14,8 +14,7 @@ const teamStats_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/02
 var teamstats_data
 
 
-console.log('Fetch test here ---> ')
-
+/*
 router.get('/', function(req, res, next) {
 
     fetch(schedule_url, {credentials: 'include'})
@@ -37,10 +36,24 @@ router.get('/', function(req, res, next) {
         console.log(schedule_url, err);
     });
 
+});*/
+
+router.get('/', function(req, res, next) {
+
+    fetch(schedule_url, {mode:"cors"})
+    .then(res => {
+        if(res.headers.get("content-type") &&
+            res.headers.get("content-type").toLowerCase().indexOf("application/json") >= 0) {
+            return res.json()
+        } else {
+            throw new TypeError()
+        }
+    }).then(processJSON)
+
 });
 
 
-console.log('Fetch test here 2 ---> ')
+console.log('Fetch test here ---> ')
 
 /* GET home page. 
 router.get('/', function(req, res, next) {
