@@ -18,7 +18,7 @@ console.log('Fetch test here ---> ')
 
 router.get('/', function(req, res, next) {
 
-    fetch(schedule_url)
+    fetch(schedule_url, {credentials: 'include'})
     .then((response) => response.json())
     .then((data) => {
         schedule_data = data
