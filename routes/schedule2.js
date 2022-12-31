@@ -14,7 +14,7 @@ const teamStats_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/02
 var teamstats_data
 
 
-/*
+
 router.get('/', function(req, res, next) {
 
     fetch(schedule_url, {credentials: 'include'})
@@ -28,7 +28,7 @@ router.get('/', function(req, res, next) {
         .then((data) => {
             teamstats_data = data
             //console.log('2a ', {teamstats_data})
-            res.render('schedule2', {schedule_data: schedule_data, teamstats_data: teamstats_data});
+            res.render('players', {schedule_data: schedule_data, teamstats_data: teamstats_data});
         }).catch((err) => {
             console.log(err);    
         })
@@ -36,21 +36,7 @@ router.get('/', function(req, res, next) {
         console.log(schedule_url, err);
     });
 
-});*/
-/*
-router.get('/', function(req, res, next) {
-
-    fetch(schedule_url, {mode:"cors"})
-    .then(res => {
-        if(res.headers.get("content-type") &&
-            res.headers.get("content-type").toLowerCase().indexOf("application/json") >= 0) {
-            return res.json()
-        } else {
-            throw new TypeError()
-        }
-    }).then(processJSON)
-
-});*/
+});
 
 
 console.log('Fetch test here ---> ')
@@ -62,7 +48,7 @@ router.get('/', function(req, res, next) {
 
 
 /*
-/* GET home page. */
+/* GET home page. *//*
 
 router.get('/', function(req, res, next) {
     fs.readFile(schedule_file, 'utf8', (err, data) => {
@@ -88,9 +74,9 @@ router.get('/', function(req, res, next) {
             //res.render('schedule2', JSON.stringify({schedule_data: schedule_data, teamstats_data: teamstats_data}));
         });
     });
-    //console.log('To render: ', (schedule_data).substring(0,50), ' -- type: ', typeof(schedule_data))
-    //res.render('schedule', {schedule_data: schedule_data});
 });
+
+*/
 
 
 module.exports = router;
