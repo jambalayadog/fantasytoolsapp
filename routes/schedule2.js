@@ -5,11 +5,11 @@ var fs = require('fs')
 
 const schedule_file = "files/01_NHLScheduleByTeam.json"
 //const schedule_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/01_NHLScheduleByTeam.json"
-const schedule_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/01_NHLScheduleByTeam.json"
+const schedule_url = "http://fantasyhockeycentral.com/fantasytoolsapp/files/01_NHLScheduleByTeam.json"
 var schedule_data
 
 const teamStats_file = "files/02_NHLTeamStats.json"
-const teamStats_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/02_NHLTeamStats.json"
+const teamStats_url = "http://fantasyhockeycentral.com/fantasytoolsapp/files/02_NHLTeamStats.json"
 
 var teamstats_data
 
@@ -28,7 +28,7 @@ router.get('/', function(req, res, next) {
         .then((data) => {
             teamstats_data = data
             //console.log('2a ', {teamstats_data})
-            res.render('players', {schedule_data: schedule_data, teamstats_data: teamstats_data});
+            res.render('schedule2', {schedule_data: schedule_data, teamstats_data: teamstats_data});
         }).catch((err) => {
             console.log(err);    
         })
