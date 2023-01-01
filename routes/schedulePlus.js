@@ -11,6 +11,7 @@ var schedule_data
 
 const teamStats_file = "files/02_NHLTeamStats.json"
 const teamStats_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/02_NHLTeamStats.json"
+const teamStats_url_2 = "https://raw.githubusercontent.com/jambalayadog/fantasytoolsapp/main/files/02_NHLTeamStats.json"
 
 var teamstats_data
 
@@ -24,7 +25,7 @@ var teamstats_data
         },
 
 */
-
+/*
 router.get('/', function(req, res, next) {
 
     fetch(schedule_url_2, {
@@ -55,15 +56,13 @@ router.get('/', function(req, res, next) {
         res.render('teams')
     });
 
-});
-
-/*
+});*/
 
 
 
 router.get('/', function(req, res, next) {
 
-    fetch(schedule_url, {
+    fetch(schedule_url_2, {
         method: 'GET',
         credentials: 'same-origin',
         mode: 'cors',
@@ -79,7 +78,7 @@ router.get('/', function(req, res, next) {
         schedule_data = data
         //console.log('1a ', schedule_data, typeof(schedule_data))
         
-        fetch(teamStats_url)
+        fetch(teamStats_url_2)
         .then((response) => response.json())
         .then((data) => {
             teamstats_data = data
@@ -93,6 +92,8 @@ router.get('/', function(req, res, next) {
     });
 
 });
+
+/*
 
 router.get('/', function(req, res, next) {
     var req = new XMLHttpRequest();
