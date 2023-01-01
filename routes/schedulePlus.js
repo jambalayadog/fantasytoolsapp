@@ -28,16 +28,7 @@ router.get('/', function(req, res, next) {
     .then((data) => {
         schedule_data = data
         //console.log('1a ', schedule_data, typeof(schedule_data))
-        
-        fetch(teamStats_url)
-        .then((response) => response.json())
-        .then((data) => {
-            teamstats_data = data
-            //console.log('2a ', {teamstats_data})
-            res.render('schedulePlus', {schedule_data: schedule_data, teamstats_data: teamstats_data});
-        }).catch((err) => {
-            console.log(err);    
-        })
+        res.render('schedulePlus', {schedule_data: schedule_data, teamstats_data: teamstats_data});
     }).catch((err) => {
         console.log(schedule_url, err);
     });
