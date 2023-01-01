@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs')
+var XMLHttpRequest = require('xhr2');
 
 
 const schedule_file = "files/01_NHLScheduleByTeam.json"

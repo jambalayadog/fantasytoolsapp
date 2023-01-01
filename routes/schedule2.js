@@ -14,7 +14,7 @@ const teamStats_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/02
 var teamstats_data
 
 
-
+/*
 router.get('/', function(req, res, next) {
 
     fetch(schedule_url, {
@@ -47,7 +47,7 @@ router.get('/', function(req, res, next) {
     });
 
 });
-
+*/
 
 console.log('Fetch test here ---> ')
 
@@ -58,7 +58,7 @@ router.get('/', function(req, res, next) {
 
 
 /*
-/* GET home page. *//*
+/* GET home page. */
 
 router.get('/', function(req, res, next) {
     fs.readFile(schedule_file, 'utf8', (err, data) => {
@@ -86,7 +86,7 @@ router.get('/', function(req, res, next) {
     });
 });
 
-*/
+
 
 
 module.exports = router;
