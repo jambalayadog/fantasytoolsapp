@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
 
     fetch(schedule_url, {
         method: 'GET',
-        credentials: 'same-origin',
+        credentials: 'include',
         mode: 'cors',
         headers: {
             accept: 'application/json',
@@ -29,7 +29,7 @@ router.get('/', function(req, res, next) {
         },
     })
     .then((response) => {
-        console.log('response: ', response)
+        //console.log('response: ', response)
         response.json()
     })
     .then((data) => {
