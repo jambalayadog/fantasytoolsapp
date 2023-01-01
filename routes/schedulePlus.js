@@ -5,7 +5,7 @@ var fs = require('fs')
 
 const schedule_file = "files/01_NHLScheduleByTeam.json"
 //const schedule_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/01_NHLScheduleByTeam.json"
-const schedule_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/01_NHLScheduleByTeam.json"
+const schedule_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/01_NHLScheduleByTeam.json""
 var schedule_data
 
 const teamStats_file = "files/02_NHLTeamStats.json"
@@ -23,7 +23,7 @@ var teamstats_data
         },
 
 */
-
+/*
 router.get('/', function(req, res, next) {
 
     fetch(schedule_url, {
@@ -49,14 +49,25 @@ router.get('/', function(req, res, next) {
         //console.log('1a ', schedule_data, typeof(schedule_data))
         res.render('teams');
     }).catch((err) => {
-        console.log('headers: ', request.headers)
         //console.log(res)
         console.log(schedule_url, err, err.message);
         res.render('teams')
     });
 
-});
+});*/
 
+router.get('/', function(req, res, next) {
+    var req = new XMLHttpRequest();
+    req.responseType = 'json';
+    req.open('GET', schedule_url, true);
+    req.onload  = function() {
+        var jsonResponse = req.response;
+        // do something with jsonResponse
+        schedule_data = req.response
+        res.render('teams');
+    };
+    req.send(null);
+});
 
 console.log('Fetch test here ---> ')
 
