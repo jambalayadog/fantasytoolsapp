@@ -48,7 +48,7 @@ router.get('/', function(req, res, next) {
     .then((data) => {
         schedule_data = data
         //console.log('1a ', schedule_data, typeof(schedule_data))
-        res.render('teams');
+        res.render('./game/game', { title: 'Hey', message: 'Hello there!' });
     }).catch((err) => {
         //console.log(res)
         console.log(schedule_url, err, err.message);
@@ -58,6 +58,41 @@ router.get('/', function(req, res, next) {
 });
 
 /*
+
+
+
+router.get('/', function(req, res, next) {
+
+    fetch(schedule_url, {
+        method: 'GET',
+        credentials: 'same-origin',
+        mode: 'cors',
+        headers: {
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'http://159.203.66.92',
+            'Access-Control-Allow-Credentials': true,
+        },
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        schedule_data = data
+        //console.log('1a ', schedule_data, typeof(schedule_data))
+        
+        fetch(teamStats_url)
+        .then((response) => response.json())
+        .then((data) => {
+            teamstats_data = data
+            //console.log('2a ', {teamstats_data})
+            res.render('schedule2', {schedule_data: schedule_data, teamstats_data: teamstats_data});
+        }).catch((err) => {
+            console.log(err);    
+        })
+    }).catch((err) => {
+        console.log(schedule_url, err);
+    });
+
+});
 
 router.get('/', function(req, res, next) {
     var req = new XMLHttpRequest();
