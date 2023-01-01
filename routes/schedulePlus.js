@@ -13,7 +13,16 @@ const teamStats_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/02
 
 var teamstats_data
 
+/*
 
+        headers: {
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'http://159.203.66.92',
+            'Access-Control-Allow-Credentials': true,
+        },
+
+*/
 
 router.get('/', function(req, res, next) {
 
@@ -21,12 +30,6 @@ router.get('/', function(req, res, next) {
         method: 'GET',
         credentials: 'include',
         mode: 'cors',
-        headers: {
-            accept: 'application/json',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'http://159.203.66.92',
-            'Access-Control-Allow-Credentials': true,
-        },
     })
     .then((response) => {
         if (!response.ok) {
