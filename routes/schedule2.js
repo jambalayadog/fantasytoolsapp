@@ -19,9 +19,13 @@ router.get('/', function(req, res, next) {
 
     fetch(schedule_url, {
         method: 'GET',
+        credentials: 'same-origin',
+        mode: 'cors',
         headers: {
             accept: 'application/json',
-            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'http://159.203.66.92',
+            'Access-Control-Allow-Credentials': true,
         },
     })
     .then((response) => response.json())
