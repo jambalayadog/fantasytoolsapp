@@ -24,7 +24,12 @@ router.get('/', function(req, res, next) {
             'Access-Control-Allow-Origin': '*',
         },
     })
-    .then((response) => response.json())
+    .then((response) => {
+        console.log('response: ', response)
+        response.json()
+        console.log('response.json: ', response.json())
+    })
+    
     .then((data) => {
         schedule_data = data
         //console.log('1a ', schedule_data, typeof(schedule_data))
