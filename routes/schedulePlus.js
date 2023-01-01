@@ -5,7 +5,7 @@ var fs = require('fs')
 
 const schedule_file = "files/01_NHLScheduleByTeam.json"
 //const schedule_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/01_NHLScheduleByTeam.json"
-const schedule_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/01_NHLScheduleByTeam.json""
+const schedule_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/01_NHLScheduleByTeam.json"
 var schedule_data
 
 const teamStats_file = "files/02_NHLTeamStats.json"
