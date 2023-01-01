@@ -29,15 +29,17 @@ router.get('/', function(req, res, next) {
         },
     })
     .then((response) => {
-        //console.log('response: ', response)
-        response.json()
+        if (!response.ok) {
+            throw new Error(`HTTP error: ${response.status}`);
+        }
+        return response.json();
     })
     .then((data) => {
         schedule_data = data
         //console.log('1a ', schedule_data, typeof(schedule_data))
         res.render('teams');
     }).catch((err) => {
-        console.log(schedule_url, err, response);
+        console.log(schedule_url, err, err.message);
         res.render('teams')
     });
 
