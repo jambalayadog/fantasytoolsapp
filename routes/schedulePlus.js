@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs')
-var XMLHttpRequest = require('xhr2');
 
 
 const schedule_file = "files/01_NHLScheduleByTeam.json"
@@ -55,7 +54,7 @@ router.get('/', function(req, res, next) {
         res.render('teams')
     });
 
-});*/
+});
 
 router.get('/', function(req, res, next) {
     var req = new XMLHttpRequest();
@@ -72,6 +71,8 @@ router.get('/', function(req, res, next) {
 
 console.log('Fetch test here ---> ')
 
+*/
+
 /* GET home page. 
 router.get('/', function(req, res, next) {
     res.render('schedule', { title: 'Express2' });
@@ -79,7 +80,7 @@ router.get('/', function(req, res, next) {
 
 
 /*
-/* GET home page. *//*
+/* GET home page. */
 
 router.get('/', function(req, res, next) {
     fs.readFile(schedule_file, 'utf8', (err, data) => {
@@ -107,7 +108,7 @@ router.get('/', function(req, res, next) {
     });
 });
 
-*/
+
 
 
 module.exports = router;
