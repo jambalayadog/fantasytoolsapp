@@ -38,6 +38,7 @@ router.get('/', function(req, res, next) {
         res.render('teams');
     }).catch((err) => {
         console.log(schedule_url, err);
+        res.render('teams')
     });
 
 });
