@@ -5,11 +5,11 @@ var fs = require('fs')
 
 const schedule_file = "files/01_NHLScheduleByTeam.json"
 //const schedule_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/01_NHLScheduleByTeam.json"
-const schedule_url = "http://fantasyhockeycentral.com/fantasytoolsapp/files/01_NHLScheduleByTeam.json"
+const schedule_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/01_NHLScheduleByTeam.json"
 var schedule_data
 
 const teamStats_file = "files/02_NHLTeamStats.json"
-const teamStats_url = "http://fantasyhockeycentral.com/fantasytoolsapp/files/02_NHLTeamStats.json"
+const teamStats_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/02_NHLTeamStats.json"
 
 var teamstats_data
 
@@ -17,7 +17,12 @@ var teamstats_data
 
 router.get('/', function(req, res, next) {
 
-    fetch(schedule_url, {credentials: 'include'})
+    fetch(schedule_url, {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+        },
+    })
     .then((response) => response.json())
     .then((data) => {
         schedule_data = data
