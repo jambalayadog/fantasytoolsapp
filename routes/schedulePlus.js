@@ -35,7 +35,7 @@ router.get('/', function(req, res, next) {
     .then((data) => {
         schedule_data = data
         //console.log('1a ', schedule_data, typeof(schedule_data))
-        res.render('schedulePlus', {schedule_data: schedule_data, teamstats_data: teamstats_data});
+        res.render('teams');
     }).catch((err) => {
         console.log(schedule_url, err);
     });
