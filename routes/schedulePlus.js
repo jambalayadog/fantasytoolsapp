@@ -6,6 +6,7 @@ var fs = require('fs')
 const schedule_file = "files/01_NHLScheduleByTeam.json"
 //const schedule_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/01_NHLScheduleByTeam.json"
 const schedule_url = "https://fantasyhockeycentral.com/fantasytoolsapp/files/01_NHLScheduleByTeam.json"
+const schedule_url_2 = "https://raw.githubusercontent.com/jambalayadog/fantasytoolsapp/main/files/01_NHLScheduleByTeam.json"
 var schedule_data
 
 const teamStats_file = "files/02_NHLTeamStats.json"
@@ -23,10 +24,10 @@ var teamstats_data
         },
 
 */
-/*
+
 router.get('/', function(req, res, next) {
 
-    fetch(schedule_url, {
+    fetch(schedule_url_2, {
         method: 'GET',
         credentials: 'include',
         mode: 'cors',
@@ -56,6 +57,8 @@ router.get('/', function(req, res, next) {
 
 });
 
+/*
+
 router.get('/', function(req, res, next) {
     var req = new XMLHttpRequest();
     req.responseType = 'json';
@@ -81,7 +84,7 @@ router.get('/', function(req, res, next) {
 
 /*
 /* GET home page. */
-
+/*
 router.get('/', function(req, res, next) {
     fs.readFile(schedule_file, 'utf8', (err, data) => {
         if (err) {
@@ -106,7 +109,7 @@ router.get('/', function(req, res, next) {
             //res.render('schedule2', JSON.stringify({schedule_data: schedule_data, teamstats_data: teamstats_data}));
         });
     });
-});
+});*/
 
 
 
