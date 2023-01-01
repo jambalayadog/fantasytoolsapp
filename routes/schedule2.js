@@ -21,6 +21,7 @@ router.get('/', function(req, res, next) {
         method: 'GET',
         headers: {
             accept: 'application/json',
+            'Access-Control-Allow-Origin': '*',
         },
     })
     .then((response) => response.json())
