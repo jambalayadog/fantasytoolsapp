@@ -39,7 +39,7 @@ router.get('/', function(req, res, next) {
         //console.log('1a ', schedule_data, typeof(schedule_data))
         res.render('teams');
     }).catch((err) => {
-        console.log('headers: ', req.headers)
+        console.log('headers: ', request.headers)
         //console.log(res)
         console.log(schedule_url, err, err.message);
         res.render('teams')
