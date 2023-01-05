@@ -191,7 +191,8 @@ block content
                                     td(data-column="week" + (week-1), class= week == current_week + 1 ? "highlight" : "")
                                         div.weekcontainer
                                             div.gamescontainer
-                                                div(class= games_per_week >= 4 ? "games_number manygames" :
+                                                div(class= games_per_week >= 5 ? "games_number fivegames" :
+                                                        games_per_week == 4 ? "games_number manygames" : 
                                                         games_per_week == 3 ? "games_number threegames" : 
                                                         games_per_week == 2 ? "games_number twogames" :
                                                         games_per_week == 1 ? "games_number onegame" : "games_number nogames" )
