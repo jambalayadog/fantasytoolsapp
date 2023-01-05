@@ -66,12 +66,47 @@ block content
                                 th.highlight(id="highlighted_column", class="week" + week, data-column="week" + week)
                                     div.datecontainer(data-column="week" + week)
                                         div(id='week'+week)=`Week: ${week}`
-                                        div.datetext=new Date(search_date.setDate(search_date.getDate())).toDateString()
+                                        - var dateObj = new Date(search_date.setDate(search_date.getDate()))
+                                        // div.datetext=dateObj.toDateString()
+                                        div.daysofweek
+                                            div.dayofweek='M'
+                                            div.dayofweek='T'
+                                            div.dayofweek='W'
+                                            div.dayofweek='T'
+                                            div.dayofweek='F'
+                                            div.dayofweek='S'
+                                            div.dayofweek='S'
+                                        div.daysofweek
+                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 0)
+                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 1)
+                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 2)
+                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 3)
+                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 4)
+                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 5)
+                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 6)
+                                        
                             - } else {
                                 th(class="week" + week, data-column="week" + week)
                                     div.datecontainer(data-column="week" + week)
                                         div(id='week'+week)=`Week: ${week}`
-                                        div.datetext=new Date(search_date.setDate(search_date.getDate())).toDateString()
+                                        - var dateObj = new Date(search_date.setDate(search_date.getDate()))
+                                        // div.datetext=new Date(search_date.setDate(search_date.getDate())).toDateString()
+                                        div.daysofweek
+                                            div.dayofweek='M'
+                                            div.dayofweek='T'
+                                            div.dayofweek='W'
+                                            div.dayofweek='T'
+                                            div.dayofweek='F'
+                                            div.dayofweek='S'
+                                            div.dayofweek='S'
+                                        div.daysofweek
+                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 0)
+                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 1)
+                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 2)
+                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 3)
+                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 4)
+                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 5)
+                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 6)
                             - }
                         - }
                         - day += 1

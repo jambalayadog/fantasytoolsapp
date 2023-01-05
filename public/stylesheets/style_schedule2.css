@@ -95,6 +95,7 @@ h1 {
     
 }
 
+
 @media screen and (orientation:landscape) {
     .toggleviewbutton {
         border: 2px solid white;
@@ -406,7 +407,7 @@ img {
 
 @media only screen and (max-width: 1024px) {
     .miniscore {
-        font-size: 30px;
+        font-size: 180%;
         font-weight: bold;
         position: absolute;
         width: 100%;
@@ -447,16 +448,29 @@ img {
 }
 
 
+.daysofweek {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dayofweek {
+    border: 0px solid white;
+    width: 100%;
+    font-size: 50%;
+}
 
 @media only screen and (max-width: 1024px) {
     .datetext {
         font-size: 30px;
+        padding: 0% 0% 0% 5%
     }
 }
 
 @media only screen and (min-width: 1024px) {
     .datetext {
-        font-size: 22px;
+        font-size: 70%;
+        text-align: left;
+        padding: 0% 0% 0% 5%
     }
 }
 
