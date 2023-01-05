@@ -115,7 +115,7 @@ router.get('/', function(req, res, next) {
         .then((data) => {
             teamstats_data = data
             //console.log('2a ', {teamstats_data})
-            res.render('schedule2', {schedule_data: schedule_data, teamstats_data: teamstats_data});
+            res.render('schedulePlus', {schedule_data: schedule_data, teamstats_data: teamstats_data});
         }).catch((err) => {
             console.log(err);    
         })

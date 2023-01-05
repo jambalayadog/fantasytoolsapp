@@ -21,8 +21,8 @@ block content
     - var matchup_length = 1 //week
     - var current_week = Math.trunc((todays_date - first_monday) / (7 * ms_in_a_day))
     - var total_weeks = 0
-    - console.log(`current week: ${current_week}`)
-    - console.log('days: ', days)
+    //- console.log(`current week: ${current_week}`)
+    //- console.log('days: ', days)
     - var teamlist = {schedule_data}
     //- console.log('hey', {schedule_data},  typeof({schedule_data}))
     - var teamdata = {teamstats_data}
@@ -61,7 +61,7 @@ block content
                         - search_date.setDate(search_date.getDate() + day)
                         //- console.log(`-search_date: ${search_date}`)
                         - if (day % 7 == 0) {
-                            //- console.log(`-${day} --new week header: ${search_date}`)
+                            // - console.log(`-${day} --new week header: ${search_date}`)
                             - if (week == current_week) {
                                 th.highlight(id="highlighted_column", class="week" + week, data-column="week" + week)
                                     div.datecontainer(data-column="week" + week)
@@ -106,7 +106,7 @@ block content
                                         div.teamGoals
                                             div='GF: ' + teamRecords[team].teamRecord_GoalsFor
                                             div='GA: ' + teamRecords[team].teamRecord_GoalsAgainst
-                            - console.log(team)
+                            //- console.log(team)
                             - teams += 1
                             - var i = 1
                             - var week = 0
@@ -119,7 +119,9 @@ block content
                                 - week = Math.trunc(i / 7)
                                 - var search_date = new Date(first_monday)
                                 - search_date.setDate(search_date.getDate() + i)
-                                //- console.log(`day: ${i} - week: ${week} - date: ${new Date(search_date).toDateString()}`)
+                                // - if (team == "ANA" && i <= 30) {
+                                //    - console.log(`day: ${i} - week: ${week} - date: ${new Date(search_date).toDateString()}`)
+                                // - }
                                 - gamefound = false 
                                 - for (gameInfo in gameSchedule) {
                                     //- console.log(gameInfo)
@@ -137,7 +139,9 @@ block content
                                         - games_per_week += 1
                                         - weeks_games.push(gameSchedule[gameInfo])
                                         //- console.log('game: ', weeks_games)
-                                        //- console.log(`gamefound: ${team} , ${games_per_week}, day: ${i} - week: ${week} - date: ${new Date(search_date).toDateString()} `)
+                                        // - if (team == "ANA" && i <= 30) {
+                                        //    - console.log(`gamefound: ${team} , ${games_per_week}, day: ${i} - week: ${week} - date: ${new Date(search_date).toDateString()} `) 
+                                        // - }
                                         //- console.log(gameInfo, i, gameSchedule[gameInfo].hometeam)
                                         //- console.log({schedule_data}[teamSchedule][gameSchedule])
                                     - }
@@ -195,7 +199,7 @@ block content
                     - }
                 -}
                     //- console.log("key: ", key, " - val: ", {val})
-                - console.log('teams:', teams)
+                //- console.log('teams:', teams)
     //- var element = document.getElementById('highlighted_column')
     //- console.log(`element = : ${element}`)
     //- element.scrollIntoView(true)

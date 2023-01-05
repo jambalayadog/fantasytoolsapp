@@ -16,13 +16,13 @@ block content
     - var days = (season_end_date - season_start_date) / ms_in_a_day
     - var games_per_week = 0
     - var scroll_week
-    - var first_monday = new Date("2022-10-03T12:00:00")
+    - var first_monday = new Date("2022-10-03T00:00:00")
     - var day_offset = 0
     - var matchup_length = 1 //week
     - var current_week = Math.trunc((todays_date - first_monday) / (7 * ms_in_a_day))
     - var total_weeks = 0
-    - console.log(`current week: ${current_week}`)
-    - console.log('days: ', days)
+    //- console.log(`current week: ${current_week}`)
+    //- console.log('days: ', days)
     - var teamlist = {schedule_data}
     //- console.log('hey', {schedule_data},  typeof({schedule_data}))
     - var teamdata = {teamstats_data}
@@ -66,12 +66,12 @@ block content
                                 th.highlight(id="highlighted_column", class="week" + week, data-column="week" + week)
                                     div.datecontainer(data-column="week" + week)
                                         div(id='week'+week)=`Week: ${week}`
-                                        div.datetext=new Date(search_date.setDate(search_date.getDate() + 1)).toDateString()
+                                        div.datetext=new Date(search_date.setDate(search_date.getDate())).toDateString()
                             - } else {
                                 th(class="week" + week, data-column="week" + week)
                                     div.datecontainer(data-column="week" + week)
                                         div(id='week'+week)=`Week: ${week}`
-                                        div.datetext=new Date(search_date.setDate(search_date.getDate() + 1)).toDateString()
+                                        div.datetext=new Date(search_date.setDate(search_date.getDate())).toDateString()
                             - }
                         - }
                         - day += 1
@@ -106,7 +106,7 @@ block content
                                         div.teamGoals
                                             div='GF: ' + teamRecords[team].teamRecord_GoalsFor
                                             div='GA: ' + teamRecords[team].teamRecord_GoalsAgainst
-                            - console.log(team)
+                            //- console.log(team)
                             - teams += 1
                             - var i = 1
                             - var week = 0
@@ -114,12 +114,14 @@ block content
                             - var weeks_games = []
                             - var goals_for = 0
                             - var goals_against = 0
-                            //- console.log('i: ', i, ' - days: ', days)
+                            //- console.log('i: ', i, ' - days: ', days, team)
                             while i <= days
-                                - week = Math.trunc(i / 7)
+                                // - week = Math.trunc(i / 7)
                                 - var search_date = new Date(first_monday)
-                                - search_date.setDate(search_date.getDate() + i)
-                                //- console.log(`day: ${i} - week: ${week} - date: ${new Date(search_date).toDateString()}`)
+                                - search_date.setDate(search_date.getDate() + i - 1)
+                                //- if (team == "ANA") {
+                                    //- console.log(`day: ${i} - week: ${week} - date: ${new Date(search_date).toDateString()}`)
+                                //- }
                                 - gamefound = false 
                                 - for (gameInfo in gameSchedule) {
                                     //- console.log(gameInfo)
@@ -137,7 +139,9 @@ block content
                                         - games_per_week += 1
                                         - weeks_games.push(gameSchedule[gameInfo])
                                         //- console.log('game: ', weeks_games)
-                                        //- console.log(`gamefound: ${team} , ${games_per_week}, day: ${i} - week: ${week} - date: ${new Date(search_date).toDateString()} `)
+                                        //- if (team == "ANA" && i <= 30) {
+                                        //    - console.log(`gamefound: ${team} , ${games_per_week}, day: ${i} - week: ${week} - date: ${new Date(search_date).toDateString()} `)
+                                        //- }
                                         //- console.log(gameInfo, i, gameSchedule[gameInfo].hometeam)
                                         //- console.log({schedule_data}[teamSchedule][gameSchedule])
                                     - }
@@ -163,21 +167,30 @@ block content
                                             div.weeksummarycontainer
                                                 - for (day_of_week = 0; day_of_week < 7; day_of_week++) {
                                                     div.minicontainer(data-column=search_date.toDateString())
-                                                        div.mini(class= weeks_games[day_of_week] == '' ? 'nogame' :
-                                                            weeks_games[day_of_week].hometeam == team ? 'homegame' : 'awaygame', id=weeks_games[day_of_week].hometeam == team ? team : '')
-                                                            - if (weeks_games[day_of_week] != '') {
-                                                                - var homegame = false
-                                                                - if (weeks_games[day_of_week].hometeam == team) {
-                                                                    - var opp_image_name = weeks_games[day_of_week].awayteam
-                                                                    - homegame = true
-                                                                - } else {
-                                                                    - var opp_image_name = weeks_games[day_of_week].hometeam
-                                                                - }
-                                                                img.opponentmini(src=`images/` + opp_image_name + '.png')
-                                                                div.miniscore(class= ['OT','SO'].includes(weeks_games[day_of_week].periodResult) ? 'minitie' :
-                                                                    weeks_games[day_of_week].teamResult == 'W' ? 'miniwin' : 'miniloss')
-                                                                    =(weeks_games[day_of_week].teamResult + ` ` + weeks_games[day_of_week].scoreResult)
-                                                            -}
+                                                        - if (team == "ANA" && i <= 30) {
+                                                            //- console.log('A ', weeks_games)
+                                                            //- console.log('B ', weeks_games[day_of_week])
+                                                            //- console.log('C ', weeks_games[day_of_week].hometeam)
+                                                        - }
+                                                        - if (typeof weeks_games[day_of_week] == 'undefined') {
+                                                            div.mini(class='nogame', id='')
+                                                        - } else {
+                                                            div.mini(class= weeks_games[day_of_week] == '' ? 'nogame' :
+                                                                weeks_games[day_of_week].hometeam == team ? 'homegame' : 'awaygame', id=weeks_games[day_of_week].hometeam == team ? team : '')
+                                                                - if (weeks_games[day_of_week] != '') {
+                                                                    - var homegame = false
+                                                                    - if (weeks_games[day_of_week].hometeam == team) {
+                                                                        - var opp_image_name = weeks_games[day_of_week].awayteam
+                                                                        - homegame = true
+                                                                    - } else {
+                                                                        - var opp_image_name = weeks_games[day_of_week].hometeam
+                                                                    - }
+                                                                    img.opponentmini(src=`images/` + opp_image_name + '.png')
+                                                                    div.miniscore(class= ['OT','SO'].includes(weeks_games[day_of_week].periodResult) ? 'minitie' :
+                                                                        weeks_games[day_of_week].teamResult == 'W' ? 'miniwin' : 'miniloss')
+                                                                        =(weeks_games[day_of_week].teamResult + ` ` + weeks_games[day_of_week].scoreResult)
+                                                                -}
+                                                        - }
                                                         
                                                 - }
                                     //- if (week == current_week) {
@@ -191,11 +204,12 @@ block content
                                     - goals_against = 0
                                 - }
                                 - i += 1
+                                - week = Math.trunc(i / 7)
                         //- }
                     - }
                 -}
                     //- console.log("key: ", key, " - val: ", {val})
-                - console.log('teams:', teams)
+                //- console.log('teams:', teams)
     //- var element = document.getElementById('highlighted_column')
     //- console.log(`element = : ${element}`)
     //- element.scrollIntoView(true)
