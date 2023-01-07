@@ -1,0 +1,70 @@
+extends layout
+
+block extra_style_sheet
+    link(rel='stylesheet', href='/stylesheets/style_scheduleWeekly.css')
+    //meta(name='viewport', content='width=device-width initial-scale=1')
+    meta(name='viewport', content='width=device-width')
+
+block content
+    - var search_date = new Date(season_start_date)
+    - var season_start_date = new Date("2022-10-01")
+    - var season_end_date = new Date("2023-04-16")  //2023-04-16
+    - var first_monday_date = new Date("2022-10-03")
+    - var todays_date = new Date()
+    - var number_of_teams = 32
+    - var ms_in_a_day = 86400000
+    - var days = (season_end_date - season_start_date) / ms_in_a_day
+    - var games_per_week = 0
+    - var scroll_week
+    - var first_monday = new Date("2022-10-03T00:00:00")
+    - var day_offset = 0
+    - var matchup_length = 1 //week
+    - var current_week = Math.trunc((todays_date - first_monday) / (7 * ms_in_a_day))
+    - var total_weeks = 0
+    - console.log(`current week: ${current_week}`)
+    //- var weekly_schedule_data = {weekly_schedule_data}
+    //- console.log('hey', {weekly_schedule_data})
+    //- console.log('hey', {weekly_schedule_data}[weekly_schedule_data])
+    - for (sched in {weekly_schedule_data}) {
+        //- console.log(`sched: ${sched}`)
+        //- console.log(`sched: ${{weekly_schedule_data}[sched]}`)
+    - }
+    
+    div.header
+        div.titletext NHL 2022-2023
+        select.toggleviewbutton(onChange="location = this.value")
+            option.togglevalue(value=`/scheduleWeekly`)='NHL Weekly Schedule'
+            option.togglevalue(value=`/schedule`)='NHL Season Schedule'
+            option.togglevalue(value=`/players`)='Players'
+            option.togglevalue(value=`/teams`)='Teams'
+    //-var teamlist = JSON.parse(JSON.stringify({teams}))
+    div.wrapper
+        table(id='schedule')
+            thead
+                tr
+                    th
+                        div.th_container
+                            div="team summary header / left"
+                            div="weeks games column header"
+                            div="week summary header / right"
+            tbody
+                - for (schedule_data in {weekly_schedule_data}) {
+                    //- console.log({weekly_schedule_data}[schedule_data])
+                    - for (const [team, teamSchedule] of Object.entries({weekly_schedule_data}[schedule_data][current_week])) {
+                        - console.log(`team: ${team}`)
+                        - console.log(`teamSchedule: ${teamSchedule[0].hometeam}`)
+                        - console.log(`teamSchedule: ${teamSchedule[0].awayteam}`)
+                        tr
+                            td
+                                div.td_container
+                                    div=team
+                                    div.weekly_container
+                                        - for (var day = 0; day <= 6; day++) {
+                                            div=teamSchedule[day] || "no game"
+                                        - }
+                                    div="team week summary"
+                    - }
+                - }
+                
+
+
