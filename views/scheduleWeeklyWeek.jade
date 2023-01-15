@@ -78,7 +78,7 @@ block content
     div.header
         div.titletext NHL 2022-2023
         select.toggleviewbutton(onChange="location = this.value")
-            option.togglevalue(value=`/scheduleWeekly`, selected="selected")='NHL Weekly Schedule'
+            option.togglevalue(value=`/scheduleWeekly`)='NHL Weekly Schedule'
             option.togglevalue(value=`/schedule`)='NHL Season Schedule'
             option.togglevalue(value=`/players`)='Players'
             option.togglevalue(value=`/teams`)='Teams'
@@ -103,8 +103,8 @@ block content
                             //- console.log(this_monday, typeof(this_monday))
                             - var monday_date_string = JSON.stringify(this_monday)
                             - var first_monday_date_string = JSON.stringify(first_monday)
-                            //select.schedulechangeweek(onChange="{displayTable(week_to_display)}")
-                            select.schedulechangeweek(onChange="changeTable(this.value, "+object_string+", "+first_monday_date_string+")")
+                            //select.schedulechangeweek(onChange="changeTable(this.value, "+object_string+", "+first_monday_date_string+")")
+                            select.schedulechangeweek(onChange="{displayTable(week_to_display)}")
                                 - for (let i = 0; i <= total_weeks; i++) {
                                     - if (i == current_week) {
                                         option.togglevalue(value=i, selected="selected")="Week " + i

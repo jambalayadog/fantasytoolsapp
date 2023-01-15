@@ -43,8 +43,9 @@ block content
     div.header
         div.titletext NHL 2022-2023
         select.toggleviewbutton(onChange="location = this.value")
-            option.togglevalue(value=`/players`)='Players'
-            option.togglevalue(value=`/schedule`)='NHL Weekly Schedules'
+            option.togglevalue(value=`/scheduleWeekly`)='NHL Weekly Schedule'
+            option.togglevalue(value=`/schedule`)='NHL Season Schedule'
+            option.togglevalue(value=`/players`, selected="selected")='Players'
             option.togglevalue(value=`/teams`)='Teams'
     //-var teamlist = JSON.parse(JSON.stringify({teams}))
     div.wrapper
