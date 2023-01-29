@@ -39,8 +39,8 @@ html(lang='en')
             div.header
                 div.titletext NHL 2022-2023
                 select.toggleviewbutton(onChange="location = this.value")
-                    option.togglevalue(value=`/test`, selected="selected")='NHL Weekly Schedule'
-                    option.togglevalue(value=`/schedule`)='NHL Season Schedule'
+                    option.togglevalue(value=`/weeklyschedule`, selected="selected")='NHL Weekly Schedule'
+                    option.togglevalue(value=`/seasonschedule`)='NHL Season Schedule'
                     option.togglevalue(value=`/players`)='Players'
                     option.togglevalue(value=`/teams`)='Teams'
         block week_select
