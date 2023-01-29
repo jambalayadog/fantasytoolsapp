@@ -12,6 +12,9 @@ var scheduleWeeklyRouter = require('./routes/scheduleWeekly');
 var teamsRouter = require('./routes/teams');
 var playersRouter = require('./routes/players');
 var gameRouter = require('./routes/game');
+var testRouter = require('./routes/test');
+var seasonScheduleRouter = require('./routes/schedule2');
+var weeklyScheduleRouter = require('./routes/test');
 
 var app = express();
 
@@ -34,6 +37,9 @@ app.use('/scheduleWeekly', scheduleWeeklyRouter);
 app.use('/teams', teamsRouter);
 app.use('/players', playersRouter);
 app.use('/game', gameRouter);
+app.use('/test', testRouter);
+app.use('/SeasonSchedule', seasonScheduleRouter);
+app.use('/WeeklySchedule', weeklyScheduleRouter);
 
 
 // catch 404 and forward to error handler

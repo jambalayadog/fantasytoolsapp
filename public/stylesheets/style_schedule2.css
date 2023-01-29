@@ -1,7 +1,7 @@
 :root {
     --border_color: black;
     --white: #ffffff;
-    --border_thickness: 3px;
+    --border_thickness: 1px;
   }
 
 
@@ -13,6 +13,7 @@ body {
     /*padding: 20px;*/
     font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
     background-color: #22303c;
+    
     /*height: 100vh;
     overflow-y:scroll;*/
 }
@@ -30,7 +31,8 @@ a {
 
 h1 {
     color: white;
-    background-color: #22303c;
+    /*background-color: #22303c;*/
+    /*background-color: #000;*/
 }
 
 .header {
@@ -137,11 +139,11 @@ table {
 }
 
 tr:nth-of-type(even) {
-    background-color:gainsboro;
+    /*background-color:gainsboro;*/
 }
 
 tr:nth-of-type(odd) {
-    background-color:silver;
+    /*background-color:silver;*/
 }
 
 .team:nth-of-type(even) { 
@@ -158,7 +160,7 @@ thead th {
     position: sticky;
     top: 80px;
     /*background-color: grey;*/
-    background-color: whitesmoke; 
+    background-color: gainsboro; 
     color: #080219;
     /*color: white;*/
     font-size: 32px;
@@ -334,15 +336,17 @@ thead th {
 .highlight {
     /*background-color: #ff003380;*/
     /*background-color: #ffff7740;*/
-    background-color: #99cc99;
-    border-left: 6px solid forestgreen;
-    border-right: 8px solid forestgreen;
+    /*background-color: #99cc99;*/
+    background-color: gray;
+    /*border-left: 6px solid forestgreen;
+    border-right: 8px solid forestgreen;*/
 }
 
 th.highlight {
-    border-left: 6px solid forestgreen;
-    border-right: 8px solid forestgreen;
-    background-color: palegreen;
+    /*border-left: 6px solid forestgreen;
+    border-right: 8px solid forestgreen;*/
+    /*background-color: palegreen;*/
+    background-color: white;
 }
 
 .spacer {
@@ -393,12 +397,12 @@ img {
     flex-direction: column;*/
     width: calc(100%/7);
     /*height: 100%;*/
-    border-top: 1px solid #1a5276;
+    border-top: 0px solid #1a5276;
 }
 
 .minicontainer:nth-of-type(odd) {
-    border-right: 1px solid var(--border_color);
-    border-left: 1px solid var(--border_color);
+    border-right: 0px solid var(--border_color);
+    border-left: 0px solid var(--border_color);
 }
 
 .minicontainer:nth-child(1) {

@@ -13,6 +13,7 @@ var http = require('http');
  */
 // Set to 80 for production - or figure out the elevated privileges for the home test environment
 // Set to 3000 for local testing - or figure out the elevated privileges for the home test environment
+//var port = normalizePort(process.env.PORT || '3000');         
 var port = normalizePort(process.env.PORT || '80');         
 app.set('port', port);
 

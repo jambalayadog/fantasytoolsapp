@@ -1,0 +1,444 @@
+doctype html
+html(lang='en')
+    head
+        title Fantasy Hockey Central
+        //link(rel='stylesheet', href='/stylesheets/style_scheduleWeekly.css')
+        link(rel='stylesheet', href='/stylesheets/test.css')
+        meta(name='viewport', content='width=device-width')
+        meta(charset="UTF-8")
+        meta(name="google" content="notranslate")
+        meta(http-equiv="Content-Language" content="en")
+
+    - console.log(`-----------`)
+    - //var current_week = 0
+    - var scheduleData = {schedule_data}
+    - //console.log('hey', schedule_data)
+    //- var teamdata = {teamstats_data}
+    - var teamRecords = {teamstats_data}['teamstats_data']
+    - //console.log(teamdata)
+    - var todays_date = new Date()
+    - var first_monday = new Date("2022-10-03T12:00:00")
+    - var ms_in_a_day = 86400000
+    - var current_week = Math.trunc((todays_date - first_monday) / (7 * ms_in_a_day))
+    - console.log(`current week: ${current_week}`)
+    - console.log(`today's date: ${todays_date}`)
+    - var this_weeks_monday = get_this_monday(current_week)
+    - console.log(`this weeks monday: ${this_weeks_monday}`)
+    - var total_weeks = 27
+    - function get_this_monday(week_number) {
+        - var this_weeks_monday = new Date(first_monday)
+        - this_weeks_monday.setDate(this_weeks_monday.getDate() + week_number * 7)
+        - return this_weeks_monday
+    - }
+    - function get_games_this_week(week, team) {
+
+    - }
+
+    body
+        block site_header
+            div.header
+                div.titletext NHL 2022-2023
+                select.toggleviewbutton(onChange="location = this.value")
+                    option.togglevalue(value=`/test`, selected="selected")='NHL Weekly Schedule'
+                    option.togglevalue(value=`/schedule`)='NHL Season Schedule'
+                    option.togglevalue(value=`/players`)='Players'
+                    option.togglevalue(value=`/teams`)='Teams'
+        block week_select
+            div.weekselectcontainer(id="weekselect")
+                - var schedule_string = JSON.stringify({schedule_data})
+                - var teamRecords_string = JSON.stringify({teamstats_data})
+                //div="< Back" 
+                button.changeweekbutton(onClick="change_week(current_week - 1, "+schedule_string+", "+teamRecords_string+")")="< Back"
+                div="Week " + current_week
+                select.schedulechangeweek(onChange="change_week(this.value, "+schedule_string+", "+teamRecords_string+")")
+                    - for (let i = 0; i <= total_weeks; i++) {
+                        - if (i == current_week) {
+                            option.togglevalue(value=i, selected="selected")="Week " + i + ' - ' + get_this_monday(i).toLocaleString().split(',')[0] + ' (current)'
+                        - } else {
+                            option.togglevalue(value=i)="Week " + i + ' - ' + get_this_monday(i).toLocaleString().split(',')[0]
+                        - }
+                    - }
+                //div="Next >" 
+                button.changeweekbutton(onClick="change_week(current_week + 1, "+schedule_string+", "+teamRecords_string+")")="Next >"
+            div.tablerow
+                div.teamcolumn
+                    div=" "
+                    div="Team"
+                    div='GF/GP'
+                div.weekdaysectiondisplay
+                    
+                    div.weekdaysdisplay(id="daysofweek")
+                        div.dayofweek
+                            div='Mo'
+                            div=(this_weeks_monday.getMonth()+1 + '/' + this_weeks_monday.getDate())
+                        div.dayofweek
+                            div='Tu'
+                            div=(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +1))
+                        div.dayofweek
+                            div='We'
+                            div=(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +2))
+                        div.dayofweek
+                            div='Th'
+                            div=(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +3))
+                        div.dayofweek
+                            div='Fr'
+                            div=(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +4))
+                        div.dayofweek
+                            div='Sa'
+                            div=(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +5))
+                        div.dayofweek
+                            div='Su'
+                            div=(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +6))
+                    div 
+                        div.opponentgaa="Game Result || Opponent GA/GP"
+                div.weeksummarycolumn
+                    div=""
+
+        block table_display
+            div(id='table_display')
+                //- console.log('hey hey', schedule_data[0])
+                - for (const [team, teamSchedule] of Object.entries(schedule_data[current_week])) {
+                    //- console.log(`team: ${team}`)
+                    //- console.log(`teamSchedule: ${teamSchedule[0].hometeam}`)
+                    //- console.log(`teamSchedule: ${teamSchedule[0].gamedate}`)
+                    - var image_name = team + '.png'
+                    div.td_container
+                        div.team(id=team)
+                            div.teamtitle=team
+                            img.teamimage(src=`images/` + image_name) 
+                            - var games_played = teamRecords[team].teamRecord_GamesPlayed
+                            - var goals_for = teamRecords[team].teamRecord_GoalsFor
+                            div.teamgoalsper=(goals_for/games_played).toFixed(1)
+                        div.weekly_container
+                            - var index = 0
+                            - var num_games = 0
+                            - var week_sched = teamSchedule
+                            - for (var day = 0; day <= 6; day++) {
+                                
+                                - var weekday_date = new Date(this_weeks_monday)
+                                //- console.log(`weekday_date: ${weekday_date}`)
+                                - weekday_date.setDate(weekday_date.getDate() + day)
+                                //- console.log(team, day, weekday_date.toDateString())
+                                - if (week_sched[index] != undefined) {
+                                    //- console.log(week_sched[index])
+                                    - if (week_sched[index].gamedate == weekday_date.toDateString()) {
+                                        - if (teamSchedule[index].hometeam == team) {
+                                            div.weekly_game(id=team)
+                                                - var away_team_image = teamSchedule[index].awayteam + '.png'
+                                                - num_games += 1
+                                                img.gameteamimage(src=`images/` + away_team_image)
+                                                - if (teamSchedule[index].result == 'Final') {
+                                                    div.gamedatas(class= ['OT','SO'].includes(teamSchedule[index].periodResult) ? 'minitie' :
+                                                        teamSchedule[index].teamResult == 'W' ? 'miniwin' : 'miniloss')
+                                                        =teamSchedule[index].teamResult + ' ' + teamSchedule[index].scoreResult
+                                                - } else {
+                                                    - var opp_games_played = teamRecords[teamSchedule[index].awayteam].teamRecord_GamesPlayed
+                                                    - var opp_goals_against = teamRecords[teamSchedule[index].awayteam].teamRecord_GoalsAgainst
+                                                    div.gamedatas=(opp_goals_against/opp_games_played).toFixed(1)
+                                                - }
+                                        - } else if (teamSchedule[index].awayteam == team) {
+                                            div.weekly_game(class="awayteam")
+                                                //div.gamedata=' '
+                                                - var home_team_image = teamSchedule[index].hometeam + '.png'
+                                                - num_games += 1
+                                                img.gameteamimage(src=`images/` + home_team_image)
+                                                - if (teamSchedule[index].result == 'Final') {
+                                                    div.gamedatas(class= ['OT','SO'].includes(teamSchedule[index].periodResult) ? 'minitie' :
+                                                        teamSchedule[index].teamResult == 'W' ? 'miniwin' : 'miniloss')
+                                                        =teamSchedule[index].teamResult + ' ' + teamSchedule[index].scoreResult
+                                                - } else {
+                                                    - var opp_games_played = teamRecords[teamSchedule[index].hometeam].teamRecord_GamesPlayed
+                                                    - var opp_goals_against = teamRecords[teamSchedule[index].hometeam].teamRecord_GoalsAgainst
+                                                    div.gamedatas=(opp_goals_against/opp_games_played).toFixed(1)
+                                                - }
+                                        - }
+                                        //div.weekly_game=teamSchedule[index].hometeam + ' vs ' + teamSchedule[index].awayteam
+                                        - index++
+                                    - } else {
+                                        div.weekly_game=' '
+                                    - }
+                                - } else {
+                                    div.weekly_game=' '
+                                - }
+                            - }
+                        div.weeksummarycolumn(id='game_number_column', class= num_games >= 5 ? "fivegames" :
+                                                        num_games == 4 ? "manygames" : 
+                                                        num_games == 3 ? "threegames" : 
+                                                        num_games == 2 ? "twogames" :
+                                                        num_games == 1 ? "onegame" : "nogames" )=num_games
+                - }
+            
+        
+        
+
+    //script(src='/javascripts/schedules/schedules_functions.js')
+    script.
+        var todays_date = new Date()
+        var first_monday = new Date("2022-10-03T12:00:00")
+        var days_of_week = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
+        var ms_in_a_day = 86400000
+        var current_week = Math.trunc((todays_date - first_monday) / (7 * ms_in_a_day))
+        function get_this_monday(week, day_offset) {
+            var  this_weeks_monday = new Date(first_monday)
+            this_weeks_monday.setDate(this_weeks_monday.getDate() + week * 7 + day_offset)
+            return this_weeks_monday
+        }
+        function change_week(new_week, schedule_string, teamRecords_string) {
+            new_week = parseInt(new_week)
+            if (new_week <= 0) {
+                new_week = 0
+            } else if (new_week >= #{total_weeks}) {
+                new_week = #{total_weeks}
+            }
+            //console.log('changing week to: ', new_week)
+            var current_week = new_week
+            //console.log('teamRecords_string: ', teamRecords_string, typeof(teamRecords_string))
+            //
+            // This is a non-ideal way to handle updating the team records string, 
+            // but since it theoretically works under the condition as the schedule_string not being updated
+            // we'll also juuust conveniently update it here
+            //
+            // Let's make sure out string is in the correct format.  we may have just hacked it to pass it through a function
+            for (schedule_data in schedule_string) {
+                
+                // check to see if this is was nested (because of our hack to pass the object in as a string)
+                if (schedule_string[schedule_data]['schedule_data'] != undefined) {
+                    //console.log('5a. is defined... was previously nested')
+                    var test4 = schedule_string[schedule_data]
+                    var teamRec_string = teamRecords_string['teamRecords_string']
+                    // rewrite the nested schedule_data 
+                    schedule_string = test4
+                    teamRecords_string = teamRec_string
+                }
+            }
+            //console.log(`team records string: ${teamRecords_string}`)
+            display_week(current_week, schedule_string, teamRecords_string)
+        }
+        function display_week(week, schedule_string, teamRecords_string) {
+            //console.log(`display calendar dates & select for week: ${week}`)
+            // Week select
+            // CLEAR THE EXISTING WEEK SELECT ELEMENTS
+            var week_select_element = document.getElementById("weekselect")
+            while (week_select_element.firstChild) {
+                week_select_element.removeChild(week_select_element.lastChild);
+            }
+            // hack
+            //var hack_schedule_string = JSON.stringify({schedule_string})
+            var hack_schedule_string = JSON.stringify({schedule_string})
+            var hack_teamRecords_string = JSON.stringify({teamRecords_string})
+            // MAKE NEW WEEK SELECT ELEMENTS....  PRIOR, NEXT, and DROP-DOWN
+            var prior_button_element = document.createElement('button')
+            prior_button_element.innerText = '< Back'
+            prior_button_element.className = 'changeweekbutton'
+            prior_button_element.setAttribute("onclick", "change_week("+(week - 1)+", "+hack_schedule_string+", "+hack_teamRecords_string+")")
+            var next_button_element = document.createElement('button')
+            next_button_element.innerText = 'Next >'
+            next_button_element.className = 'changeweekbutton'
+            next_button_element.setAttribute("onclick", "change_week("+(week + 1)+", "+hack_schedule_string+", "+hack_teamRecords_string+")")
+            var current_week_element = document.createElement('div')
+            current_week_element.innerText = "Week " + week
+            var select_element = document.createElement('select')
+            select_element.className = "schedulechangeweek"
+            for (let i = 0; i <= #{total_weeks}; i++) {
+                var option = document.createElement("option")
+                option.value = i
+                option.text = "Week " + i + ' - ' + get_this_monday(i, 0).toLocaleString().split(',')[0]
+                if (i == week) {
+                    option.selected="selected"
+                }
+                if (i == current_week) {
+                    option.text += ' (current)'
+                }
+                select_element.append(option)
+            }
+            //var hack_schedule_string = JSON.stringify({schedule_string})
+            //var hack_schedule_string = JSON.stringify({schedule_string})
+            //var hack_teamRecords_string = JSON.stringify({teamRecords_string})
+            select_element.setAttribute("onchange", "change_week(this.value, "+hack_schedule_string+", "+hack_teamRecords_string+")")
+            // ADD THEM TO THE WEEK SELECTOR
+            week_select_element.appendChild(prior_button_element)
+            week_select_element.appendChild(current_week_element)
+            week_select_element.appendChild(select_element)
+            week_select_element.appendChild(next_button_element)
+            // Days of week
+            var week_days_element = document.getElementById("daysofweek")
+            week_days_element.className = "weekdaysdisplay"
+            while (week_days_element.firstChild) {
+                week_days_element.removeChild(week_days_element.lastChild);
+            }
+            for (var i = 0; i < 7; i++) {
+                var day_of_week_element = document.createElement('div')
+                day_of_week_element.className = "dayofweek"
+                var day_name_element = document.createElement('div')
+                var day_date_element = document.createElement('div')
+                day_name_element.innerText = days_of_week[i]
+                day_date_element.innerText = (get_this_monday(week, i).getMonth() + 1) + '/' + (get_this_monday(week, i).getDate())
+                day_of_week_element.appendChild(day_name_element)
+                day_of_week_element.appendChild(day_date_element)
+                week_days_element.appendChild(day_of_week_element)
+            }
+            // update the table
+            display_table(week, schedule_string, teamRecords_string)
+        }
+        function display_table(week, schedule_string, teamRecords_string) {
+            //console.log(`display table for week: ${week}`)
+            
+            // clear the table
+            var table_display_element = document.getElementById("table_display")
+            while (table_display_element.firstChild) {
+                table_display_element.removeChild(table_display_element.lastChild);
+            }
+
+            // go through the data
+            for (schedule_data in schedule_string) {
+                
+                var source = schedule_string[schedule_data][week]
+                
+                //console.log('source: ', source)
+
+                for (const [team, teamSchedule] of Object.entries(source)) {
+                    //console.log('this is not?')
+                    //console.log(`team: ${team}`)
+                    
+                    var team_row_element = document.createElement('div')
+                    team_row_element.className = 'td_container'
+                    //team_row_element.innerText = team
+
+                    var team_element = document.createElement('div')
+                    team_element.className = 'team'
+                    team_element.id = team
+
+                    var teamTitle_element = document.createElement('div')
+                    teamTitle_element.className = 'teamtitle'
+                    teamTitle_element.innerText = team
+
+                    var teamImage_element = document.createElement('img')
+                    teamImage_element.className = 'teamimage'
+                    var image_name = team + '.png'
+                    teamImage_element.src = "images/" + image_name
+
+                    var teamGoalsFor_element = document.createElement('div')
+                    teamGoalsFor_element.className = 'teamgoalsper'
+                    var games_played = teamRecords_string['teamstats_data'][team].teamRecord_GamesPlayed
+                    var goals_for = teamRecords_string['teamstats_data'][team].teamRecord_GoalsFor
+                    teamGoalsFor_element.innerText = (goals_for/games_played).toFixed(1)
+
+                    team_element.appendChild(teamTitle_element)
+                    team_element.appendChild(teamImage_element)
+                    team_element.appendChild(teamGoalsFor_element)
+
+                    // create the week container with the team's games
+                    var weekContainer_element = document.createElement('div')
+                    weekContainer_element.className = 'weekly_container'
+                    
+                    var num_games_for_week = 0
+                    var index = 0
+                    var week_sched = teamSchedule           // is this even necessary?
+
+                    for (var day = 0; day <= 6; day++) {
+                        
+                        var weekday_date = get_this_monday(week, day)
+                        //console.log(`weekday_date: ${weekday_date}, ${weekday_date.toDateString()}`)
+                        //weekday_date.setDate(weekday_date.getDate() + day)
+                        //console.log(team, day, weekday_date.toDateString())
+                        
+                        // check that there is a game in the team's schedule
+                        if (week_sched[index] != undefined) { 
+                            //console.log(week_sched[index])
+                            // check that the game's date = the current day's date
+                            if (week_sched[index].gamedate == weekday_date.toDateString()) {
+                                //console.log(teamSchedule[index].hometeam, teamSchedule[index].awayteam)
+                                // if this team is home team or away team, then we've found a game (is this necessary, aren't we already in 'team'?)
+                                if ((teamSchedule[index].hometeam == team) || (teamSchedule[index].awayteam == team)) {
+                                    num_games_for_week += 1
+                                    var teamIsHome = teamSchedule[index].hometeam == team ? true : false
+                                    //console.log(team, teamIsHome)
+                                    
+                                    // week game elements 
+                                    var weekGame_element = document.createElement('div')
+                                    weekGame_element.className = teamIsHome == true ? 'weekly_game': 'weekly_game awayteam'
+                                    weekGame_element.id = teamIsHome == true ? team : ''
+
+                                    // image element
+                                    var opponentImage_element = document.createElement('img')
+                                    opponentImage_element.className = 'gameteamimage'
+                                    var opponentImage_source = teamIsHome == true ? teamSchedule[index].awayteam : teamSchedule[index].hometeam
+                                    opponentImage_source = 'images/' + opponentImage_source + '.png'
+                                    //console.log(opponentImage_source)
+                                    opponentImage_element.src = opponentImage_source
+                                    
+                                    // add the child elements
+                                    weekGame_element.appendChild(opponentImage_element)
+
+                                    // subdata element  // can merge this with below function to simplify
+                                    var gameSubData_element = document.createElement('div')
+                                    gameSubData_element.className = 'gamedatas'
+
+                                    // if the game is played, showed its result, otherwise show the opponents GAA
+                                    if (teamSchedule[index].result == 'Final') {
+
+                                        // game is played, construct the score result element
+                                        var score_element = document.createElement('div')
+                                        score_element.className = ['OT','SO'].includes(teamSchedule[index].periodResult) ? 'gamedatas minitie' :
+                                            teamSchedule[index].teamResult == 'W' ? 'gamedatas miniwin' : 'gamedatas miniloss'
+                                        score_element.innerText = teamSchedule[index].teamResult + ' ' + teamSchedule[index].scoreResult
+                                        
+                                        // append it
+                                        weekGame_element.appendChild(score_element)
+                                    
+                                    } else {
+
+                                        // game is not played, construct the opponent GAA element
+                                        var opp_games_played = teamIsHome == true ? teamRecords_string['teamstats_data'][teamSchedule[index].awayteam].teamRecord_GamesPlayed
+                                            : teamRecords_string['teamstats_data'][teamSchedule[index].hometeam].teamRecord_GamesPlayed
+                                        var opp_goals_against = teamIsHome == true ? teamRecords_string['teamstats_data'][teamSchedule[index].awayteam].teamRecord_GoalsAgainst
+                                            : teamRecords_string['teamstats_data'][teamSchedule[index].hometeam].teamRecord_GoalsAgainst
+                                        var opponentGAA_element = document.createElement('div')
+                                        opponentGAA_element.className = 'gamedatas'
+                                        opponentGAA_element.innerText = (opp_goals_against/opp_games_played).toFixed(1)
+                                        
+                                        // append it
+                                        weekGame_element.appendChild(opponentGAA_element)
+                                    }
+                                }                                
+                                index++
+                            } else {
+                                var weekGame_element = document.createElement('div')
+                                weekGame_element.className = 'weekly_game'
+                            }
+                        } else {
+                            var weekGame_element = document.createElement('div')
+                            weekGame_element.className = 'weekly_game'
+                        }
+                        //append the game element
+                        weekContainer_element.appendChild(weekGame_element)
+                    }
+
+                    // create class string for games number column
+                    var class_string = num_games_for_week >= 5 ? "fivegames" :
+                        num_games_for_week == 4 ? "manygames" : 
+                        num_games_for_week == 3 ? "threegames" : 
+                        num_games_for_week == 2 ? "twogames" :
+                        num_games_for_week == 1 ? "onegame" : "nogames" 
+
+                    // make the div for the game number summary
+                    var teamWeekSummary_element = document.createElement('div')
+                    teamWeekSummary_element.className = 'weeksummarycolumn ' + class_string
+                    teamWeekSummary_element.id = 'game_number_column'
+                    teamWeekSummary_element.innerText = num_games_for_week
+
+                    // add all the elements to the team row
+                    team_row_element.appendChild(team_element)
+                    team_row_element.appendChild(weekContainer_element)
+                    team_row_element.appendChild(teamWeekSummary_element)
+
+                    table_display_element.appendChild(team_row_element)
+                }
+                
+                
+            }
+            //console.log('finished')
+        }
+        
+            
+        
