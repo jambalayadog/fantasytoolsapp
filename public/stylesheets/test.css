@@ -146,6 +146,7 @@ body {
     flex-direction: column;
     text-align: center;
     font-size: 3vmin;
+    width: 100%;
 }
 
 .td_container {
@@ -230,6 +231,10 @@ body {
 
 
 
+.today_column {
+    background-color: green;
+}
+
 
 
 .miniwin {
@@ -254,11 +259,11 @@ body {
 
 
 .fivegames {
-    background-color: #f76868;
+    background-color: #f7a801
 }
 
 .manygames {
-    background-color: #f7a801;
+    background-color: #f76868;
 }
 
 .threegames {

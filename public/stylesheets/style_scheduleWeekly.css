@@ -281,7 +281,7 @@ td {
     position: relative;
 }
 
-
+/*
 .fivegames {
     background-color: #000;
 }
@@ -304,8 +304,33 @@ td {
 
 .nogames {
     background-color: #02a9b0;
+}*/
+
+
+.fivegames {
+    background-color: #f7a801
 }
 
+.manygames {
+    background-color: #f76868;
+}
+
+.threegames {
+    background-color: #7732a4;
+}
+
+.twogames {
+    background-color: #016fa0;
+}
+
+.onegame {
+    background-color: #02a9b0;
+}
+
+.nogames {
+    
+    background-color: #000;
+}
 
 
 

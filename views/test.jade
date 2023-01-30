@@ -30,8 +30,12 @@ html(lang='en')
         - this_weeks_monday.setDate(this_weeks_monday.getDate() + week_number * 7)
         - return this_weeks_monday
     - }
-    - function get_games_this_week(week, team) {
-
+    - function get_date_from_offset(monday, offset) {
+        //- console.log('monday, offset:', monday, offset)
+        - var this_days_date = new Date(monday)
+        - this_days_date.setDate(this_days_date.getDate() + offset)
+        //- console.log('this_days_date:', this_days_date)
+        - return this_days_date
     - }
 
     body
@@ -41,8 +45,8 @@ html(lang='en')
                 select.toggleviewbutton(onChange="location = this.value")
                     option.togglevalue(value=`/weeklyschedule`, selected="selected")='NHL Weekly Schedule'
                     option.togglevalue(value=`/seasonschedule`)='NHL Season Schedule'
-                    option.togglevalue(value=`/players`)='Players'
-                    option.togglevalue(value=`/teams`)='Teams'
+                    //option.togglevalue(value=`/players`)='Players'
+                    //option.togglevalue(value=`/teams`)='Teams'
         block week_select
             div.weekselectcontainer(id="weekselect")
                 - var schedule_string = JSON.stringify({schedule_data})
@@ -70,25 +74,39 @@ html(lang='en')
                     div.weekdaysdisplay(id="daysofweek")
                         div.dayofweek
                             div='Mo'
-                            div=(this_weeks_monday.getMonth()+1 + '/' + this_weeks_monday.getDate())
+                            - var this_day_date_string = get_date_from_offset(this_weeks_monday, 0).toDateString()
+                            div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
+                                =(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +0))
                         div.dayofweek
                             div='Tu'
-                            div=(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +1))
+                            - var this_day_date_string = get_date_from_offset(this_weeks_monday, 1).toDateString()
+                            div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
+                                =(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +1))
                         div.dayofweek
                             div='We'
-                            div=(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +2))
+                            - var this_day_date_string = get_date_from_offset(this_weeks_monday, 2).toDateString()
+                            div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
+                                =(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +2))
                         div.dayofweek
                             div='Th'
-                            div=(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +3))
+                            - var this_day_date_string = get_date_from_offset(this_weeks_monday, 3).toDateString()
+                            div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
+                                =(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +3))
                         div.dayofweek
                             div='Fr'
-                            div=(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +4))
+                            - var this_day_date_string = get_date_from_offset(this_weeks_monday, 4).toDateString()
+                            div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
+                                =(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +4))
                         div.dayofweek
                             div='Sa'
-                            div=(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +5))
+                            - var this_day_date_string = get_date_from_offset(this_weeks_monday, 5).toDateString()
+                            div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
+                                =(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +5))
                         div.dayofweek
                             div='Su'
-                            div=(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +6))
+                            - var this_day_date_string = get_date_from_offset(this_weeks_monday, 6).toDateString()
+                            div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
+                                =(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +6))
                     div 
                         div.opponentgaa="Game Result || Opponent GA/GP"
                 div.weeksummarycolumn
@@ -183,6 +201,14 @@ html(lang='en')
             this_weeks_monday.setDate(this_weeks_monday.getDate() + week * 7 + day_offset)
             return this_weeks_monday
         }
+        function get_date_from_offset(monday, offset) {
+            //console.log('b-monday, offset:', monday, offset)
+            var this_days_date = new Date(monday)
+            this_days_date.setDate(this_days_date.getDate() + offset)
+             //console.log('b-this_days_date:', this_days_date)
+            return this_days_date
+        }
+
         function change_week(new_week, schedule_string, teamRecords_string) {
             new_week = parseInt(new_week)
             if (new_week <= 0) {
@@ -271,6 +297,9 @@ html(lang='en')
                 day_of_week_element.className = "dayofweek"
                 var day_name_element = document.createElement('div')
                 var day_date_element = document.createElement('div')
+                // HERE TO ADD CLASSNAME FOR today_column
+                //get_date_from_offset(monday, offset)
+                day_date_element.className = get_date_from_offset(get_this_monday(week, 0), i).toDateString() == todays_date.toDateString() ? 'today_column' : ''
                 day_name_element.innerText = days_of_week[i]
                 day_date_element.innerText = (get_this_monday(week, i).getMonth() + 1) + '/' + (get_this_monday(week, i).getDate())
                 day_of_week_element.appendChild(day_name_element)
