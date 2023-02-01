@@ -76,37 +76,37 @@ html(lang='en')
                             div='Mo'
                             - var this_day_date_string = get_date_from_offset(this_weeks_monday, 0).toDateString()
                             div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
-                                =(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +0))
+                                =(get_date_from_offset(this_weeks_monday, 0).getMonth()+1 + '/' + (get_date_from_offset(this_weeks_monday, 0).getDate()))
                         div.dayofweek
                             div='Tu'
                             - var this_day_date_string = get_date_from_offset(this_weeks_monday, 1).toDateString()
                             div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
-                                =(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +1))
+                                =(get_date_from_offset(this_weeks_monday, 1).getMonth()+1 + '/' + (get_date_from_offset(this_weeks_monday, 1).getDate()))
                         div.dayofweek
                             div='We'
                             - var this_day_date_string = get_date_from_offset(this_weeks_monday, 2).toDateString()
                             div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
-                                =(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +2))
+                                =(get_date_from_offset(this_weeks_monday, 2).getMonth()+1 + '/' + (get_date_from_offset(this_weeks_monday, 2).getDate()))
                         div.dayofweek
                             div='Th'
                             - var this_day_date_string = get_date_from_offset(this_weeks_monday, 3).toDateString()
                             div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
-                                =(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +3))
+                                =(get_date_from_offset(this_weeks_monday, 3).getMonth()+1 + '/' + (get_date_from_offset(this_weeks_monday, 3).getDate()))
                         div.dayofweek
                             div='Fr'
                             - var this_day_date_string = get_date_from_offset(this_weeks_monday, 4).toDateString()
                             div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
-                                =(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +4))
+                                =(get_date_from_offset(this_weeks_monday, 4).getMonth()+1 + '/' + (get_date_from_offset(this_weeks_monday, 4).getDate()))
                         div.dayofweek
                             div='Sa'
                             - var this_day_date_string = get_date_from_offset(this_weeks_monday, 5).toDateString()
                             div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
-                                =(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +5))
+                                =(get_date_from_offset(this_weeks_monday, 5).getMonth()+1 + '/' + (get_date_from_offset(this_weeks_monday, 5).getDate()))
                         div.dayofweek
                             div='Su'
                             - var this_day_date_string = get_date_from_offset(this_weeks_monday, 6).toDateString()
                             div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
-                                =(this_weeks_monday.getMonth()+1 + '/' + (this_weeks_monday.getDate() +6))
+                                =(get_date_from_offset(this_weeks_monday, 6).getMonth()+1 + '/' + (get_date_from_offset(this_weeks_monday, 6).getDate()))
                     div 
                         div.opponentgaa="Game Result || Opponent GA/GP"
                 div.weeksummarycolumn
