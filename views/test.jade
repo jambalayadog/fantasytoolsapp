@@ -16,7 +16,11 @@ html(lang='en')
     //- var teamdata = {teamstats_data}
     - var teamRecords = {teamstats_data}['teamstats_data']
     - //console.log(teamdata)
+    - var todays_date_utc = new Date()
     - var todays_date = new Date()
+    - console.log('page load: ', todays_date)
+    - console.log(`today's date: ${todays_date}`)
+    - console.log(`page load: ${todays_date}`)
     - var first_monday = new Date("2022-10-03T12:00:00")
     - var ms_in_a_day = 86400000
     - var current_week = Math.trunc((todays_date - first_monday) / (7 * ms_in_a_day))
@@ -85,11 +89,13 @@ html(lang='en')
                         div.dayofweek
                             div='We'
                             - var this_day_date_string = get_date_from_offset(this_weeks_monday, 2).toDateString()
+                            - console.log('wednesday: ', this_day_date_string, ' === today: ', todays_date.toDateString())
                             div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
                                 =(get_date_from_offset(this_weeks_monday, 2).getMonth()+1 + '/' + (get_date_from_offset(this_weeks_monday, 2).getDate()))
                         div.dayofweek
                             div='Th'
                             - var this_day_date_string = get_date_from_offset(this_weeks_monday, 3).toDateString()
+                            - console.log('thursday: ', this_day_date_string, ' === today: ', todays_date.toDateString())
                             div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
                                 =(get_date_from_offset(this_weeks_monday, 3).getMonth()+1 + '/' + (get_date_from_offset(this_weeks_monday, 3).getDate()))
                         div.dayofweek
@@ -192,6 +198,7 @@ html(lang='en')
     //script(src='/javascripts/schedules/schedules_functions.js')
     script.
         var todays_date = new Date()
+        console.log('script: ', todays_date)
         var first_monday = new Date("2022-10-03T12:00:00")
         var days_of_week = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
         var ms_in_a_day = 86400000
@@ -299,6 +306,7 @@ html(lang='en')
                 var day_date_element = document.createElement('div')
                 // HERE TO ADD CLASSNAME FOR today_column
                 //get_date_from_offset(monday, offset)
+                //day_date_element.className = get_date_from_offset(get_this_monday(week, 0), i).toDateString() == todays_date.toDateString() ? 'today_column' : ''
                 day_date_element.className = get_date_from_offset(get_this_monday(week, 0), i).toDateString() == todays_date.toDateString() ? 'today_column' : ''
                 day_name_element.innerText = days_of_week[i]
                 day_date_element.innerText = (get_this_monday(week, i).getMonth() + 1) + '/' + (get_this_monday(week, i).getDate())
