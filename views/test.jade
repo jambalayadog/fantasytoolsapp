@@ -19,6 +19,8 @@ html(lang='en')
     - var todays_date_utc = new Date()
     - var todays_date = new Date()
     - console.log('page load: ', todays_date)
+    - console.log('time zone offset: ', todays_date.getTimezoneOffset())
+    - console.log('to locale string: ', todays_date.toLocaleString('en-US', { timeZone: 'EST' }));
     - console.log(`today's date: ${todays_date}`)
     - console.log(`page load: ${todays_date}`)
     - var first_monday = new Date("2022-10-03T12:00:00")
