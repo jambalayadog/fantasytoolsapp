@@ -43,6 +43,8 @@ html(lang='en')
         //- console.log('this_days_date:', this_days_date)
         - return this_days_date
     - }
+    - var schedule_string
+    - var teamRecords_string
 
     body
         block site_header
@@ -55,10 +57,10 @@ html(lang='en')
                     //option.togglevalue(value=`/teams`)='Teams'
         block week_select
             div.weekselectcontainer(id="weekselect")
-                - var schedule_string = JSON.stringify({schedule_data})
-                - var teamRecords_string = JSON.stringify({teamstats_data})
+                - schedule_string = JSON.stringify({schedule_data})
+                - teamRecords_string = JSON.stringify({teamstats_data})
                 //div="< Back" 
-                button.changeweekbutton(onClick="change_week(current_week - 1, "+schedule_string+", "+teamRecords_string+")")="< Back"
+                button.changeweekbutton(id="PreviousWeekButton", onClick="change_week(current_week - 1, "+schedule_string+", "+teamRecords_string+")")="< Back"
                 div="Week " + current_week
                 select.schedulechangeweek(onChange="change_week(this.value, "+schedule_string+", "+teamRecords_string+")")
                     - for (let i = 0; i <= total_weeks; i++) {
@@ -69,7 +71,7 @@ html(lang='en')
                         - }
                     - }
                 //div="Next >" 
-                button.changeweekbutton(onClick="change_week(current_week + 1, "+schedule_string+", "+teamRecords_string+")")="Next >"
+                button.changeweekbutton(id="NextWeekButton", onClick="change_week(current_week + 1, "+schedule_string+", "+teamRecords_string+")")="Next >"
             div.tablerow
                 div.teamcolumn
                     div=" "
@@ -193,18 +195,34 @@ html(lang='en')
                                                         num_games == 2 ? "twogames" :
                                                         num_games == 1 ? "onegame" : "nogames" )=num_games
                 - }
-            
+                //script.
+                    //pass_strings(schedule_string, teamRecords_string)
+                    //setTimeout(function () {
+                        //pass_strings(schedule_string, teamRecords_string)
+                        //var object_string = JSON.stringify({weekly_schedule_data})
+                        //changeTable(#{current_week}, object_string, first_monday_date_string)
+                    //},100)
         
         
 
     //script(src='/javascripts/schedules/schedules_functions.js')
     script.
         var todays_date = new Date()
-        console.log('script: ', todays_date)
+        //console.log('script: ', todays_date)
         var first_monday = new Date("2022-10-03T12:00:00")
         var days_of_week = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
         var ms_in_a_day = 86400000
         var current_week = Math.trunc((todays_date - first_monday) / (7 * ms_in_a_day))
+        var displayed_week = current_week
+        var string1
+        var string2
+        //console.log('1 ', schedule_data)
+        //console.log('2 ', {schedule_data})
+        //console.log('3 ', #{schedule_data})
+        function pass_strings(stringA, stringB) {
+            string1 = stringA
+            string2 = stringB
+        }
         function get_this_monday(week, day_offset) {
             var  this_weeks_monday = new Date(first_monday)
             this_weeks_monday.setDate(this_weeks_monday.getDate() + week * 7 + day_offset)
@@ -225,8 +243,9 @@ html(lang='en')
             } else if (new_week >= #{total_weeks}) {
                 new_week = #{total_weeks}
             }
+            displayed_week = new_week
             //console.log('changing week to: ', new_week)
-            var current_week = new_week
+            //var current_week = new_week
             //console.log('teamRecords_string: ', teamRecords_string, typeof(teamRecords_string))
             //
             // This is a non-ideal way to handle updating the team records string, 
@@ -246,8 +265,10 @@ html(lang='en')
                     teamRecords_string = teamRec_string
                 }
             }
+            string1 = schedule_string
+            string2 = teamRecords_string
             //console.log(`team records string: ${teamRecords_string}`)
-            display_week(current_week, schedule_string, teamRecords_string)
+            display_week(new_week, schedule_string, teamRecords_string)
         }
         function display_week(week, schedule_string, teamRecords_string) {
             //console.log(`display calendar dates & select for week: ${week}`)
@@ -264,10 +285,12 @@ html(lang='en')
             // MAKE NEW WEEK SELECT ELEMENTS....  PRIOR, NEXT, and DROP-DOWN
             var prior_button_element = document.createElement('button')
             prior_button_element.innerText = '< Back'
+            prior_button_element.id = 'PreviousWeekButton'
             prior_button_element.className = 'changeweekbutton'
             prior_button_element.setAttribute("onclick", "change_week("+(week - 1)+", "+hack_schedule_string+", "+hack_teamRecords_string+")")
             var next_button_element = document.createElement('button')
             next_button_element.innerText = 'Next >'
+            next_button_element.id = 'NextWeekButton'
             next_button_element.className = 'changeweekbutton'
             next_button_element.setAttribute("onclick", "change_week("+(week + 1)+", "+hack_schedule_string+", "+hack_teamRecords_string+")")
             var current_week_element = document.createElement('div')
@@ -478,6 +501,38 @@ html(lang='en')
             }
             //console.log('finished')
         }
+        let touchstartX = 0
+        let touchendX = 0
+            
+        function checkDirection() {
+            //if (touchendX < touchstartX) alert('swiped left! ' + (displayed_week - 1))
+            if (touchendX < touchstartX) {
+                //next
+                var element = document.getElementById("NextWeekButton")
+                var element_string = element.getAttribute('onclick')
+                //console.log('string1 = ', element_string.substring(0,50))
+                eval(element_string)
+                //change_week((displayed_week + 1), string1, string2)
+            }
+            //if (touchendX > touchstartX) alert('swiped right! ' + (displayed_week + 1))
+            if (touchendX > touchstartX) {
+                //previous
+                var element = document.getElementById("PreviousWeekButton")
+                var element_string = element.getAttribute('onclick')
+                eval(element_string)
+                //change_week((displayed_week - 1), string1, string2)
+            }
+        }
+
+        document.addEventListener('touchstart', e => {
+        touchstartX = e.changedTouches[0].screenX
+        })
+
+        document.addEventListener('touchend', e => {
+        touchendX = e.changedTouches[0].screenX
+        checkDirection()
+        })
+
         
             
         
