@@ -506,7 +506,7 @@ html(lang='en')
             
         function checkDirection() {
             //if (touchendX < touchstartX) alert('swiped left! ' + (displayed_week - 1))
-            if (touchendX < touchstartX) {
+            if (touchendX < touchstartX - 60) {
                 //next
                 var element = document.getElementById("NextWeekButton")
                 var element_string = element.getAttribute('onclick')
@@ -515,7 +515,7 @@ html(lang='en')
                 //change_week((displayed_week + 1), string1, string2)
             }
             //if (touchendX > touchstartX) alert('swiped right! ' + (displayed_week + 1))
-            if (touchendX > touchstartX) {
+            if (touchendX > touchstartX + 60) {
                 //previous
                 var element = document.getElementById("PreviousWeekButton")
                 var element_string = element.getAttribute('onclick')
