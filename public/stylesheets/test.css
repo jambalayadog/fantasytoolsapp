@@ -25,11 +25,11 @@ body {
 
 
 .header {
-    /*position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
-    z-index: 3;*/
-    height: 60px;
+    z-index: 3;
+    min-height: 8vmin;
     width: 100%;
     display: flex;
     justify-content: space-evenly;
@@ -65,9 +65,15 @@ body {
 }
 
 .weekselectcontainer {
+    position: sticky;
+    top: 8vmin;
+    height: 4vmin;
+    left: 0;
+    z-index: 3;
     display: flex;
     justify-content: space-between;
-    font-size: 3vmin
+    font-size: 3vmin;
+    background-color: #000;
 }
 
 .weekdaysectiondisplay {
@@ -88,8 +94,13 @@ body {
 }
 
 .tablerow{
+    position: sticky;
+    top: 12vmin;
+    left: 0;
+    z-index: 3;
     display: flex;
     justify-content: space-around;
+    background-color: #000;
 }
 
 .schedulechangeweek {
