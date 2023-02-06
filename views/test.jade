@@ -23,8 +23,9 @@ html(lang='en')
     - console.log('to locale string: ', todays_date.toLocaleString('en-US', { timeZone: 'EST' }));
     - console.log(`today's date: ${todays_date}`)
     - console.log(`page load: ${todays_date}`)
-    - var first_monday = new Date("2022-10-03T12:00:00")
+    - var first_monday = new Date("2022-10-03T04:00:00")
     - var ms_in_a_day = 86400000
+    - console.log('a: ', (todays_date - first_monday) / (7 * ms_in_a_day))
     - var current_week = Math.trunc((todays_date - first_monday) / (7 * ms_in_a_day))
     - console.log(`current week: ${current_week}`)
     - console.log(`today's date: ${todays_date}`)
