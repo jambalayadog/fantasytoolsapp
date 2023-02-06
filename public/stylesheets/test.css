@@ -48,11 +48,15 @@ body {
 
 
 .changeweekbutton {
-    font-size: 3vmin;
+    /*font-size: 3vmin;*/
+    font-size: clamp(12px,3vmin,42px);
     background-color: black;
     color: white;
 }
 
+.togglevalue {
+    color: grey;
+}
 
 .toggleviewbutton {
     border: 2px solid white;
@@ -72,7 +76,8 @@ body {
     z-index: 3;
     display: flex;
     justify-content: space-between;
-    font-size: 3vmin;
+    /*font-size: 3vmin;*/
+    font-size: clamp(12px,3vmin,42px);
     background-color: #000;
 }
 
@@ -89,7 +94,8 @@ body {
 }
 
 .opponentgaa {
-    font-size: 3vmin;
+    /*font-size: 3vmin;*/
+    font-size: clamp(12px,3vmin,42px);
     text-align: center;
 }
 
@@ -105,11 +111,13 @@ body {
 
 .schedulechangeweek {
     color: black;
+    font-size: clamp(14px,2.5vmin,32px);
 }
 
 .teamcolumn {
     width: 30%;
-    font-size: 3vmin;
+    /*font-size: 3vmin;*/
+    font-size: clamp(12px,3vmin,42px);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -126,7 +134,8 @@ body {
 }
 
 .teamgoalsper {
-    font-size: 4vmin;
+    /*font-size: 4vmin;*/
+    font-size: clamp(16px, 4vmin, 48px);
     margin-right: 2px;
     text-shadow: 1px 1px 0px rgba(0, 0, 0, 1),
         -1px 1px 0px rgba(0, 0, 0, 1),
@@ -135,7 +144,8 @@ body {
 }
 
 .teamtitle {
-    font-size: 4vmin;
+    /*font-size: 4vmin;*/
+    font-size: clamp(16px, 4vmin, 48px);
     text-align: center;
     margin: 2%;
     text-shadow: 1px 1px 0px rgba(0, 0, 0, 1),
@@ -146,7 +156,8 @@ body {
 
 .weeksummarycolumn {
     width: 05%;
-    font-size: 4vmin;
+    /*font-size: 4vmin;*/
+    font-size: clamp(16px, 4vmin, 42px);
     text-align: center;
     margin: auto;
     background-color: grey;
@@ -156,7 +167,8 @@ body {
     display: flex;
     flex-direction: column;
     text-align: center;
-    font-size: 3vmin;
+    /*font-size: 3vmin;*/
+    font-size: clamp(12px,3vmin,42px);
     width: 100%;
 }
 
@@ -212,8 +224,8 @@ body {
 .gamedatas {
     position: absolute;
     bottom: 0%;
-    /*font-size: clamp(1.5vmin, 100%, 3vmax);*/
-    font-size: 3vmin;
+    font-size: clamp(14px, 3vmin, 32px);
+    /*font-size: 3vmin;*/
     text-align: center;
     align-self: flex-end;
     background-color: rgba(0, 0, 0, 0.5);
