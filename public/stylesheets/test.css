@@ -111,7 +111,7 @@ body {
 
 .schedulechangeweek {
     color: black;
-    font-size: clamp(14px,2.5vmin,32px);
+    font-size: clamp(12px,2.5vmin,32px);
 }
 
 .teamcolumn {
@@ -224,7 +224,7 @@ body {
 .gamedatas {
     position: absolute;
     bottom: 0%;
-    font-size: clamp(14px, 3vmin, 32px);
+    font-size: clamp(12px, 3vmin, 32px);
     /*font-size: 3vmin;*/
     text-align: center;
     align-self: flex-end;
