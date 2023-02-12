@@ -29,8 +29,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'files')));
 
-app.use('/', indexRouter);
-//app.use('/', weeklyScheduleRouter);
+//app.use('/', indexRouter);
+app.use('/', weeklyScheduleRouter);
 app.use('/users', usersRouter);
 app.use('/schedule', scheduleRouter);
 //app.use('/schedulePlus', schedulePlusRouter);
