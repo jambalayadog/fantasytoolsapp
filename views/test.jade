@@ -63,7 +63,7 @@ html(lang='en')
                 - teamRecords_string = JSON.stringify({teamstats_data})
                 //div="< Back" 
                 button.changeweekbutton(id="PreviousWeekButton", onClick="change_week(current_week - 1, "+schedule_string+", "+teamRecords_string+")")="< Back"
-                div="Week " + current_week
+                div.weekTitle="Week " + current_week
                 select.schedulechangeweek(onChange="change_week(this.value, "+schedule_string+", "+teamRecords_string+")")
                     - for (let i = 0; i <= total_weeks; i++) {
                         - if (i == current_week) {
@@ -153,7 +153,7 @@ html(lang='en')
                                     //- console.log(week_sched[index])
                                     - if (week_sched[index].gamedate == weekday_date.toDateString()) {
                                         - if (teamSchedule[index].hometeam == team) {
-                                            div.weekly_game(id=team)
+                                            div.weekly_game(id=team, class="hometeam")
                                                 - var away_team_image = teamSchedule[index].awayteam + '.png'
                                                 - num_games += 1
                                                 img.gameteamimage(src=`images/` + away_team_image)
@@ -251,7 +251,7 @@ html(lang='en')
             //console.log('changing week to: ', new_week)
             //var current_week = new_week
             //console.log('teamRecords_string: ', teamRecords_string, typeof(teamRecords_string))
-            //
+            //removeChild
             // This is a non-ideal way to handle updating the team records string, 
             // but since it theoretically works under the condition as the schedule_string not being updated
             // we'll also juuust conveniently update it here
@@ -299,6 +299,7 @@ html(lang='en')
             next_button_element.setAttribute("onclick", "change_week("+(week + 1)+", "+hack_schedule_string+", "+hack_teamRecords_string+")")
             var current_week_element = document.createElement('div')
             current_week_element.innerText = "Week " + week
+            current_week_element.className = 'weekTitle'
             var select_element = document.createElement('select')
             select_element.className = "schedulechangeweek"
             for (let i = 0; i <= #{total_weeks}; i++) {
@@ -423,7 +424,7 @@ html(lang='en')
                                     
                                     // week game elements 
                                     var weekGame_element = document.createElement('div')
-                                    weekGame_element.className = teamIsHome == true ? 'weekly_game': 'weekly_game awayteam'
+                                    weekGame_element.className = teamIsHome == true ? 'weekly_game hometeam': 'weekly_game awayteam'
                                     weekGame_element.id = teamIsHome == true ? team : ''
 
                                     // image element
