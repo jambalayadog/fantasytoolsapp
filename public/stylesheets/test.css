@@ -2,6 +2,11 @@
     --border_color: black;
     --white: #ffffff;
     --border_thickness: 2px;
+    --background_color: #151111;
+    --text_primary: #ffffff;
+    --text_secondary: #cdcdcd;
+    --text_button: #ffaa00;
+    --text_week: #00ff00;
 }
 
 
@@ -10,7 +15,7 @@ body {
     /*padding: 20px;*/
     font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
     /*background-color: #22303c;*/
-    background-color: #000000;
+    background-color: var(--background_color);
     /*height: 100vh;
     overflow-y:scroll;*/
 }
@@ -20,7 +25,8 @@ body {
     margin: 0px;
     padding: 0px;
     border: none;
-    color: white;
+    /*color: white;*/
+    color: var(--text_secondary);
 }
 
 
@@ -34,7 +40,7 @@ body {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    color: white;
+    color: var(--text_primary);
     background-color: #22303c;
     font-size: 30px;
 }
@@ -44,14 +50,18 @@ body {
     max-width: 45%;
     text-align: center;
     font-size: 4vmin;
+    color: var(--text_primary);
 }
 
 
 .changeweekbutton {
     /*font-size: 3vmin;*/
     font-size: clamp(12px,3vmin,42px);
-    background-color: black;
-    color: white;
+    background-color: var(--background_color);
+    color: var(--text_button);
+    /*background-color: var(--text_button);
+    color: var(--background_color);*/
+    margin: auto;
 }
 
 .togglevalue {
@@ -78,7 +88,7 @@ body {
     justify-content: space-between;
     /*font-size: 3vmin;*/
     font-size: clamp(12px,3vmin,42px);
-    background-color: #000;
+    background-color: var(--background_color);
     width: clamp(60%, 1000px, 100%);
     margin: 0 auto;
 }
@@ -97,7 +107,7 @@ body {
 
 .opponentgaa {
     /*font-size: 3vmin;*/
-    font-size: clamp(12px,3vmin,42px);
+    font-size: clamp(10px,3vmin,42px);
     text-align: center;
 }
 
@@ -108,7 +118,7 @@ body {
     z-index: 3;
     display: flex;
     justify-content: space-around;
-    background-color: #000;
+    background-color: var(--background_color);
     width: clamp(60%, 1000px, 100%);
     margin: 0 auto;
 }
@@ -116,6 +126,7 @@ body {
 .weekTitle {
     text-align: center;
     margin: auto;
+    color: var(--text_week);
 }
 
 .schedulechangeweek {
@@ -127,7 +138,7 @@ body {
 .teamcolumn {
     width: 30%;
     /*font-size: 3vmin;*/
-    font-size: clamp(12px,3vmin,42px);
+    font-size: clamp(10px,3vmin,42px);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -152,6 +163,7 @@ body {
         -1px 1px 0px rgba(0, 0, 0, 1),
         1px -1px 0px rgba(0, 0, 0, 1),
         -1px -1px 0px rgba(0, 0, 0, 1);
+    color: var(--text_primary);
 }
 
 .teamtitle {
@@ -163,6 +175,7 @@ body {
         -1px 1px 0px rgba(0, 0, 0, 1),
         1px -1px 0px rgba(0, 0, 0, 1),
         -1px -1px 0px rgba(0, 0, 0, 1);
+    color: var(--text_primary);
 }
 
 .weeksummarycolumn {
@@ -174,6 +187,7 @@ body {
     background-color: grey;
     margin-left: 1px;
     margin-right: 2px;
+    color: var(--text_primary);
 }
 
 .dayofweek {
@@ -183,6 +197,7 @@ body {
     /*font-size: 3vmin;*/
     font-size: clamp(12px,3vmin,42px);
     width: 100%;
+    color: var(--text_primary);
 }
 
 #table_display {
@@ -299,7 +314,7 @@ body {
 }
 
 .futuregame {
-    color: white;
+    color: var(--text_primary);
     text-shadow: 1px 1px 0px black,
         -1px 1px 0px black,
         1px -1px 0px black,
@@ -487,3 +502,4 @@ body {
     background-color: #041e42;
     color: oldlace;
 }
+

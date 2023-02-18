@@ -509,29 +509,38 @@ html(lang='en')
         }
         let touchstartX = 0
         let touchendX = 0
+        let current_touches = 0
             
         function checkDirection() {
-            //if (touchendX < touchstartX) alert('swiped left! ' + (displayed_week - 1))
-            if (touchendX < touchstartX - 60) {
-                //next
-                var element = document.getElementById("NextWeekButton")
-                var element_string = element.getAttribute('onclick')
-                //console.log('string1 = ', element_string.substring(0,50))
-                eval(element_string)
-                //change_week((displayed_week + 1), string1, string2)
+            //console.log(`current touches ${current_touches}`)
+            //alert(`current touches ${current_touches}`)
+            if (current_touches == 1) {
+                
+                //if (touchendX < touchstartX) alert('swiped left! ' + (displayed_week - 1))
+                if (touchendX < touchstartX - 60) {
+                    //next
+                    var element = document.getElementById("NextWeekButton")
+                    var element_string = element.getAttribute('onclick')
+                    //console.log('string1 = ', element_string.substring(0,50))
+                    eval(element_string)
+                    //change_week((displayed_week + 1), string1, string2)
+                }
+                //if (touchendX > touchstartX) alert('swiped right! ' + (displayed_week + 1))
+                if (touchendX > touchstartX + 60) {
+                    //previous
+                    var element = document.getElementById("PreviousWeekButton")
+                    var element_string = element.getAttribute('onclick')
+                    eval(element_string)
+                    //change_week((displayed_week - 1), string1, string2)
+                }
+
             }
-            //if (touchendX > touchstartX) alert('swiped right! ' + (displayed_week + 1))
-            if (touchendX > touchstartX + 60) {
-                //previous
-                var element = document.getElementById("PreviousWeekButton")
-                var element_string = element.getAttribute('onclick')
-                eval(element_string)
-                //change_week((displayed_week - 1), string1, string2)
-            }
+            current_touches = 0
         }
 
         document.addEventListener('touchstart', e => {
         touchstartX = e.changedTouches[0].screenX
+        current_touches += 1
         })
 
         document.addEventListener('touchend', e => {
