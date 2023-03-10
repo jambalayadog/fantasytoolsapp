@@ -46,6 +46,8 @@ html(lang='en')
     - }
     - var schedule_string
     - var teamRecords_string
+    - var mini_state = false
+    
 
     body
         block site_header
@@ -57,6 +59,9 @@ html(lang='en')
                     option.togglevalue(value=`/seasonschedule`)='NHL Season Schedule'
                     //option.togglevalue(value=`/players`)='Players'
                     //option.togglevalue(value=`/teams`)='Teams'
+                label(class="switch", onChange="change_mini_state()", for="state_toggle")  
+                    input(type="checkbox", id="state_toggle")  
+                    //span(class="slider")
         block week_select
             div.weekselectcontainer(id="weekselect")
                 - schedule_string = JSON.stringify({schedule_data})
@@ -76,8 +81,8 @@ html(lang='en')
                 button.changeweekbutton(id="NextWeekButton", onClick="change_week(current_week + 1, "+schedule_string+", "+teamRecords_string+")")="Next >"
             div.tablerow
                 div.teamcolumn
-                    div=" "
                     div="Team"
+                    div=" "
                     div='GF/GP'
                 div.weekdaysectiondisplay
                     
@@ -121,8 +126,8 @@ html(lang='en')
                                 =(get_date_from_offset(this_weeks_monday, 6).getMonth()+1 + '/' + (get_date_from_offset(this_weeks_monday, 6).getDate()))
                     div 
                         div.opponentgaa="Game Result || Opponent GA/GP"
-                div.weeksummarycolumn
-                    div=""
+                div.weeksummarycolumnheader
+                    div.weekgptitle="GP"
 
         block table_display
             div(id='table_display')
@@ -148,14 +153,20 @@ html(lang='en')
                                 - var weekday_date = new Date(this_weeks_monday)
                                 //- console.log(`weekday_date: ${weekday_date}`)
                                 - weekday_date.setDate(weekday_date.getDate() + day)
+                                
                                 //- console.log(team, day, weekday_date.toDateString())
                                 - if (week_sched[index] != undefined) {
+                                    - if (team == 'BUF' || team == 'BOS') {
+                                        - console.log(`${team} Schedule: ${week_sched[index].gamedate}`)
+                                    - }
                                     //- console.log(week_sched[index])
                                     - if (week_sched[index].gamedate == weekday_date.toDateString()) {
                                         - if (teamSchedule[index].hometeam == team) {
+                                            //div.weekly_game(id=team, class="hometeam")
                                             div.weekly_game(id=team, class="hometeam")
                                                 - var away_team_image = teamSchedule[index].awayteam + '.png'
                                                 - num_games += 1
+                                                div.gameteamtext=teamSchedule[index].awayteam
                                                 img.gameteamimage(src=`images/` + away_team_image)
                                                 - if (teamSchedule[index].result == 'Final') {
                                                     div.gamedatas(class= ['OT','SO'].includes(teamSchedule[index].periodResult) ? 'minitie' :
@@ -168,10 +179,12 @@ html(lang='en')
                                                     div.gamedatas(class="futuregame")=(opp_goals_against/opp_games_played).toFixed(1)
                                                 - }
                                         - } else if (teamSchedule[index].awayteam == team) {
+                                            //div.weekly_game(class="awayteam")
                                             div.weekly_game(class="awayteam")
                                                 //div.gamedata=' '
                                                 - var home_team_image = teamSchedule[index].hometeam + '.png'
                                                 - num_games += 1
+                                                div.gameteamtext=teamSchedule[index].hometeam
                                                 img.gameteamimage(src=`images/` + home_team_image)
                                                 - if (teamSchedule[index].result == 'Final') {
                                                     div.gamedatas(class= ['OT','SO'].includes(teamSchedule[index].periodResult) ? 'minitie' :
@@ -220,12 +233,28 @@ html(lang='en')
         var displayed_week = current_week
         var string1
         var string2
+        var mini_state = false
         //console.log('1 ', schedule_data)
         //console.log('2 ', {schedule_data})
         //console.log('3 ', #{schedule_data})
         function pass_strings(stringA, stringB) {
             string1 = stringA
             string2 = stringB
+        }
+        function change_mini_state() {
+            mini_state = !mini_state
+            var elements_to_state_change = ["teamimage", "gameteamimage", "gameteamtext", "gamedatas",
+                                            "team", "teamcolumn", "teamtitle", "teamgoalsper", "opponentgaa",
+                                            "weekgptitle", "dayofweek", "tablerow", "weeksummarycolumn"]
+            console.log("mini_state: ", mini_state)
+            elements_to_state_change.forEach(element => {
+                var elements = document.getElementsByClassName(element)
+                for (var i = 0; i < elements.length; i++) {
+                    elements.item(i).classList.toggle('inactive')
+                }
+            })
+            var table_element = document.getElementById("table_display")
+            table_element.classList.toggle('inactive')
         }
         function get_this_monday(week, day_offset) {
             var  this_weeks_monday = new Date(first_monday)
@@ -333,6 +362,9 @@ html(lang='en')
             for (var i = 0; i < 7; i++) {
                 var day_of_week_element = document.createElement('div')
                 day_of_week_element.className = "dayofweek"
+                if (mini_state == true) {
+                    day_of_week_element.classList.toggle("inactive")
+                }
                 var day_name_element = document.createElement('div')
                 var day_date_element = document.createElement('div')
                 // HERE TO ADD CLASSNAME FOR today_column
@@ -374,19 +406,31 @@ html(lang='en')
 
                     var team_element = document.createElement('div')
                     team_element.className = 'team'
+                    if (mini_state == true) {
+                        team_element.classList.toggle('inactive')
+                    }
                     team_element.id = team
 
                     var teamTitle_element = document.createElement('div')
                     teamTitle_element.className = 'teamtitle'
+                    if (mini_state == true) {
+                        teamTitle_element.classList.toggle("inactive")
+                    }
                     teamTitle_element.innerText = team
 
                     var teamImage_element = document.createElement('img')
                     teamImage_element.className = 'teamimage'
+                    if (mini_state == true) {
+                        teamImage_element.classList.toggle('inactive')
+                    }
                     var image_name = team + '.png'
                     teamImage_element.src = "images/" + image_name
 
                     var teamGoalsFor_element = document.createElement('div')
                     teamGoalsFor_element.className = 'teamgoalsper'
+                    if (mini_state == true) {
+                        teamGoalsFor_element.classList.toggle("inactive")
+                    }
                     var games_played = teamRecords_string['teamstats_data'][team].teamRecord_GamesPlayed
                     var goals_for = teamRecords_string['teamstats_data'][team].teamRecord_GoalsFor
                     teamGoalsFor_element.innerText = (goals_for/games_played).toFixed(1)
@@ -427,9 +471,25 @@ html(lang='en')
                                     weekGame_element.className = teamIsHome == true ? 'weekly_game hometeam': 'weekly_game awayteam'
                                     weekGame_element.id = teamIsHome == true ? team : ''
 
-                                    // image element
+                                    //if (mini_state == true) {
+                                    //text element
+                                    var opponentText_element = document.createElement('div')
+                                    opponentText_element.className = 'gameteamtext'
+                                    if (mini_state == true) {
+                                        opponentText_element.classList.toggle('inactive')
+                                    }
+                                    var opponentText = teamIsHome == true ? teamSchedule[index].awayteam : teamSchedule[index].hometeam
+                                    opponentText_element.innerText = opponentText
+
+                                    // add the child elements
+                                    weekGame_element.appendChild(opponentText_element)
+                                    //} else {
+                                        // image element
                                     var opponentImage_element = document.createElement('img')
                                     opponentImage_element.className = 'gameteamimage'
+                                    if (mini_state == true) {
+                                        opponentImage_element.classList.toggle('inactive')
+                                    }
                                     var opponentImage_source = teamIsHome == true ? teamSchedule[index].awayteam : teamSchedule[index].hometeam
                                     opponentImage_source = 'images/' + opponentImage_source + '.png'
                                     //console.log(opponentImage_source)
@@ -437,6 +497,8 @@ html(lang='en')
                                     
                                     // add the child elements
                                     weekGame_element.appendChild(opponentImage_element)
+                                    //}
+                                    
 
                                     // subdata element  // can merge this with below function to simplify
                                     var gameSubData_element = document.createElement('div')
@@ -449,6 +511,9 @@ html(lang='en')
                                         var score_element = document.createElement('div')
                                         score_element.className = ['OT','SO'].includes(teamSchedule[index].periodResult) ? 'gamedatas minitie' :
                                             teamSchedule[index].teamResult == 'W' ? 'gamedatas miniwin' : 'gamedatas miniloss'
+                                        if (mini_state == true) {
+                                            score_element.classList.toggle('inactive')
+                                        }
                                         score_element.innerText = teamSchedule[index].teamResult + ' ' + teamSchedule[index].scoreResult
                                         
                                         // append it
@@ -463,6 +528,9 @@ html(lang='en')
                                             : teamRecords_string['teamstats_data'][teamSchedule[index].hometeam].teamRecord_GoalsAgainst
                                         var opponentGAA_element = document.createElement('div')
                                         opponentGAA_element.className = 'gamedatas futuregame'
+                                        if (mini_state == true) {
+                                            opponentGAA_element.classList.toggle('inactive')
+                                        }
                                         opponentGAA_element.innerText = (opp_goals_against/opp_games_played).toFixed(1)
                                         
                                         // append it

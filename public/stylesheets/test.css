@@ -18,6 +18,11 @@ body {
     background-color: var(--background_color);
     /*height: 100vh;
     overflow-y:scroll;*/
+    height: 100%;
+}
+
+html {
+    height: 100%;
 }
 
 * {
@@ -43,6 +48,60 @@ body {
     color: var(--text_primary);
     background-color: #22303c;
     font-size: 30px;
+}
+
+input[type="checkbox"]{
+    -webkit-appearance: initial;
+    appearance: initial;
+    width: 20px;
+    height: 20px;
+    font-size: 1em;
+    background: grey;
+    position: relative;
+    border: 1px solid white;
+    border-radius: 2px;
+    background: #80F080;
+}
+input[type="checkbox"]:checked {
+    background: #F08080;
+}
+input[type="checkbox"]:not(:checked):before {
+    content: "-";
+    color: #000;
+    position: absolute;
+    left: 15%;
+    top: -55%;
+    /*transform: translate(10%,0%);*/
+    /*-moz-transform: translate(5%, -3%);*/
+    -webkit-transform: translate(25%, 0%);
+    -moz-transform: translate(15%, -3%);
+    -ms-transform: translate(10%, 10%);
+    -o-transform: translate(0%, 0%);
+    margin: auto;
+}
+input[type="checkbox"]:checked:after {
+    /* Heres your symbol replacement - this is a tick in Unicode. */
+    content: "+";
+    color: #000;
+    /* The following positions my tick in the center, 
+     * but you could just overlay the entire box
+     * with a full after element with a background if you want to */
+    position: absolute;
+    left: 0%;
+    top: -40%;
+    -webkit-transform: translate(3%, -3%);
+    -moz-transform: translate(-11%, -8%);
+    
+    margin: auto;
+    /*
+     * If you want to fully change the check appearance, use the following:
+     * content: " ";
+     * width: 100%;
+     * height: 100%;
+     * background: blue;
+     * top: 0;
+     * left: 0;
+     */
 }
 
 .titletext {
@@ -111,7 +170,13 @@ body {
     text-align: center;
 }
 
-.tablerow{
+.opponentgaa.inactive {
+    /*font-size: 3vmin;*/
+    font-size: clamp(10px,2vmin,42px);
+    text-align: center;
+}
+
+.tablerow {
     position: sticky;
     top: 12vmin;
     left: 0;
@@ -121,6 +186,10 @@ body {
     background-color: var(--background_color);
     width: clamp(60%, 1000px, 100%);
     margin: 0 auto;
+}
+
+.tablerow.inactive {
+    width: clamp(40%, 800px, 100%);
 }
 
 .weekTitle {
@@ -143,11 +212,30 @@ body {
     justify-content: space-around;
     align-items: center;
     align-self: flex-end;
-
 }
+
+.teamcolumn.inactive {
+    width: 25%;
+    /*font-size: 3vmin;*/
+    font-size: clamp(10px,2vmin,42px);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    align-self: flex-end;
+}
+
 
 .team {
     width: 30%;
+    display: flex;
+    justify-content: space-around;
+    overflow: hidden;
+    align-items: center;
+    margin-right: 1px;
+}
+
+.team.inactive {
+    width: 25%;
     display: flex;
     justify-content: space-around;
     overflow: hidden;
@@ -166,6 +254,11 @@ body {
     color: var(--text_primary);
 }
 
+.teamgoalsper.inactive {
+    /*font-size: 4vmin;*/
+    font-size: clamp(12px, 2.5vmin, 48px);
+}
+
 .teamtitle {
     /*font-size: 4vmin;*/
     font-size: clamp(12px, 4vmin, 48px);
@@ -174,8 +267,19 @@ body {
     text-shadow: 1px 1px 0px rgba(0, 0, 0, 1),
         -1px 1px 0px rgba(0, 0, 0, 1),
         1px -1px 0px rgba(0, 0, 0, 1),
-        -1px -1px 0px rgba(0, 0, 0, 1);
-    color: var(--text_primary);
+        -1px -1px 0px rgba(0, 0, 0, 1),
+        1px 0px 0px rgba(0, 0, 0, 1),
+        -1px 0px 0px rgba(0, 0, 0, 1),
+        0px -1px 0px rgba(0, 0, 0, 1),
+        0px 1px 0px rgba(0, 0, 0, 1);
+    color: white;
+    position: relative;
+    z-index: 0;
+}
+
+.teamtitle.inactive {
+    /*font-size: 4vmin;*/
+    font-size: clamp(12px, 2.5vmin, 48px);
 }
 
 .weeksummarycolumn {
@@ -190,6 +294,31 @@ body {
     color: var(--text_primary);
 }
 
+.weeksummarycolumn.inactive {
+    font-size: clamp(16px, 2.5vmin, 42px);
+}
+
+.weeksummarycolumnheader {
+    min-width: 5%;
+    /*font-size: 3vmin;*/
+    font-size: clamp(10px,3vmin,42px);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    align-self: flex-end;
+    text-align: center;
+}
+
+.weekgptitle {
+    margin-right: 5px;
+    font-size: clamp(10px,3vmin,42px);
+}
+
+.weekgptitle.inactive {
+    margin-right: 5px;
+    font-size: clamp(10px,2vmin,42px);
+}
+
 .dayofweek {
     display: flex;
     flex-direction: column;
@@ -200,19 +329,29 @@ body {
     color: var(--text_primary);
 }
 
+.dayofweek.inactive{
+    font-size: clamp(12px,2vmin,42px);
+}
+
 #table_display {
     width: clamp(60%, 1000px, 100%);
     display: flex;
     flex-direction: column;
     margin: 0 auto;
+    height: 76vmin;
+}
+
+#table_display.inactive {
+    width: clamp(40%, 800px, 100%);
 }
 
 .td_container {
     display: flex;
     justify-content: space-around;
-    max-height: 60px;
+    /*max-height: 60px;*/
     margin-bottom: 1px;
     width: 100%;
+    height: 100%;
 }
 
 .weekly_container {
@@ -245,6 +384,7 @@ body {
     align-content: space-around;
     overflow: hidden;
     width: 100%;
+    text-align: center;
 }
 
 
@@ -254,8 +394,35 @@ body {
     max-height: 60px;
     vertical-align: middle;
     /*position: relative;
-    top: -33%;*/
-    
+    top: -33%;*/    
+}
+
+.gameteamimage.inactive {
+    max-width: 0%;
+    transform: scale(0);
+    max-height: 0px;
+    vertical-align: middle;
+    /*position: relative;
+    top: -33%;*/    
+}
+
+.gameteamtext {
+    display:none;
+    visibility: hidden;
+}
+
+.gameteamtext.inactive {
+    display:block;
+    visibility: visible;
+    text-align: center;
+    align-items: center;
+    margin: 0% auto 0% auto;
+    font-size: clamp(10px, 2vmin, 32px);
+    color: var(--text_primary);
+    text-shadow: 1px 1px 0px black,
+        -1px 1px 0px black,
+        1px -1px 0px black,
+        -1px -1px 0px black;
 }
 
 .gamedatas {
@@ -268,8 +435,20 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     width: 100%;
     max-height: 50%;
-    
 }
+
+.gamedatas.inactive {
+    position: absolute;
+    bottom: 0%;
+    font-size: clamp(10px, 2vmin, 32px);
+    /*font-size: 3vmin;*/
+    text-align: center;
+    align-self: flex-end;
+    /*background-color: rgba(0, 0, 0, 0.5);*/
+    width: 100%;
+    max-height: 50%;
+}
+
 
 .teamimage {
     max-width: 50%;
@@ -279,12 +458,22 @@ body {
     overflow: hidden;
 }
 
+.teamimage.inactive {
+    max-width: 00%;
+    transform: scale(0);
+    max-height: 00px;
+    vertical-align: middle;
+    overflow: hidden;
+}
+
 .hometeam {
-    outline:1px solid white;
+    /*outline:1px solid white;*/
 }
 
 .awayteam {
-    background-color: ghostwhite;
+    /*background-color: ghostwhite;*/
+    outline: 1px solid white;
+    box-sizing: border-box;
     /*border: 5px solid white;*/
     /*box-shadow:inset 0px 0px 0px 5px #000;*/
     /*outline:0px solid white;*/
