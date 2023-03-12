@@ -585,7 +585,7 @@ html(lang='en')
             if (current_touches == 1) {
                 
                 //if (touchendX < touchstartX) alert('swiped left! ' + (displayed_week - 1))
-                if (touchendX < touchstartX - 60) {
+                if (touchendX < touchstartX - 100) {
                     //next
                     var element = document.getElementById("NextWeekButton")
                     var element_string = element.getAttribute('onclick')
@@ -594,7 +594,7 @@ html(lang='en')
                     //change_week((displayed_week + 1), string1, string2)
                 }
                 //if (touchendX > touchstartX) alert('swiped right! ' + (displayed_week + 1))
-                if (touchendX > touchstartX + 60) {
+                if (touchendX > touchstartX + 100) {
                     //previous
                     var element = document.getElementById("PreviousWeekButton")
                     var element_string = element.getAttribute('onclick')
