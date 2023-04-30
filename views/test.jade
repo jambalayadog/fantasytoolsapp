@@ -25,13 +25,15 @@ html(lang='en')
     - console.log(`page load: ${todays_date}`)
     - var first_monday = new Date("2022-10-03T04:00:00")
     - var ms_in_a_day = 86400000
-    - console.log('a: ', (todays_date - first_monday) / (7 * ms_in_a_day))
+    - console.log('week: ', (todays_date - first_monday) / (7 * ms_in_a_day))
+    - var total_weeks = 27
     - var current_week = Math.trunc((todays_date - first_monday) / (7 * ms_in_a_day))
+    - current_week = Math.min(current_week, total_weeks)
     - console.log(`current week: ${current_week}`)
-    - console.log(`today's date: ${todays_date}`)
+    //- console.log(`today's date: ${todays_date}`)
     - var this_weeks_monday = get_this_monday(current_week)
     - console.log(`this weeks monday: ${this_weeks_monday}`)
-    - var total_weeks = 27
+    
     - function get_this_monday(week_number) {
         - var this_weeks_monday = new Date(first_monday)
         - this_weeks_monday.setDate(this_weeks_monday.getDate() + week_number * 7)
@@ -100,13 +102,11 @@ html(lang='en')
                         div.dayofweek
                             div='We'
                             - var this_day_date_string = get_date_from_offset(this_weeks_monday, 2).toDateString()
-                            - console.log('wednesday: ', this_day_date_string, ' === today: ', todays_date.toDateString())
                             div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
                                 =(get_date_from_offset(this_weeks_monday, 2).getMonth()+1 + '/' + (get_date_from_offset(this_weeks_monday, 2).getDate()))
                         div.dayofweek
                             div='Th'
                             - var this_day_date_string = get_date_from_offset(this_weeks_monday, 3).toDateString()
-                            - console.log('thursday: ', this_day_date_string, ' === today: ', todays_date.toDateString())
                             div(class=this_day_date_string == todays_date.toDateString() ? 'today_column' : '')
                                 =(get_date_from_offset(this_weeks_monday, 3).getMonth()+1 + '/' + (get_date_from_offset(this_weeks_monday, 3).getDate()))
                         div.dayofweek
