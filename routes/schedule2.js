@@ -51,7 +51,7 @@ router.get('/', function(req, res, next) {
 });
 */
 
-console.log('Fetch test here ---> ')
+console.log('schedule2.js ---> ')
 
 /* GET home page. 
 router.get('/', function(req, res, next) {

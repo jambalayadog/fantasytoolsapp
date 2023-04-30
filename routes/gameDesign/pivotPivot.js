@@ -4,6 +4,8 @@ var fs = require('fs')
 
 
 
+console.log('pivotPivot.js ---> ')
+
 router.get('/', function(req, res, next) {
     res.render('./gameDesign/pivotPivot', { title: 'Pivot Pivot', message: 'Hello there!' });
 });
