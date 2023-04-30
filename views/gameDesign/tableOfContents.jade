@@ -1,0 +1,62 @@
+- console.log(title)
+- const table_of_contents_map = new Map()
+- table_of_contents_map.set(1,{name:'Table of Contents', path:'/GameDesign/'})
+- table_of_contents_map.set(2,{name:'Power Fantasy', path:'/GameDesign/PowerFantasy'})
+- table_of_contents_map.set(3,{name:'Project Pillars', path:'/GameDesign/ProjectPillars'})
+- table_of_contents_map.set(4,{name:'Expression', path:'/GameDesign/Expression'})
+- table_of_contents_map.set(5,{name:'Pivot Pivot', path:'/GameDesign/PivotPivot'})
+- table_of_contents_map.set(6,{name:"What's a game, anyways?", path:'/GameDesign/whatsAGame'})
+- table_of_contents_map.set(7,{name:'Self Determination Theory', path:'/GameDesign/SelfDeterminationTheory'})
+- table_of_contents_map.set(8,{name:'Retention Mechanics', path:'/GameDesign/RetentionMechanics'})
+- table_of_contents_map.set(9,{name:'Accessibility', path:'/GameDesign/Accessibility'})
+- table_of_contents_map.set(10,{name:'Concept Discovery', path:'/GameDesign/ConceptDiscovery'})
+- table_of_contents_map.set(11,{name:'Pipeline Discovery', path:'/GameDesign/PipelineDiscovery'})
+- table_of_contents_map.set(12,{name:'Production Delivery', path:'/GameDesign/ProductionDelivery'})
+- table_of_contents_map.set(13,{name:'Ship & Live Service', path:'/GameDesign/ShipAndLiveService'})
+- table_of_contents_map.set(14,{name:'Elden Ring Accessibility', path:'/GameDesign/EldenRingAccessibility'})
+
+
+html
+head
+    title='How To Design Games: A Resource for Game Developers'
+    link(rel='stylesheet', href='/stylesheets/gameDesign/gameDesign.css')
+    //- console.log(title)
+body
+    - let page_index = 0
+    - let counter = 0
+    div.pageContainer
+        div.headerContainer
+            div='How To Design Games: A Resource for Game Developers'
+            div.authorContainer
+                div='jwatt'
+        div.navigationContainer
+            div.tableOfContents
+                select.toggleviewbutton(onChange="location = this.value")
+                    - table_of_contents_map.forEach(item => {
+                        //- console.log(item, item['name'], item['path'])
+                        - counter += 1
+                        - if (item['name'] == title) {
+                            option.togglevalue(value=item['path'], selected='selected')=item['name']       
+                            - page_index = counter
+                            - console.log(page_index)
+                        - } else {
+                            option.togglevalue(value=item['path'])=item['name']
+                        - }
+                    - })
+            div=title
+        div.contentContainer
+            block content
+        div.footerContainer
+            div='back'
+                - page_index -= 1
+                - page_index = Math.max(0, page_index)
+            div='forward'
+                //- console.log(#{page_index})
+                - page_index =+ 1
+                - page_index = Math.min(table_of_contents_map.size, page_index)
+                //a(href=#{table_of_contents.get(page_index+1)}) forward
+            div='table of contents'
+            div='copyright me @ 2023'
+script.
+    //console.log('script running')
+//- console.log(title)

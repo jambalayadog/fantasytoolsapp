@@ -15,6 +15,22 @@ var gameRouter = require('./routes/game');
 var testRouter = require('./routes/test');
 var seasonScheduleRouter = require('./routes/schedule2');
 var weeklyScheduleRouter = require('./routes/test');
+//
+// game design book and chapters
+var gameDesignRouter = require('./routes/gameDesign/gameDesign');
+var gameDesignPowerFantasyRouter = require('./routes/gameDesign/powerFantasy');
+var gameDesign_projectPillars_Router = require('./routes/gameDesign/projectPillars');
+var gameDesign_expression_Router = require('./routes/gameDesign/expression');
+var gameDesign_pivotPivot_Router = require('./routes/gameDesign/pivotPivot');
+var gameDesign_whatsAGame_Router = require('./routes/gameDesign/whatsAGame');
+var gameDesign_selfDeterminationTheory_Router = require('./routes/gameDesign/selfDeterminationTheory');
+var gameDesign_retentionMechanics_Router = require('./routes/gameDesign/retentionMechanics');
+var gameDesign_accessibility_Router = require('./routes/gameDesign/accessibility');
+var gameDesign_conceptdiscovery_Router = require('./routes/gameDesign/conceptdiscovery');
+var gameDesign_pipelinediscovery_Router = require('./routes/gameDesign/pipelinediscovery');
+var gameDesign_productionDelivery_Router = require('./routes/gameDesign/productionDelivery');
+var gameDesign_shipAndLiveService_Router = require('./routes/gameDesign/shipAndLiveService');
+var gameDesign_eldenRing_Router = require('./routes/gameDesign/eldenRing');
 
 var app = express();
 
@@ -41,6 +57,22 @@ app.use('/game', gameRouter);
 app.use('/test', testRouter);
 app.use('/SeasonSchedule', seasonScheduleRouter);
 app.use('/WeeklySchedule', weeklyScheduleRouter);
+//
+// game design book and chapters
+app.use('/gameDesign', gameDesignRouter);
+app.use('/gameDesign/powerFantasy', gameDesignPowerFantasyRouter);
+app.use('/gameDesign/projectPillars', gameDesign_projectPillars_Router);
+app.use('/gameDesign/expression', gameDesign_expression_Router);
+app.use('/gameDesign/pivotPivot', gameDesign_pivotPivot_Router);
+app.use('/gameDesign/whatsAGame', gameDesign_whatsAGame_Router);
+app.use('/gameDesign/selfDeterminationTheory', gameDesign_selfDeterminationTheory_Router);
+app.use('/gameDesign/retentionMechanics', gameDesign_retentionMechanics_Router);
+app.use('/gameDesign/accessibility', gameDesign_accessibility_Router);
+app.use('/gameDesign/conceptdiscovery', gameDesign_conceptdiscovery_Router);
+app.use('/gameDesign/pipelinediscovery', gameDesign_pipelinediscovery_Router);
+app.use('/gameDesign/productionDelivery', gameDesign_productionDelivery_Router);
+app.use('/gameDesign/shipAndLiveService', gameDesign_shipAndLiveService_Router);
+app.use('/gameDesign/eldenRingAccessibility', gameDesign_eldenRing_Router);
 
 
 // catch 404 and forward to error handler
