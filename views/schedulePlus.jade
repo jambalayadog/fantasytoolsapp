@@ -7,16 +7,17 @@ block extra_style_sheet
 
 block content
     - var search_date = new Date(season_start_date)
-    - var season_start_date = new Date("2022-10-01")
-    - var season_end_date = new Date("2023-04-16")  //2023-04-16
-    - var first_monday_date = new Date("2022-10-03")
+    //- var season_start_date = new Date("2022-10-01")
+    - var season_start_date = new Date("2023-10-02")
+    - var season_end_date = new Date("2024-04-16")  //2023-04-16
+    - var first_monday_date = new Date("2023-10-02")
     - var todays_date = new Date()
     - var teams = 32
     - var ms_in_a_day = 86400000
     - var days = (season_end_date - season_start_date) / ms_in_a_day
     - var games_per_week = 0
     - var scroll_week
-    - var first_monday = new Date("2022-10-03T00:00:00")
+    - var first_monday = new Date("2023-10-02T00:00:00")
     - var day_offset = 0
     - var matchup_length = 1 //week
     - var current_week = Math.trunc((todays_date - first_monday) / (7 * ms_in_a_day))
@@ -42,7 +43,7 @@ block content
     //- console.log('team4: ', JSON.parse({teamstats_data}['teamstats_data']))
     //- console.log('team5: ', teamRecords)
     div.header
-        div.titletext NHL 2022-2023
+        div.titletext NHL 2023-2024
         select.toggleviewbutton(onChange="location = this.value")
             //option.togglevalue(value=`/`)='Fantasy Hockey Central'
             option.togglevalue(value=`/weeklyschedule`)='NHL Weekly Schedule'
@@ -224,9 +225,23 @@ block content
                                                                         - var opp_image_name = weeks_games[day_of_week].hometeam
                                                                     - }
                                                                     img.opponentmini(src=`images/` + opp_image_name + '.png')
-                                                                    div.miniscore(class= ['OT','SO'].includes(weeks_games[day_of_week].periodResult) ? 'minitie' :
-                                                                        weeks_games[day_of_week].teamResult == 'W' ? 'miniwin' : 'miniloss')
-                                                                        =(weeks_games[day_of_week].teamResult + ` ` + weeks_games[day_of_week].scoreResult)
+                                                                    //- console.log(team, gameSchedule)
+                                                                    //- console.log('--------------')
+                                                                    //- console.log(weeks_games[day_of_week])
+                                                                    - if (weeks_games[day_of_week].result == 'Final') {
+                                                                        div.miniscore(class= ['OT','SO'].includes(weeks_games[day_of_week].periodResult) ? 'minitie' :
+                                                                            weeks_games[day_of_week].teamResult == 'W' ? 'miniwin' : 
+                                                                            weeks_games[day_of_week].teamResult == 'L' ? 'miniloss' : 'miniunplayed')
+                                                                            =(weeks_games[day_of_week].teamResult + ` ` + weeks_games[day_of_week].scoreResult)
+                                                                    - } else {
+                                                                        - var opp_games_played = teamRecords[weeks_games[day_of_week].awayteam].teamRecord_GamesPlayed
+                                                                        - var opp_goals_against = teamRecords[weeks_games[day_of_week].awayteam].teamRecord_GoalsAgainst
+                                                                        - if (opp_games_played == 0) {
+                                                                            div.gamedatas(class="futuregame")=0
+                                                                        - } else {
+                                                                            div.gamedatas(class="futuregame")=(opp_goals_against/opp_games_played).toFixed(1)
+                                                                        - }
+                                                                    - }
                                                                 -}
                                                         - }
                                                         

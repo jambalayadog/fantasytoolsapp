@@ -452,11 +452,11 @@ img {
 
 @media only screen and (min-width: 1024px) {
     .miniscore {
-        font-size: 19px;
+        font-size: 16px;
         font-weight: bold;
         position: absolute;
         width: 100%;
-        top: 63%;
+        top: 70%;
         color: #080219;
     }
 }
@@ -471,6 +471,42 @@ img {
 
 .minitie {
     background-color: #aaaaaa;
+}
+
+.miniunplayed {
+    background-color: #55555555;
+}
+
+
+
+@media only screen and (max-width: 1024px) {
+    .futuregame {
+        font-size: 180%;
+        font-weight: bold;
+        position: absolute;
+        width: 100%;
+        top: 60%;
+        background-color: #000;
+        color: white;
+        text-shadow: 1px 1px 0px black,
+            -1px 1px 0px black,
+            1px -1px 0px black,
+            -1px -1px 0px black;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .futuregame {
+        position: absolute;
+        top: 70%;
+        width: 100%;
+        background-color: #000;
+        color: white;
+        text-shadow: 1px 1px 0px black,
+            -1px 1px 0px black,
+            1px -1px 0px black,
+            -1px -1px 0px black;
+    }
 }
 
 
