@@ -32,6 +32,9 @@ var gameDesign_productionDelivery_Router = require('./routes/gameDesign/producti
 var gameDesign_shipAndLiveService_Router = require('./routes/gameDesign/shipAndLiveService');
 var gameDesign_eldenRing_Router = require('./routes/gameDesign/eldenRing');
 
+// games and stuff
+var games_helloWordle_Router = require('./routes/game_helloWordle');
+
 var app = express();
 
 // view engine setup
@@ -74,6 +77,8 @@ app.use('/gameDesign/productionDelivery', gameDesign_productionDelivery_Router);
 app.use('/gameDesign/shipAndLiveService', gameDesign_shipAndLiveService_Router);
 app.use('/gameDesign/eldenRingAccessibility', gameDesign_eldenRing_Router);
 
+// games and stuff
+app.use('/game_helloWordle', games_helloWordle_Router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
