@@ -1,0 +1,75 @@
+extends portfolio_guide 
+
+block content
+    hr
+    div.title='Battlefield: Hardline (2015) - Senior Game Designer'
+    
+    div.subtitle="Episodes 5 & 7: Gauntlet & Glass Houses"
+    div.portfolioTable
+        div.portfolioTableRow
+            div.portfolioContent
+                div.portfolioContentImage
+                    <iframe src="https://www.youtube.com/embed/525NT6dwHaM?si=PTlGc16aKopMBbOi" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            div.portfolioWriteUp
+                li Worked with Visceral Games at EAHQ / Redwood Shores, taking over the initial designs for Episode 5: Gauntlet and Episode 7: Glass Houses.
+                li Both levels are somewhat non-linear, had known start and end points, and in the case of Glass Houses, had a companion and an important narrative beat right in the middle.
+                li Designed the key beats and layout for Gauntlet and Glass Houses and reviewed with our team, before handing off Gauntlet to another designer.
+                    ul.nested
+                        li.nested Designed and set-up idle behaviors and vignettes for NPC groups, ensuring the un-alert enemies in the world felt alive and immersive.
+                        li.nested Because the level was partially open-ended and the player was free to explore, and could trigger all the enemies at once... I had to script a system to manage AI when players deviated from the expected path, to maintain consistency and a smooth gameplay experience.
+                        li.nested Worked with art to create terrace features and switchbacks to contain enemies in believable, non-overlapping groups, maintaining environmental integrity while adhering to the encounter budget and limited LOS issues
+                        li.nested Designed a climactic event at the end of Glass Houses where the Guest Mansion's floating glass pool bursts and crashes down, triggering a final combat showdown in knee deep water.
+    div.subtitle="Episode 10: Legacy"
+    div.portfolioTable
+        div.portfolioTableRow
+            div.portfolioContent
+                div.portfolioContentImage
+                    <iframe src="https://www.youtube.com/embed/MdPfbqMeOMs?si=cvE9DLWYk15wLxtu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            div.portfolioWriteUp
+                li After Glass Houses and Gauntlet were in good standing and rating well during playtests, I was given 'Legacy', the final level of the game.
+                li Though the rest of the game featured fairly linear levels, the Creative Director was set on an open-world island, inspired by Far Cry, where players can take down guarded outposts in any order, with various criminal groups scattered between.
+                    ul.nested
+                        li.nested This was blowing budgets out of the water, so I divided the level into volumes and scripted an enemy manager system to track alert and idle states to manage the game’s enemy budget and ensure seamless transitions as players moved through the island. 
+                li Integrated a motorbike and a boat that players could use to travel across the island, giving the player more agency and adding to the open-world sandbox feel.
+                li Adjusted geographical features (e.g., tree and rock positions, outpost layouts) to control player lines of sight and guide their entry into outposts, creating a natural flow while maintaining gameplay balance.
+                    ul.nested 
+                        li.nested Worked closely with environment artists to coordinate simultaneous level design and environmental dressing, using color-coded layers and constant communication.            
+    div.subtitle="Mission Design & Scripting"
+    div.portfolioTable
+        div.portfolioTableRow
+            div.portfolioContent
+                div.portfolioContentImage
+                    <iframe src="https://www.youtube.com/embed/P1vM2LDEaYk?si=28UUqpueBOSn8zhT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            div.portfolioWriteUp
+                li Worked with narrative team to design Puzzles / Clues for multiple levels, integrating puzzle elements that used the player's high-tech Police Scanner device
+                li Designed and set-up idle behaviors and vignettes for NPC groups, ensuring the un-alert enemies in the world felt alive and immersive.
+                li I also inherited 'Case Closed', a level which is visited twice; first as a shooter experience, and second as a special investigation experience using the Police Scanner
+                li The special investigation was a late surprise in development, so I worked closed with the Art Director to implement a satisfying solution.  
+                    ul.nested
+                        li.nested The special investigation was a late surprise in development, so I worked closed with the Art Director to implement a satisfying solution.  
+                li Early in development, I worked with the Lead Gameplay Designer to bring his gameplay vision to life, which was unfortunately eventually abandoned.
+                    ul.nested
+                        li.nested We made enemies reacting to the weapon types in their hand, rushing to suitable distances to use weapons effectively.  
+                        li.nested We also did some RNG with weapons placed in levels so that there would be variability in available weapons.  
+                        li.nested Many enemies would initially be un-armed, to lend to believability, and pick up weapons in the environment.  
+                        li.nested They would try to move to appropriate ranges depending if they picked up a pistol, a shotgun, a uzi, or an assault rifle.
+                        li.nested We didn't pursue this as not enough other levels were set up to utilze this effectively
+    div.subtitle="Encounters & Encounter Tool Re-design"
+    div.portfolioTable
+        div.portfolioTableRow
+            div.portfolioContent
+                div.portfolioContentImage
+                    <iframe src="https://www.youtube.com/embed/BUSEkn9nJcg?si=4iIDCsgR080H9byg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            div.portfolioWriteUp
+                li We brought in a new encounter system midway through development thanks to our new Design Director who came from Halo 
+                li This system involved setting up volumes in each combat area, and defining per volume, how many enemies of what type should be where.  
+                li The end effect is creating a dynamic system that shifts enemies about to relevant ranges based on their weaponry.
+                li I was asked to implement combat and gameplay scripting on #[a(href="https://www.youtube.com/watch?v=BUSEkn9nJcg&list=PL-0Zm2zo61NW0pDI3eZbcbFUI6jMP2vcG&index=6") Episode 6] and for the #[a(href="https://www.youtube.com/watch?v=_PGzf-UpAQA&list=PL-0Zm2zo61NW0pDI3eZbcbFUI6jMP2vcG&index=9&t=717s") Trailer encounter in Episode 8]
+                    ul.nested
+                        li.nested This system was great for gameplay, but it's implementation was really time-consuming for LDs to script with because it was not developer friendly
+                        li.nested They would not invest time on improving the friendliness of system
+                        li.nested After the project was done, I was lucky enough to work with an engineer on the following project that would bring this tech forward (Star Wars Battlefront 2)
+                        li.nested I gave him a re-design of the encounter tool, which was to essentially turn it from a list into a 2d grid, and after a couple days of work, the new grid editor was ready.
+                        li.nested This lowered the time investment required to configure encounter areas significantly, an all day task became a 30 minute task, and was doable without requiring intense analysis
+        
+

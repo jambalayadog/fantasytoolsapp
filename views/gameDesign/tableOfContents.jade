@@ -50,13 +50,13 @@ body
             div='back'
                 - page_index -= 1
                 - page_index = Math.max(0, page_index)
+            div='table of contents'
             div='forward'
                 //- console.log(#{page_index})
                 - page_index =+ 1
                 - page_index = Math.min(table_of_contents_map.size, page_index)
                 //a(href=#{table_of_contents.get(page_index+1)}) forward
-            div='table of contents'
-            div='copyright me @ 2023'
+            //div='copyright me @ 2023'
 script.
     //console.log('script running')
 //- console.log(title)

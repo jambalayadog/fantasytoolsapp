@@ -61,19 +61,50 @@ html {
     font-size: 30px;
 }
 
+.portfolioContainer {
+    position: sticky;
+    top: 8vmin;
+    left: 0;
+    display: flex;
+    /*align-items: center;*/
+    width: 100%;
+}
+
+
 .navigationContainer {
     position: sticky;
     top: 8vmin;
     left: 0;
-    height: 6vmin;
+    /*height: 6vmin;*/
     z-index: 3;
     display: flex;
-    justify-content:space-around;
-    align-items: center;
-    width: clamp(50%, 1000px, 80%);
+    flex-direction: column;
+    /*justify-content:space-around;*/
+    /*align-items: center;*/
+    width: clamp(10%, 300px, 20%);
     background-color: #000000;
-    font-size: clamp(1.5em,2em,42px);
+    font-size: 1em;
+}
 
+.navItem {
+    height: auto;
+    display: flex;
+    margin: 2px;
+    align-items: center;
+}
+
+.navImg {
+    height: 64px;
+    width: 48px;
+    border: 0px solid #000000;
+}
+
+.navTitle {
+    margin: 5px;
+}
+
+a:hover {
+    background-color: #22303c;
 }
 
 select {
@@ -98,26 +129,83 @@ option {
 }
 
 .contentContainer {
-    width: clamp(50%, 1000px, 80%);
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     
 }
 
+
+.portfolioTable {
+    display:flex;
+    flex-direction: column;
+}
+
+.portfolioTableRow {
+    display: flex;
+    
+}
+
+
+
+@media (min-width: 1280px) {
+    .portfolioContentImage {
+        width: 500px;
+        height: 315px;
+        align-self: self-end;
+        background-color:aliceblue;
+    }
+}    
+
+@media (max-width: 1280px) {
+    .portfolioContentImage {
+        width: 300px;
+        height: 315px;
+        align-self: self-end;
+        background-color:aliceblue;
+    }    
+}
+
+iframe {
+    height: 100%;
+    width: 100%;
+}
+
+.portfolioContent {
+    display: flex;
+    
+}
+
+.aportfolioContentImage {
+    /*width:282px;*/
+    align-self: self-end;
+}
+
+
+.portfolioTableRow {
+    margin: 10px;
+}
+
+
+
 .title {
     /*font-size: clamp(16px,2.5vmin,46px);*/
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: bold;
     color: white;
-    text-transform: uppercase;
+    padding-top: 10px;
+    /*text-transform: uppercase;*/
 }
 
 .subtitle {
     margin: 20px 0px 0px 10px;
     /*font-size: clamp(12px,2vmin,40px);*/
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 1.1rem;
+    /*font-weight: bold;*/
     /*color: skyblue;*/
     color: skyblue;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     
     overflow: hidden;
 }
@@ -125,11 +213,11 @@ option {
 .subsubtitle {
     margin: 20px 0px 0px 10px;
     /*font-size: clamp(12px,2vmin,40px);*/
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 1.1rem;
+    /*font-weight: bold;*/
     /*color: skyblue;*/
     color: skyblue;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     
     overflow: hidden;
 }
@@ -282,7 +370,16 @@ tr {
 
 li {
     padding: 0px 0px 4px 20px;
-    list-style: none;
+    /*list-style: none;*/
+    /*list-style:circle;*/
+}
+
+li.nested {
+    padding: 0px 0px 4px 7px;
+}
+
+ul.nested {
+    padding: 4px 0px 0px 35px;
 }
 
 .hide {

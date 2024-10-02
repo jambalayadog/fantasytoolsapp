@@ -30,7 +30,25 @@ var gameDesign_conceptdiscovery_Router = require('./routes/gameDesign/conceptDis
 var gameDesign_pipelinediscovery_Router = require('./routes/gameDesign/pipelineDiscovery');
 var gameDesign_productionDelivery_Router = require('./routes/gameDesign/productionDelivery');
 var gameDesign_shipAndLiveService_Router = require('./routes/gameDesign/shipAndLiveService');
+var gameDesign_coreLoops_Router = require ('./routes/gameDesign/coreLoops');
 var gameDesign_eldenRing_Router = require('./routes/gameDesign/eldenRing');
+
+//portfolia
+var portfolio_Router = require('./routes/portfolio/portfolio');
+var portfolio_skate123_Router = require('./routes/portfolio/skate123');
+var portfolio_nfstherun_Router = require('./routes/portfolio/nfstherun');
+var portfolio_pvzgw2_Router = require('./routes/portfolio/pvzgw2')
+var portfolio_fifa2017_Router = require('./routes/portfolio/fifa2017');
+var portfolio_bfhardline_Router = require('./routes/portfolio/bfhardline')
+var portfolio_nfsrivals_Router = require('./routes/portfolio/nfsrivals')
+var portfolio_warfighter_Router = require('./routes/portfolio/warfighter');
+var portfolio_ao2dc_Router = require('./routes/portfolio/ao2dc')
+var portfolio_rAndD_Router = require('./routes/portfolio/randd')
+var portfolio_gears5_Router = require('./routes/portfolio/gears5')
+var portfolio_qamanager_Router = require('./routes/portfolio/qamanager');
+var portfolio_qatester_Router = require('./routes/portfolio/qatester')
+var portfolio_swbf2_Router = require('./routes/portfolio/swbf2')
+var portfolio_pvzbfn_Router = require('./routes/portfolio/pvzbfn')
 
 // games and stuff
 var games_helloWordle_Router = require('./routes/game_helloWordle');
@@ -76,6 +94,25 @@ app.use('/gameDesign/pipelinediscovery', gameDesign_pipelinediscovery_Router);
 app.use('/gameDesign/productionDelivery', gameDesign_productionDelivery_Router);
 app.use('/gameDesign/shipAndLiveService', gameDesign_shipAndLiveService_Router);
 app.use('/gameDesign/eldenRingAccessibility', gameDesign_eldenRing_Router);
+app.use('/gameDesign/coreLoops', gameDesign_coreLoops_Router);
+
+//portfolio
+app.use('/portfolio', portfolio_Router);
+app.use('/portfolio/skate123', portfolio_skate123_Router);
+app.use('/portfolio/nfstherun', portfolio_nfstherun_Router);
+app.use('/portfolio/pvzgw2', portfolio_pvzgw2_Router);
+app.use('/portfolio/fifa2017', portfolio_fifa2017_Router);
+app.use('/portfolio/bfhardline', portfolio_bfhardline_Router);
+app.use('/portfolio/nfsrivals', portfolio_nfsrivals_Router);
+app.use('/portfolio/warfighter', portfolio_warfighter_Router);
+app.use('/portfolio/ao2dc', portfolio_ao2dc_Router);
+app.use('/portfolio/randd', portfolio_rAndD_Router)
+app.use('/portfolio/gears5', portfolio_gears5_Router)
+app.use('/portfolio/qamanager', portfolio_qamanager_Router);
+app.use('/portfolio/qatester', portfolio_qatester_Router);
+app.use('/portfolio/swbf2', portfolio_swbf2_Router)
+app.use('/portfolio/pvzbfn', portfolio_pvzbfn_Router)
+
 
 // games and stuff
 app.use('/game_helloWordle', games_helloWordle_Router);

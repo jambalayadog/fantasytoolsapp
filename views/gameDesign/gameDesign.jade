@@ -13,9 +13,11 @@ block content
                     li='About This Book'
                     li='The Author'
         ul.toc_content
-            li='Design 101'
+            li
+                .title='Design 101'
                 ul.toc_topic_content
-                    li='Core Experience Design'
+                    li
+                        .subtitle='Core Experience Design'
                         ul.toc_topic_subcontent
                             li
                                 a(href='./PowerFantasy') Power Fantasy
@@ -27,12 +29,15 @@ block content
                                 a(href='./PivotPivotPivot') Pivot Pivot Pivot
                             li
                                 a(href='./WhatsAGame') What's a game?
-                    li='Design Concepts & Compendium'
+                    li
+                        .subtitle='Design Concepts & Compendium'
                         ul.toc_topic_subcontent
                             li
                                 a(href='./SelfDeterminationTheory') SDT (Self Determination Theory)
                             li
                                 a(href='./RetentionMechanics') Retention Mechanics
+                            li
+                                a(href='./CoreLoops') Core Loops
                             li.hide='Systemic Design'
                             li.hide='Coherent Design' 
                             li.hide='Signature Move'
@@ -44,7 +49,7 @@ block content
                             li.hide='Prototype Design'
                             li.hide='Activity Design'
                             li
-                                a(href='./Accessibilty') Accessibilty
+                                a(href='./Accessibility') Accessibilty
                     li.hide='Design Documentation'
                         ul.toc_topic_subcontent
                             li='GDD'
@@ -58,27 +63,45 @@ block content
                             li='Reduction'
                             li='Paradigms, Abstraction'
         ul.toc_content
-            li='Development 101'
+            li
+                .title='Game Development 101'
                 ul.toc_topic_content
-                    li='Project Cycle'
+                    li
+                        .subtitle='Game Development Framework - Project Cycle'
                         ul.toc_topic_subcontent
                             li
-                                a(href='./ConceptDiscovery') Concept Discovery
+                                a(href='./AAAvsIndie') AAA vs Indie and around
                             li
-                                a(href='./PipelineDiscovery') Pipeline Discovery
+                                a(href='./ProductPitch') Product Pitch
                             li
-                                a(href='./ProductionDelivery') Production & Delivery
+                                a(href='./ConceptDevelopment') Concept Development & Discovery
                             li
-                                a(href='./ShipLiveService') Ship & Live Service
-                    li='Development Cycle'
+                                a(href='./PrototypePlan') Prototype & Feature Plan
+                            li
+                                a(href='./VerticalSlice') Vertical Slice & Pipeline Discovery
+                            li
+                                a(href='./ProductionQuality') Production & Quality Delivery
+                            li
+                                a(href='./ShipTheGame') Shipping & Finalling
+                            li
+                                a(href='./LiveService') Live Service
+                    li
+                        .subtitle='Development Cycle'
                         ul.toc_topic_subcontent
                             li
                                 a(href='./SoftwareDevelopmentLifeCycle') Software Development Life Cycle
                             li
-                                a(href='./AgileWaterfallDevelopmenty') Agile &  Waterfall Development
+                                a(href='./AgileWaterfallDevelopment') Agile & Waterfall Development
                             li
                                 a(href='./SprintsMilestonesReleases') Sprints, Milestones, Releases
-                    li.hide='Development Goals'
+                            li
+                                a(href='./ScrumsReviews') Scrums, Reviews
+                            li
+                                a(href='./PlaytestingFeedback') Playtesting & Feedback
+                            li
+                                a(href='./DemosPrototypes') Demos, Prototypes
+                    li.hide
+                        .subtitle='Development Goals'
                         ul.toc_topic_subcontent
                             li='Backlog'
                             li='First Playable'
@@ -111,7 +134,8 @@ block content
                             li.hide='How to learn to be a designer'
                             li.hide='Why projects fail'
         ul.toc_content
-            li='Case Studies & Reference'
+            li
+                .title='Case Studies & Reference'
                 ul.toc_topic_content
                     li
                         a(href='./EldenRingAccessibility') Elden Ring Accessibility

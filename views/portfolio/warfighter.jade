@@ -1,0 +1,46 @@
+extends portfolio_guide 
+
+block content
+    hr
+    div.title='Medal Of Honor: Warfighter (2012) - Game Designer'
+        
+    div.subtitle="Driving Levels: Hot Pursuit (Karachi) & The Chase (Dubai)"
+    div.portfolioTable
+        div.portfolioTableRow
+            div.portfolioContent
+                div.portfolioContentImage
+                    <iframe src="https://www.youtube.com/embed/56WtkLZLnGc?si=DsxzPdWTGA5U-5Bx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            div.portfolioWriteUp
+                li Our studio had driving experience and tech, and so we were tasked to work with EA LA's Danger Close Games to design multiple driving levels and one shooter level
+                li I led another designer in the design of two driving levels; a pursuit through the slums of Karachi, and a high-speed escape through the streets of Dubai
+                    ul.nested 
+                        li.nested As part of a small group, I visted EA LA and got a debrief on our objectives.
+                        li.nested I did the initial design of both levels, laying out major beats and initial road network, and walking the team through the premise and objectives.
+                        li.nested I took over individual scripting and execution of the design of Karachi, and handed off Dubai to the second designer
+                li I worked with Art to prove out their modular design technique, and ended up implementing basic art for the last 1/4 of the level while we were without an artist
+                    ul.nested 
+                        li.nested This helped because without any valid art for the last quarter of the level, we found it hard to get good test results
+                li Our engineers didn't think it would work to have AI navigate RNG traffic, but I managed to find tuning that produced consistently good results
+                    ul.nested 
+                        li.nested We got as far as having the AI navigate through a miniature traffic jam
+                        li.nested I had always dreampt that this could have been more emergent, and instead of two takedown opportunities at the very end of the level, I would have liked to allow for takedowns at earlier junctures to reward players for excellent driving
+                li I had to cut the train jump... it ultimately was going to be too tricky to execute reliably, even though I really wanted it and the section before it which was to basically go off-roading down a round-about.
+                li I worked closely with the cinematics team to capture the essence of driving through Karachi and on or through various obstacles - the train tracks are entirely a camera effect
+
+    div.subtitle="Shooter Levels: Bump In The Night (Boat)"
+    div.portfolioTable
+        div.portfolioTableRow
+            div.portfolioContent
+                div.portfolioContentImage
+                    <iframe src="https://www.youtube.com/embed/Ok71sKoHyJg?si=RjCjEcuGtVxSDue-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            div.portfolioWriteUp
+                li After the driving levels were in good standing and rating well, I was tasked with taking on an FPS level; my first.
+                li We were given the shell of the boat, so we knew overall scale, and we knew some constraints for pathing, such as narrative start and end points.
+                li I drew out the level in top-down, aiming for about 10-15 minutes of gameplay for a successful run without dying.
+                    ul.nested
+                        li.nested This included mapping player route, major and minor beats, encounters and AI numbers, cover objects and asset requirements.
+                li One struggle I had with the level is that we have a lot of contrasting lighting from very bright to very dark, which made it hard to pick up on enemies. 
+                    ul.nested
+                        li.nested From this I learned that it's important for the LD to consider lighting and that it's never too early to have a discussion to align on goals
+                        
+
