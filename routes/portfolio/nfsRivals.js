@@ -5,7 +5,7 @@ var fs = require('fs')
 
 
 router.get('/', function(req, res, next) {
-    res.render('./portfolio/nfsRivals', { title: 'Table of Contents', message: 'Hello there!' });
+    res.render('./portfolio/nfsrivals', { title: 'Table of Contents', message: 'Hello there!' });
 });
 
 
