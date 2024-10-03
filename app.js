@@ -41,6 +41,7 @@ var portfolio_pvzgw2_Router = require('./routes/portfolio/pvzgw2')
 var portfolio_fifa2017_Router = require('./routes/portfolio/fifa2017');
 var portfolio_bfhardline_Router = require('./routes/portfolio/bfhardline')
 //var portfolio_nfsrivals_Router = require('./routes/portfolio/nfsrivals')
+var portfolio_nfs_rivals_Router = require('./routes/portfolio/nfs_rivals')
 var portfolio_warfighter_Router = require('./routes/portfolio/warfighter');
 var portfolio_ao2dc_Router = require('./routes/portfolio/ao2dc')
 var portfolio_rAndD_Router = require('./routes/portfolio/randd')
@@ -104,6 +105,7 @@ app.use('/portfolio/pvzgw2', portfolio_pvzgw2_Router);
 app.use('/portfolio/fifa2017', portfolio_fifa2017_Router);
 app.use('/portfolio/bfhardline', portfolio_bfhardline_Router);
 //app.use('/portfolio/nfsrivals', portfolio_nfsrivals_Router);
+app.use('/portfolio/nfs_rivals', portfolio_nfs_rivals_Router);
 app.use('/portfolio/warfighter', portfolio_warfighter_Router);
 app.use('/portfolio/ao2dc', portfolio_ao2dc_Router);
 app.use('/portfolio/randd', portfolio_rAndD_Router)
