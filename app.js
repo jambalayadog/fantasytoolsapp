@@ -50,6 +50,8 @@ var portfolio_qamanager_Router = require('./routes/portfolio/qamanager');
 var portfolio_qatester_Router = require('./routes/portfolio/qatester')
 var portfolio_swbf2_Router = require('./routes/portfolio/swbf2')
 var portfolio_pvzbfn_Router = require('./routes/portfolio/pvzbfn')
+var portfolio_summary_Router = require('./routes/portfolio/summary')
+var portfolio_misc_Router = require('./routes/portfolio/misc')
 
 // games and stuff
 var games_helloWordle_Router = require('./routes/game_helloWordle');
@@ -114,6 +116,8 @@ app.use('/portfolio/qamanager', portfolio_qamanager_Router);
 app.use('/portfolio/qatester', portfolio_qatester_Router);
 app.use('/portfolio/swbf2', portfolio_swbf2_Router)
 app.use('/portfolio/pvzbfn', portfolio_pvzbfn_Router)
+app.use('/portfolio/summary', portfolio_summary_Router)
+app.use('/portfolio/misc', portfolio_misc_Router)
 
 
 // games and stuff

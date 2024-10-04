@@ -1,0 +1,48 @@
+extends portfolio_guide 
+
+block content
+    hr
+    div.title="Electronic Arts - Internal Game Jam 2019 Entry"
+    div.subtitle="Rapid Prototyping Initiative"
+    div.portfolioTable
+        div.portfolioTableRow
+            div.portfolioContent
+                div.portfolioContentImage
+                    img.portfolioContentImage(src='../images/gameDesign/portfolio/rpcheque.png')
+            div.portfolioWriteUp
+                li I partnered with a Strategic Development Director on the opposite side of game development after he became interested in a post I made on our internal Slack
+                    ul.nested
+                        li.nested Together we developed a strategy to use available resources within EA to enable an indie-style development culture
+                        li.nested This strategy involved consulting with a number of teams within EA, usually central teams like our Archival team, our IT team, etc to identify if they possess the ability to meet our requirements
+                        li.nested They did, and my partner and I sat out to prove out the pipeline and the theory 
+                        li.nested The premise of theory was basic: make EA's vast catalog of assets available
+                li To prove this out, we would enter the Game Jam, and I, with help from Archival, IT, and my own project access, would build 1 or more games within 48 hours for the EA Game Jam 
+                    ul.nested 
+                        li.nested I used Mass Effect assets to build a crude auto-battler, which were popular at the time
+                        li.nested I used Star Wars Battlefront 2's assets to build a small demo for the game jam 
+                li After the finalists from the Game Jam were selected, we had to present to a panel of judges / Game Directors, and we received 2nd place for our efforts
+                li In the end, I drew on some of the techniques of rapid prototyping to rapidly prototype and create demos on future projects
+                    ul.nested 
+                        li.nested This would later inform processes for a couple associated dev teams to also adopt this method to facilitate rapid prototyping
+    hr
+    div.title="Wordle Project - Godot (2024)"
+    div.subtitle="Infinite Wordle"
+    div.portfolioTable
+        div.portfolioTableRow
+            div.portfolioContent
+                div.portfolioContentImage
+                    #[a(href="https://fantasyhockeycentral.com/game_helloWordle") #[img.portfolioContentImage(src='../images/gameDesign/portfolio/brave_MSZ0XOyfG1.png')]]
+            div.portfolioWriteUp
+                li #[a(href="https://fantasyhockeycentral.com/game_helloWordle") Infinite Wordle]
+                li I made an infinite Wordle game because my mom loves Wordle and it was a good way to brush up on Godot.
+                li This project took a couple of weeks to do.
+                li This was made in Godot using gdscript, exported to html + webpack, and hosted on my server.
+                li I reverse engineered a few features of Wordle, e.g. letter animation when guessing words, and made a few changes:
+                    ul.nested 
+                        li.nested Optimized features like the speed of analyzing guessed words
+                        li.nested No daily limit, players can play forever
+                        li.nested Reveal the answer when you don't get it
+                        li.nested Added the ability to give up because sometimes no one wants to sit there stuck
+                li There is a ton of Wordle projects out there, and lots of research has gone into word lists... Wordle now curates their word each day.
+                
+                
