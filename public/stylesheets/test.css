@@ -679,6 +679,11 @@ input[type="checkbox"]:checked:after {
     background-color: #013e7d;
     color: oldlace;
 }
+#UTA {
+    /*background-color: #00488e;*/
+    background-color: #71AFE5;
+    color: oldlace;
+}
 #VAN {
     /*background-color: #027f3d;*/
     background-color: #01663f;

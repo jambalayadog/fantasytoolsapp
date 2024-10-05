@@ -8,21 +8,21 @@ block extra_style_sheet
 block content
     - var search_date = new Date(season_start_date)
     //- var season_start_date = new Date("2022-10-01")
-    - var season_start_date = new Date("2023-10-02")
-    - var season_end_date = new Date("2024-04-16")  //2023-04-16
-    - var first_monday_date = new Date("2023-10-02")
+    - var season_start_date = new Date("2024-09-30")
+    - var season_end_date = new Date("2025-04-18")  //2023-04-16
+    - var first_monday_date = new Date("2024-09-30")
     - var todays_date = new Date()
     - var teams = 32
     - var ms_in_a_day = 86400000
     - var days = (season_end_date - season_start_date) / ms_in_a_day
     - var games_per_week = 0
     - var scroll_week
-    - var first_monday = new Date("2023-10-02T00:00:00")
+    - var first_monday = new Date("2024-09-30T00:00:00")
     - var day_offset = 0
     - var matchup_length = 1 //week
     - var current_week = Math.trunc((todays_date - first_monday) / (7 * ms_in_a_day))
     - var total_weeks = 0
-    //- console.log(`current week: ${current_week}`)
+    - console.log(`current week: ${current_week}`)
     //- console.log('days: ', days)
     - var teamlist = {schedule_data}
     //- console.log('hey', {schedule_data},  typeof({schedule_data}))
@@ -42,8 +42,22 @@ block content
     - var teamRecords = {teamstats_data}['teamstats_data']
     //- console.log('team4: ', JSON.parse({teamstats_data}['teamstats_data']))
     //- console.log('team5: ', teamRecords)
+    - function get_this_monday(week_number) {
+        - var this_weeks_monday = new Date(first_monday)
+        - this_weeks_monday.setDate(this_weeks_monday.getDate() + week_number * 7)
+        //- console.log('this weeks monday: ', this_weeks_monday)
+        - return this_weeks_monday
+    - }
+    - function get_date_from_offset(monday, offset) {
+        //- console.log('monday, offset:', monday, offset)
+        - var this_days_date = new Date(monday)
+        - this_days_date.setDate(this_days_date.getDate() + offset)
+        //- console.log('this_days_date: ', this_days_date)
+        - return this_days_date
+    - }
+
     div.header
-        div.titletext NHL 2023-2024
+        div.titletext NHL 2024-2025
         select.toggleviewbutton(onChange="location = this.value")
             //option.togglevalue(value=`/`)='Fantasy Hockey Central'
             option.togglevalue(value=`/weeklyschedule`)='NHL Weekly Schedule'
@@ -80,13 +94,13 @@ block content
                                             div.dayofweek='S'
                                             div.dayofweek='S'
                                         div.daysofweek
-                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 0)
-                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 1)
-                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 2)
-                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 3)
-                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 4)
-                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 5)
-                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 6)
+                                            div.dayofweek=(get_date_from_offset(get_this_monday(week), 0).getMonth()+1 + '/' + (get_date_from_offset(get_this_monday(week), 0).getDate()))
+                                            div.dayofweek=(get_date_from_offset(get_this_monday(week), 1).getMonth()+1 + '/' + (get_date_from_offset(get_this_monday(week), 1).getDate()))
+                                            div.dayofweek=(get_date_from_offset(get_this_monday(week), 2).getMonth()+1 + '/' + (get_date_from_offset(get_this_monday(week), 2).getDate()))
+                                            div.dayofweek=(get_date_from_offset(get_this_monday(week), 3).getMonth()+1 + '/' + (get_date_from_offset(get_this_monday(week), 3).getDate()))
+                                            div.dayofweek=(get_date_from_offset(get_this_monday(week), 4).getMonth()+1 + '/' + (get_date_from_offset(get_this_monday(week), 4).getDate()))
+                                            div.dayofweek=(get_date_from_offset(get_this_monday(week), 5).getMonth()+1 + '/' + (get_date_from_offset(get_this_monday(week), 5).getDate()))
+                                            div.dayofweek=(get_date_from_offset(get_this_monday(week), 6).getMonth()+1 + '/' + (get_date_from_offset(get_this_monday(week), 6).getDate()))
                                         
                             - } else {
                                 th(class="week" + week, data-column="week" + week)
@@ -103,13 +117,13 @@ block content
                                             div.dayofweek='S'
                                             div.dayofweek='S'
                                         div.daysofweek
-                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 0)
-                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 1)
-                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 2)
-                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 3)
-                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 4)
-                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 5)
-                                            div.dayofweek=(dateObj.getUTCMonth() + 1) + '/' + (dateObj.getUTCDate() + 6)
+                                            div.dayofweek=(get_date_from_offset(get_this_monday(week), 0).getMonth()+1 + '/' + (get_date_from_offset(get_this_monday(week), 0).getDate()))
+                                            div.dayofweek=(get_date_from_offset(get_this_monday(week), 1).getMonth()+1 + '/' + (get_date_from_offset(get_this_monday(week), 1).getDate()))
+                                            div.dayofweek=(get_date_from_offset(get_this_monday(week), 2).getMonth()+1 + '/' + (get_date_from_offset(get_this_monday(week), 2).getDate()))
+                                            div.dayofweek=(get_date_from_offset(get_this_monday(week), 3).getMonth()+1 + '/' + (get_date_from_offset(get_this_monday(week), 3).getDate()))
+                                            div.dayofweek=(get_date_from_offset(get_this_monday(week), 4).getMonth()+1 + '/' + (get_date_from_offset(get_this_monday(week), 4).getDate()))
+                                            div.dayofweek=(get_date_from_offset(get_this_monday(week), 5).getMonth()+1 + '/' + (get_date_from_offset(get_this_monday(week), 5).getDate()))
+                                            div.dayofweek=(get_date_from_offset(get_this_monday(week), 6).getMonth()+1 + '/' + (get_date_from_offset(get_this_monday(week), 6).getDate()))
                             - }
                         - }
                         - day += 1
@@ -206,9 +220,9 @@ block content
                                             div.weeksummarycontainer
                                                 - for (day_of_week = 0; day_of_week < 7; day_of_week++) {
                                                     div.minicontainer(data-column=search_date.toDateString())
-                                                        - if (team == "ANA" && i <= 30) {
-                                                            //- console.log('A ', weeks_games)
-                                                            //- console.log('B ', weeks_games[day_of_week])
+                                                        - if (team == "NJD" && i <= 15) {
+                                                            //- console.log('A ', day_of_week, weeks_games)
+                                                            - console.log('week: ', week, ' day: ',day_of_week, ' game: ', weeks_games[day_of_week])
                                                             //- console.log('C ', weeks_games[day_of_week].hometeam)
                                                         - }
                                                         - if (typeof weeks_games[day_of_week] == 'undefined') {
@@ -218,11 +232,18 @@ block content
                                                                 weeks_games[day_of_week].hometeam == team ? 'homegame' : 'awaygame', id=weeks_games[day_of_week].hometeam == team ? team : '')
                                                                 - if (weeks_games[day_of_week] != '') {
                                                                     - var homegame = false
+                                                                    - var opp_image_name
                                                                     - if (weeks_games[day_of_week].hometeam == team) {
-                                                                        - var opp_image_name = weeks_games[day_of_week].awayteam
+                                                                        - opp_image_name = weeks_games[day_of_week].awayteam
+                                                                        - if (team == "NJD" && i <= 15) {
+                                                                            - console.log('away team: ', weeks_games[day_of_week].awayteam)
+                                                                        - }
                                                                         - homegame = true
                                                                     - } else {
-                                                                        - var opp_image_name = weeks_games[day_of_week].hometeam
+                                                                        - if (team == "NJD" && i <= 15) {
+                                                                            - console.log('home team: ', weeks_games[day_of_week].hometeam)
+                                                                        - }
+                                                                        - opp_image_name = weeks_games[day_of_week].hometeam
                                                                     - }
                                                                     img.opponentmini(src=`images/` + opp_image_name + '.png')
                                                                     //- console.log(team, gameSchedule)
@@ -234,8 +255,18 @@ block content
                                                                             weeks_games[day_of_week].teamResult == 'L' ? 'miniloss' : 'miniunplayed')
                                                                             =(weeks_games[day_of_week].teamResult + ` ` + weeks_games[day_of_week].scoreResult)
                                                                     - } else {
-                                                                        - var opp_games_played = teamRecords[weeks_games[day_of_week].awayteam].teamRecord_GamesPlayed
-                                                                        - var opp_goals_against = teamRecords[weeks_games[day_of_week].awayteam].teamRecord_GoalsAgainst
+                                                                        - var opp_games_played
+                                                                        - var opp_goals_against
+                                                                        - if (weeks_games[day_of_week].hometeam == team) {
+                                                                            - opp_games_played = teamRecords[weeks_games[day_of_week].awayteam].teamRecord_GamesPlayed
+                                                                            - opp_goals_against = teamRecords[weeks_games[day_of_week].awayteam].teamRecord_GoalsAgainst
+                                                                        - } else {
+                                                                            - opp_games_played = teamRecords[weeks_games[day_of_week].hometeam].teamRecord_GamesPlayed
+                                                                            - opp_goals_against = teamRecords[weeks_games[day_of_week].hometeam].teamRecord_GoalsAgainst
+                                                                        -}
+                                                                        - if (team == "NJD" && i <= 15) {
+                                                                            - console.log("opponent: ", opp_image_name, " gp: ", opp_games_played, " ga: ", opp_goals_against)
+                                                                        - }
                                                                         - if (opp_games_played == 0) {
                                                                             div.gamedatas(class="futuregame")=0
                                                                         - } else {
