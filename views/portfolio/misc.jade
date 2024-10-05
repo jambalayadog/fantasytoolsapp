@@ -31,9 +31,9 @@ block content
         div.portfolioTableRow
             div.portfolioContent
                 div.portfolioContentImage
-                    #[a(href="https://fantasyhockeycentral.com/game_helloWordle") #[img.portfolioContentImage(src='../images/gameDesign/portfolio/brave_MSZ0XOyfG1.png')]]
+                    #[a(href="https://fantasyhockeycentral.com/game_helloWordle" target="_blank") #[img.portfolioContentImage(src='../images/gameDesign/portfolio/brave_MSZ0XOyfG1.png')]]
             div.portfolioWriteUp
-                li #[a(href="https://fantasyhockeycentral.com/game_helloWordle") Infinite Wordle]
+                li #[a(href="https://fantasyhockeycentral.com/game_helloWordle" target="_blank") Infinite Wordle]
                 li I made an infinite Wordle game because my mom loves Wordle and it was a good way to brush up on Godot.
                 li This project took a couple of weeks to do.
                 li This was made in Godot using gdscript, exported to html + webpack, and hosted on my server.
@@ -44,5 +44,22 @@ block content
                         li.nested Reveal the answer when you don't get it
                         li.nested Added the ability to give up because sometimes no one wants to sit there stuck
                 li There is a ton of Wordle projects out there, and lots of research has gone into word lists... Wordle now curates their word each day.
+                hr
+    hr
+    div.title="Hockey website"
+    div.subtitle
+        #[a(href="https://fantasyhockeycentral.com" target="_blank") FantasyHockeyCentral.com]
+    div.portfolioTable
+        div.portfolioTableRow
+            div.portfolioContent
+                div.portfolioContentImage
+                    #[a(href="https://fantasyhockeycentral.com" target="_blank") #[img.portfolioContentImage(src='../images/gameDesign/portfolio/brave_MSZ0XOyfG1.png')]]
+            div.portfolioWriteUp
+                li #[a(href="https://fantasyhockeycentral.com" target="_blank") Fantasy Hockey Central]
+                li I made this website because I wanted to practice web development
+                    ul.nested 
+                        li.nested I assembled it with javascript, html, css, node stuffs, digital ocean, ubuntu, hockey data, etc 
+                        li.nested Data gets scraped from the NHL website, and then gets magicked into a db, and then gets served on a droplet somewhere in NYC
+                li It's currently broken because the season juuuuuuuuuuuust started and I need to set the new season parameters.  Hopefully a quick fix!
                 
                 
