@@ -23,12 +23,12 @@ html(lang='en')
     - console.log('to locale string: ', todays_date.toLocaleString('en-US', { timeZone: 'EST' }));
     - console.log(`today's date: ${todays_date}`)
     - console.log(`page load: ${todays_date}`)
-    - var first_monday = new Date("2023-10-02T04:00:00")
+    - var first_monday = new Date("2024-09-30T04:00:00")
     - var ms_in_a_day = 86400000
     - console.log('week: ', (todays_date - first_monday) / (7 * ms_in_a_day))
     - var total_weeks = 27
     - var current_week = Math.trunc((todays_date - first_monday) / (7 * ms_in_a_day))
-    - current_week = Math.max(1,Math.min(current_week, total_weeks))
+    - current_week = Math.max(0,Math.min(current_week, total_weeks))
     - console.log(`current week: ${current_week}`)
     //- console.log(`today's date: ${todays_date}`)
     - var this_weeks_monday = get_this_monday(current_week)
@@ -54,7 +54,7 @@ html(lang='en')
     body
         block site_header
             div.header
-                div.titletext NHL 2023-2024
+                div.titletext NHL 2024-2025
                 select.toggleviewbutton(onChange="location = this.value")
                     //option.togglevalue(value=`/`)='Fantasy Hockey Central'
                     option.togglevalue(value=`/weeklyschedule`, selected="selected")='NHL Weekly Schedule'
@@ -69,7 +69,9 @@ html(lang='en')
                 - schedule_string = JSON.stringify({schedule_data})
                 - teamRecords_string = JSON.stringify({teamstats_data})
                 //div="< Back" 
-                button.changeweekbutton(id="PreviousWeekButton", onClick="change_week(current_week - 1, "+schedule_string+", "+teamRecords_string+")")="< Back"
+                - console.log("current week = ", current_week)
+                //- console.log("current week == ", #{current_week})
+                button.changeweekbutton(id="PreviousWeekButton", onClick="change_week(#{current_week} - 1, "+schedule_string+", "+teamRecords_string+")")="< Back"
                 div.weekTitle="Week " + current_week
                 select.schedulechangeweek(onChange="change_week(this.value, "+schedule_string+", "+teamRecords_string+")")
                     - for (let i = 0; i <= total_weeks; i++) {
@@ -80,7 +82,7 @@ html(lang='en')
                         - }
                     - }
                 //div="Next >" 
-                button.changeweekbutton(id="NextWeekButton", onClick="change_week(current_week + 1, "+schedule_string+", "+teamRecords_string+")")="Next >"
+                button.changeweekbutton(id="NextWeekButton", onClick="change_week(#{current_week} + 1, "+schedule_string+", "+teamRecords_string+")")="Next >"
             div.tablerow
                 div.teamcolumn
                     div="Team"
@@ -239,11 +241,11 @@ html(lang='en')
     script.
         var todays_date = new Date()
         //console.log('script: ', todays_date)
-        var first_monday = new Date("2023-10-02T04:00:00")
+        var first_monday = new Date("2024-09-30T04:00:00")
         //"2023-10-02T04:00:00"
         var days_of_week = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
         var ms_in_a_day = 86400000
-        var current_week = Math.max(1,Math.trunc((todays_date - first_monday) / (7 * ms_in_a_day)))
+        var current_week = Math.max(0,Math.trunc((todays_date - first_monday) / (7 * ms_in_a_day)))
         var displayed_week = current_week
         var string1
         var string2
@@ -284,14 +286,16 @@ html(lang='en')
         }
 
         function change_week(new_week, schedule_string, teamRecords_string) {
+            console.log('changing week to: ', new_week, " total weeks: ", #{total_weeks})
             new_week = parseInt(new_week)
+            console.log('changing week to: ', new_week, " total weeks: ", #{total_weeks})
             if (new_week <= 0) {
                 new_week = 0
             } else if (new_week >= #{total_weeks}) {
                 new_week = #{total_weeks}
             }
             displayed_week = new_week
-            //console.log('changing week to: ', new_week)
+            console.log('changing week to: ', new_week, " total weeks: ", #{total_weeks})
             //var current_week = new_week
             //console.log('teamRecords_string: ', teamRecords_string, typeof(teamRecords_string))
             //removeChild
