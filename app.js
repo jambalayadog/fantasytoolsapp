@@ -52,6 +52,7 @@ var portfolio_swbf2_Router = require('./routes/portfolio/swbf2')
 var portfolio_pvzbfn_Router = require('./routes/portfolio/pvzbfn')
 var portfolio_summary_Router = require('./routes/portfolio/summary')
 var portfolio_misc_Router = require('./routes/portfolio/misc')
+var portfolio_highlights_Router = require('./routes/portfolio/highlights')
 
 // games and stuff
 var games_helloWordle_Router = require('./routes/game_helloWordle');
@@ -118,6 +119,7 @@ app.use('/portfolio/swbf2', portfolio_swbf2_Router)
 app.use('/portfolio/pvzbfn', portfolio_pvzbfn_Router)
 app.use('/portfolio/summary', portfolio_summary_Router)
 app.use('/portfolio/misc', portfolio_misc_Router)
+app.use('/portfolio/highlights', portfolio_highlights_Router)
 
 
 // games and stuff
