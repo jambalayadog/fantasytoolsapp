@@ -459,6 +459,7 @@ ul.nested {
 
 
 
+/* wide */
 @media (min-width: 1280px) {
     .highlight_1 {
         position: absolute;
@@ -630,10 +631,29 @@ ul.nested {
         zoom: 8%;
         z-index:-1;
     }
+    .highlight_Math {
+        align-self: self-end;
+        position: absolute;
+        top: 72%;
+        left: 30%;
+        transform: rotate(0deg);
+        zoom: 20%;
+        z-index:-1;
+    }
+    .highlight_Webdev {
+        align-self: self-end;
+        position: absolute;
+        top: 65%;
+        left: 64%;
+        transform: rotate(0deg);
+        zoom: 20%;
+        z-index:-1;
+    }
 }
 
 
 
+/* narrow */
 @media (max-width: 1280px) {
     .highlight_1 {
         position: absolute;
@@ -796,19 +816,58 @@ ul.nested {
         zoom: 5%;
         z-index:-1;
     }
-    .highlight_Javascript {
+    .highlight_Webdev {
         align-self: self-end;
         position: absolute;
-        top: 63.5%;
-        left: 85%;
+        top: 63%;
+        left: 84%;
         transform: rotate(0deg);
-        zoom: 8%;
+        zoom: 20%;
+        z-index:-1;
+    }
+    .highlight_Degree {
+        align-self: self-end;
+        position: absolute;
+        top: 75%;
+        left: 27.25%;
+        transform: rotate(0deg);
+        zoom: 9%;
+        z-index:-1;
+    }
+    .highlight_UxUi {
+        align-self: self-end;
+        position: absolute;
+        top: 75%;
+        left: 42%;
+        transform: rotate(0deg);
+        zoom: 17%;
+        z-index:-1;
+        background-color: aliceblue;
+        border-radius: 15px;
+    }
+    .highlight_Excel {
+        align-self: self-end;
+        position: absolute;
+        top: 75%;
+        left: 57%;
+        transform: rotate(0deg);
+        zoom: 7%;
+        z-index:-1;
+
+    }
+    .highlight_Mural {
+        align-self: self-end;
+        position: absolute;
+        top: 75%;
+        left: 70%;
+        transform: rotate(0deg);
+        zoom: 30%;
         z-index:-1;
     }
 }
 
 
-
+/* short height */
 @media (max-width: 1280px) and (max-height: 700px) {
     .highlight_1 {
         position: absolute;
@@ -981,6 +1040,15 @@ ul.nested {
         left: 85%;
         transform: rotate(0deg);
         zoom: 4%;
+        z-index:-1;
+    }
+    .highlight_Webdev {
+        align-self: self-end;
+        position: absolute;
+        top: 80%;
+        left: 85%;
+        transform: rotate(0deg);
+        zoom: 10%;
         z-index:-1;
     }
 }
