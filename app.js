@@ -4,15 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var scheduleRouter = require('./routes/schedule2');
-var schedulePlusRouter = require('./routes/schedulePlus');
-var scheduleWeeklyRouter = require('./routes/scheduleWeekly');
-var teamsRouter = require('./routes/teams');
-var playersRouter = require('./routes/players');
-var gameRouter = require('./routes/game');
-var testRouter = require('./routes/test');
+
+var gameRouter = require('./routes/game');    // game page for future game development
 var seasonScheduleRouter = require('./routes/schedule2');
 var weeklyScheduleRouter = require('./routes/test');
 //
@@ -59,6 +52,9 @@ var portfolio_credits_Router = require('./routes/portfolio/credits')
 // games and stuff
 var games_helloWordle_Router = require('./routes/game_helloWordle');
 
+// modernized hockey schedule
+var hockeytestRouter = require('./routes/hockeytest');
+
 var app = express();
 
 // view engine setup
@@ -72,18 +68,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'files')));
 
-//app.use('/', indexRouter);
-app.use('/', weeklyScheduleRouter);
-app.use('/users', usersRouter);
-app.use('/schedule', scheduleRouter);
-//app.use('/schedulePlus', schedulePlusRouter);
-app.use('/scheduleWeekly', scheduleWeeklyRouter);
-app.use('/teams', teamsRouter);
-app.use('/players', playersRouter);
-app.use('/game', gameRouter);
-app.use('/test', testRouter);
-app.use('/SeasonSchedule', seasonScheduleRouter);
-app.use('/WeeklySchedule', weeklyScheduleRouter);
+app.use('/', weeklyScheduleRouter);    // default main page; currently pointing at hockey schedule page
+app.use('/game', gameRouter);   // game page for future game development
+app.use('/SeasonSchedule', seasonScheduleRouter);   // hockey schedule page - season schedule
+app.use('/WeeklySchedule', weeklyScheduleRouter);   // hockey schedule page - weekly schedule
 //
 // game design book and chapters
 app.use('/gameDesign', gameDesignRouter);
@@ -128,6 +116,9 @@ app.use('/portfolio/credits', portfolio_credits_Router)
 
 // games and stuff
 app.use('/game_helloWordle', games_helloWordle_Router);
+
+// modernized hockey schedule
+app.use('/hockeytest', hockeytestRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

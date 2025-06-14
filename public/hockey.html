@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NHL Weekly Schedule - Hockey Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .controls {
+            margin-bottom: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .nav-button {
+            background: #10101010;*/
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-button:hover {
+            /*background: #0056b3;*/
+        }
+        
+        .nav-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        select {
+            padding: 8px 12px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            table-layout: fixed; /* Force fixed column widths */
+        }
+        .schedule-table th,
+        .schedule-table td {
+            border: 1px solid #ccc;
+            padding: 4px;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .schedule-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        /* Fixed column widths */
+        .schedule-table th:nth-child(1),
+        .schedule-table td:nth-child(1) {
+            width: 120px; /* Team column */
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .schedule-table th:nth-child(2),
+        .schedule-table td:nth-child(2),
+        .schedule-table th:nth-child(3),
+        .schedule-table td:nth-child(3),
+        .schedule-table th:nth-child(4),
+        .schedule-table td:nth-child(4),
+        .schedule-table th:nth-child(5),
+        .schedule-table td:nth-child(5),
+        .schedule-table th:nth-child(6),
+        .schedule-table td:nth-child(6),
+        .schedule-table th:nth-child(7),
+        .schedule-table td:nth-child(7),
+        .schedule-table th:nth-child(8),
+        .schedule-table td:nth-child(8) {
+            width: 110px; /* Day columns (Mon-Sun) */
+        }
+        
+        .schedule-table th:nth-child(9),
+        .schedule-table td:nth-child(9) {
+            width: 50px; /* GP column */
+        }
+        
+        .team-cell {
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .team-logo {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+        
+        .opponent-logo {
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+            margin-right: 3px;
+        }
+        .game-away {
+            background-color: #e8f0ff;
+        }
+        .game-home {
+            background-color: transparent;
+        }
+        
+        .score-win {
+            background-color: #4CAF50;
+            color: white;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 11px;
+        }
+        
+        .score-loss {
+            background-color: #f44336;
+            color: white;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 11px;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 16px;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            padding: 20px;
+        }
+        .debug-info {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            font-size: 12px;
+            border-radius: 4px;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .table-container {
+                margin: 0 -2px; /* Extend slightly beyond container padding */
+                overflow-x: hidden; /* Should fit without scrolling now */
+            }
+        }
+        
+                    /* Mobile responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 5px;
+                margin: 0;
+            }
+            
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            
+            .schedule-table {
+                font-size: 10px;
+            }
+            
+            .schedule-table th,
+            .schedule-table td {
+                padding: 1px;
+                line-height: 1.1;
+                border-width: 0.5px;
+            }
+            
+            /* Stack opponent and score vertically on mobile */
+            .mobile-game-cell {
+                display: table-cell !important;
+                vertical-align: middle;
+                text-align: center;
+            }
+            
+            .mobile-game-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 2px;
+            }
+            
+            .mobile-opponent-line {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .mobile-score-line {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            /* Optimized column widths for mobile - fit ~350px */
+            .schedule-table th:nth-child(1),
+            .schedule-table td:nth-child(1) {
+                width: 70px; /* Team column */
+            }
+            
+            .schedule-table th:nth-child(2),
+            .schedule-table td:nth-child(2),
+            .schedule-table th:nth-child(3),
+            .schedule-table td:nth-child(3),
+            .schedule-table th:nth-child(4),
+            .schedule-table td:nth-child(4),
+            .schedule-table th:nth-child(5),
+            .schedule-table td:nth-child(5),
+            .schedule-table th:nth-child(6),
+            .schedule-table td:nth-child(6),
+            .schedule-table th:nth-child(7),
+            .schedule-table td:nth-child(7),
+            .schedule-table th:nth-child(8),
+            .schedule-table td:nth-child(8) {
+                width: 32px; /* Day columns (7 × 32px = 224px) */
+            }
+            
+            .schedule-table th:nth-child(9),
+            .schedule-table td:nth-child(9) {
+                width: 18px; /* GP column - very compact */
+                font-size: 10px; /* Slightly larger for better readability */
+            }
+            
+            .team-logo {
+                width: 14px;
+                height: 14px;
+                margin-right: 2px;
+            }
+            
+            .opponent-logo {
+                width: 10px;
+                height: 10px;
+                margin-right: 1px;
+            }
+            
+            .score-win,
+            .score-loss {
+                font-size: 9px; /* Slightly larger for better readability */
+                padding: 1px 2px;
+            }
+            
+            h1 {
+                font-size: 18px;
+                margin: 5px 0 10px 0;
+            }
+            
+            .controls {
+                margin-bottom: 10px;
+                gap: 8px;
+            }
+            
+            .nav-button {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+            
+            select {
+                padding: 4px 8px;
+                font-size: 12px;
+            }
+            
+            .debug-info {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NHL 2024-2025 Weekly Schedule</h1>
+        
+        <div class="controls">
+            <button id="prev-week-btn" class="nav-button">< Back</button>
+            <select id="week-select">
+                <!-- Options will be populated by JavaScript -->
+            </select>
+            <button id="next-week-btn" class="nav-button">Next ></button>
+        </div>
+
+        <div id="loading" class="loading">Loading hockey data...</div>
+        <div id="error" class="error" style="display: none;"></div>
+        
+        <div class="table-container">
+            <table id="schedule-table" class="schedule-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Team (GF/GP)</th>
+                        <th>Mon</th>
+                        <th>Tue</th>
+                        <th>Wed</th>
+                        <th>Thu</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
+                        <th>Sun</th>
+                        <th>GP</th>
+                    </tr>
+                </thead>
+                <tbody id="schedule-tbody">
+                    <!-- Content will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Debug info hidden for production -->
+        <!--
+        <div id="debug-info" class="debug-info" style="display: none;">
+            Debug information will be populated by JavaScript
+        </div>
+        -->
+    </div>
+
+    <script>
+        // NHL Teams in the same order as your current site
+        const NHL_TEAMS = [
+            'ANA', 'BOS', 'BUF', 'CGY', 'CAR', 'CHI', 'COL', 'CBJ', 
+            'DAL', 'DET', 'EDM', 'FLA', 'LAK', 'MIN', 'MTL', 'NSH',
+            'NJD', 'NYI', 'NYR', 'OTT', 'PHI', 'PIT', 'SJS', 'SEA',
+            'STL', 'TBL', 'TOR', 'UTA', 'VAN', 'VGK', 'WSH', 'WPG'
+        ];
+
+        const DAYS_OF_WEEK = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+        let hockeyData = null;
+        let currentWeek = 10; // Default week
+        let seasonStartMonday = null; // Will be calculated from first game
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeWeekSelector();
+            fetchHockeyData();
+            
+            // Add event listener for week changes
+            document.getElementById('week-select').addEventListener('change', function(e) {
+                currentWeek = parseInt(e.target.value);
+                renderSchedule();
+                updateNavigationButtons();
+            });
+            
+            // Add event listeners for navigation buttons
+            document.getElementById('prev-week-btn').addEventListener('click', function() {
+                navigateWeek(-1);
+            });
+            
+            document.getElementById('next-week-btn').addEventListener('click', function() {
+                navigateWeek(1);
+            });
+            
+            // Add event listener for window resize (mobile/desktop layout changes)
+            window.addEventListener('resize', function() {
+                if (hockeyData) {
+                    renderSchedule();
+                }
+            });
+            
+            // Add touch swipe functionality for mobile
+            initializeTouchSwipe();
+        });
+
+        function initializeWeekSelector() {
+            const select = document.getElementById('week-select');
+            // Will be populated after data loads with actual available weeks
+        }
+
+        function isMobileDevice() {
+            return window.innerWidth <= 768;
+        }
+
+        // Touch swipe functionality for mobile navigation
+        function initializeTouchSwipe() {
+            let startX = 0;
+            let startY = 0;
+            let endX = 0;
+            let endY = 0;
+            const minSwipeDistance = 50; // Minimum distance for a swipe
+            const maxVerticalDistance = 100; // Maximum vertical movement to still count as horizontal swipe
+            
+            const scheduleTable = document.getElementById('schedule-table');
+            
+            scheduleTable.addEventListener('touchstart', function(e) {
+                const touch = e.touches[0];
+                startX = touch.clientX;
+                startY = touch.clientY;
+            }, { passive: true });
+            
+            scheduleTable.addEventListener('touchend', function(e) {
+                const touch = e.changedTouches[0];
+                endX = touch.clientX;
+                endY = touch.clientY;
+                
+                handleSwipe();
+            }, { passive: true });
+            
+            function handleSwipe() {
+                const deltaX = endX - startX;
+                const deltaY = Math.abs(endY - startY);
+                
+                // Check if it's a horizontal swipe (not vertical scroll)
+                if (Math.abs(deltaX) > minSwipeDistance && deltaY < maxVerticalDistance) {
+                    if (deltaX > 0) {
+                        // Swipe right - go to previous week
+                        navigateWeek(-1);
+                    } else {
+                        // Swipe left - go to next week
+                        navigateWeek(1);
+                    }
+                }
+            }
+        }
+        
+        function navigateWeek(direction) {
+            if (!hockeyData) return;
+            
+            const availableWeeks = Object.keys(hockeyData.schedule)
+                .map(w => parseInt(w))
+                .sort((a, b) => a - b);
+            
+            const currentIndex = availableWeeks.indexOf(currentWeek);
+            if (currentIndex === -1) return;
+            
+            let newIndex = currentIndex + direction;
+            
+            // Wrap around if at boundaries
+            if (newIndex < 0) {
+                newIndex = availableWeeks.length - 1;
+            } else if (newIndex >= availableWeeks.length) {
+                newIndex = 0;
+            }
+            
+            const newWeek = availableWeeks[newIndex];
+            if (newWeek !== currentWeek) {
+                currentWeek = newWeek;
+                
+                // Update the select dropdown
+                document.getElementById('week-select').value = currentWeek;
+                
+                // Re-render the schedule
+                renderSchedule();
+                
+                // Update navigation button states
+                updateNavigationButtons();
+                
+                // Optional: Show brief feedback
+                showWeekChangeIndicator(direction);
+            }
+        }
+        
+        function updateNavigationButtons() {
+            if (!hockeyData) return;
+            
+            const availableWeeks = Object.keys(hockeyData.schedule)
+                .map(w => parseInt(w))
+                .sort((a, b) => a - b);
+            
+            const currentIndex = availableWeeks.indexOf(currentWeek);
+            const prevBtn = document.getElementById('prev-week-btn');
+            const nextBtn = document.getElementById('next-week-btn');
+            
+            // Enable/disable buttons based on current position
+            // Note: We allow wrap-around, so buttons are always enabled
+            // But we could disable them at boundaries if preferred
+            prevBtn.disabled = false;
+            nextBtn.disabled = false;
+            
+            // Update button text to show week numbers
+            const prevWeek = currentIndex > 0 ? availableWeeks[currentIndex - 1] : availableWeeks[availableWeeks.length - 1];
+            const nextWeek = currentIndex < availableWeeks.length - 1 ? availableWeeks[currentIndex + 1] : availableWeeks[0];
+            
+            prevBtn.textContent = `< Week ${prevWeek}`;
+            nextBtn.textContent = `Week ${nextWeek} >`;
+        }
+        
+        function showWeekChangeIndicator(direction) {
+            // Create a brief visual indicator for the swipe action
+            const indicator = document.createElement('div');
+            indicator.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.7);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 5px;
+                font-size: 14px;
+                z-index: 1000;
+                pointer-events: none;
+            `;
+            indicator.textContent = direction > 0 ? 'Next Week →' : '← Previous Week';
+            
+            document.body.appendChild(indicator);
+            
+            // Remove after brief display
+            setTimeout(() => {
+                document.body.removeChild(indicator);
+            }, 800);
+        }
+
+        function findNearestWeekWithGames(targetWeek, availableWeeks) {
+            // Find the week with games closest to the target week
+            let bestWeek = null;
+            let minDistance = Infinity;
+            
+            availableWeeks.forEach(week => {
+                const weekData = hockeyData.schedule[week.toString()];
+                const teamsWithGames = Object.values(weekData).filter(games => games.length > 0).length;
+                
+                if (teamsWithGames > 0) {
+                    const distance = Math.abs(week - targetWeek);
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        bestWeek = week;
+                    }
+                }
+            });
+            
+            return bestWeek;
+        }
+
+        function populateWeekSelector() {
+            const select = document.getElementById('week-select');
+            select.innerHTML = ''; // Clear existing options
+            
+            if (!hockeyData) return;
+            
+            const availableWeeks = Object.keys(hockeyData.schedule)
+                .map(w => parseInt(w))
+                .sort((a, b) => a - b); // Sort ascending for dropdown
+            
+            availableWeeks.forEach(week => {
+                const weekData = hockeyData.schedule[week.toString()];
+                const teamsWithGames = Object.values(weekData).filter(games => games.length > 0).length;
+                
+                const option = document.createElement('option');
+                option.value = week;
+                option.textContent = `Week ${week}${teamsWithGames === 0 ? ' (no games)' : ''}`;
+                
+                if (week === currentWeek) {
+                    option.selected = true;
+                }
+                select.appendChild(option);
+            });
+        }
+
+        async function fetchHockeyData() {
+            try {
+                clearError();
+                showLoading(true);
+                const response = await fetch('/hockeytest/api/data');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                hockeyData = await response.json();
+                console.log('Hockey data loaded:', hockeyData);
+                
+                // Calculate season start Monday from first game
+                calculateSeasonStartMonday();
+                
+                // Determine current week based on today's date
+                const availableWeeks = Object.keys(hockeyData.schedule)
+                    .map(w => parseInt(w))
+                    .sort((a, b) => a - b); // Sort ascending
+                
+                if (availableWeeks.length > 0 && seasonStartMonday) {
+                    const today = new Date();
+                    const daysSinceSeasonStart = Math.floor((today - seasonStartMonday) / (1000 * 60 * 60 * 24));
+                    const calculatedWeek = Math.floor(daysSinceSeasonStart / 7);
+                    
+                    console.log(`Today: ${today.toDateString()}`);
+                    console.log(`Season started: ${seasonStartMonday.toDateString()}`);
+                    console.log(`Days since season start: ${daysSinceSeasonStart}`);
+                    console.log(`Calculated current week: ${calculatedWeek}`);
+                    
+                    let targetWeek;
+                    
+                    if (calculatedWeek < 0) {
+                        // Before season starts - show first week
+                        targetWeek = Math.min(...availableWeeks);
+                        console.log(`Before season starts, showing first week: ${targetWeek}`);
+                    } else if (calculatedWeek > Math.max(...availableWeeks)) {
+                        // After season ends - show last week with games
+                        targetWeek = null;
+                        for (let week of availableWeeks.slice().reverse()) {
+                            const weekData = hockeyData.schedule[week.toString()];
+                            const teamsWithGames = Object.values(weekData).filter(games => games.length > 0).length;
+                            if (teamsWithGames > 0) {
+                                targetWeek = week;
+                                break;
+                            }
+                        }
+                        console.log(`After season ends, showing last week with games: ${targetWeek}`);
+                    } else {
+                        // During season - show current week, or closest week with games
+                        if (availableWeeks.includes(calculatedWeek)) {
+                            const weekData = hockeyData.schedule[calculatedWeek.toString()];
+                            const teamsWithGames = Object.values(weekData).filter(games => games.length > 0).length;
+                            if (teamsWithGames > 0) {
+                                targetWeek = calculatedWeek;
+                                console.log(`During season, showing current week: ${targetWeek}`);
+                            } else {
+                                // Current week has no games, find nearest week with games
+                                targetWeek = findNearestWeekWithGames(calculatedWeek, availableWeeks);
+                                console.log(`Current week ${calculatedWeek} has no games, showing nearest week: ${targetWeek}`);
+                            }
+                        } else {
+                            // Calculated week doesn't exist, find nearest
+                            targetWeek = findNearestWeekWithGames(calculatedWeek, availableWeeks);
+                            console.log(`Calculated week ${calculatedWeek} doesn't exist, showing nearest week: ${targetWeek}`);
+                        }
+                    }
+                    
+                    if (targetWeek !== null) {
+                        currentWeek = targetWeek;
+                        console.log(`Selected week: ${currentWeek}`);
+                    } else {
+                        // Ultimate fallback
+                        currentWeek = availableWeeks[0];
+                        console.log(`Fallback to first available week: ${currentWeek}`);
+                    }
+                    
+                    console.log(`Available weeks range: ${Math.min(...availableWeeks)} to ${Math.max(...availableWeeks)}`);
+                }
+                
+                // Populate the week selector with actual available weeks
+                populateWeekSelector();
+                
+                renderSchedule();
+                updateNavigationButtons();
+                showLoading(false);
+                
+            } catch (error) {
+                console.error('Error fetching hockey data:', error);
+                showError('Error loading hockey data: ' + error.message);
+                showLoading(false);
+            }
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+            document.getElementById('schedule-table').style.display = show ? 'none' : 'table';
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            // Hide the table when showing error
+            document.getElementById('schedule-table').style.display = 'none';
+        }
+
+        function clearError() {
+            document.getElementById('error').style.display = 'none';
+        }
+
+        function calculateSeasonStartMonday() {
+            // Find the first game in the entire season to calculate week 0 Monday
+            let firstGameDate = null;
+            
+            // Look through all weeks to find the earliest game
+            for (let week in hockeyData.schedule) {
+                const weekData = hockeyData.schedule[week];
+                for (let team in weekData) {
+                    const games = weekData[team];
+                    for (let game of games) {
+                        const gameDate = new Date(game.gamedate);
+                        if (!firstGameDate || gameDate < firstGameDate) {
+                            firstGameDate = gameDate;
+                        }
+                    }
+                }
+            }
+            
+            if (firstGameDate) {
+                // Calculate the Monday of the week containing the first game
+                const dayOfWeek = firstGameDate.getDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
+                const daysToSubtract = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Days back to Monday
+                
+                seasonStartMonday = new Date(firstGameDate);
+                seasonStartMonday.setDate(firstGameDate.getDate() - daysToSubtract);
+                
+                console.log('First game found:', firstGameDate.toDateString());
+                console.log('Season start Monday:', seasonStartMonday.toDateString());
+            }
+        }
+
+        function getWeekDates(weekNumber) {
+            if (!seasonStartMonday) return [];
+            
+            const dates = [];
+            const weekStart = new Date(seasonStartMonday);
+            weekStart.setDate(seasonStartMonday.getDate() + (weekNumber * 7));
+            
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(weekStart);
+                date.setDate(weekStart.getDate() + i);
+                dates.push(date);
+            }
+            
+            return dates;
+        }
+
+        function updateTableHeader() {
+            const weekDates = getWeekDates(currentWeek);
+            
+            // Update the date row
+            const thead = document.querySelector('#schedule-table thead');
+            
+            // Remove existing date row if it exists
+            const existingDateRow = thead.querySelector('.date-row');
+            if (existingDateRow) {
+                existingDateRow.remove();
+            }
+            
+            // Create new date row
+            const dateRow = document.createElement('tr');
+            dateRow.className = 'date-row';
+            
+            // Empty cell for team column
+            const emptyCell = document.createElement('th');
+            emptyCell.textContent = '';
+            dateRow.appendChild(emptyCell);
+            
+            // Add date cells for each day
+            weekDates.forEach((date, index) => {
+                const dateCell = document.createElement('th');
+                const month = date.getMonth() + 1;
+                const day = date.getDate();
+                dateCell.textContent = `${month}/${day}`;
+                dateCell.style.fontSize = '11px';
+                dateCell.style.color = '#666';
+                dateRow.appendChild(dateCell);
+            });
+            
+            // Empty cell for GP column
+            const gpCell = document.createElement('th');
+            gpCell.textContent = '';
+            dateRow.appendChild(gpCell);
+            
+            // Insert date row as first row
+            thead.insertBefore(dateRow, thead.firstChild);
+        }
+
+        function renderSchedule() {
+            if (!hockeyData) {
+                console.log('No hockey data available');
+                return;
+            }
+
+            console.log('Rendering schedule for week:', currentWeek);
+            console.log('Available weeks:', Object.keys(hockeyData.schedule));
+
+            const tbody = document.getElementById('schedule-tbody');
+            tbody.innerHTML = '';
+
+            const weekData = hockeyData.schedule[currentWeek.toString()];
+            
+            if (!weekData) {
+                showError(`Week ${currentWeek} not found in data. Available weeks: ${Object.keys(hockeyData.schedule).join(', ')}`);
+                return;
+            }
+
+            const teamStats = hockeyData.teamStats;
+            
+            if (!teamStats) {
+                showError('Team stats data not available');
+                return;
+            }
+
+            // Update table header with dates
+            updateTableHeader();
+
+            // Render each team row
+            NHL_TEAMS.forEach(team => {
+                const row = document.createElement('tr');
+                
+                // Team name cell with logo and GF/GP
+                const teamCell = document.createElement('td');
+                teamCell.className = 'team-cell';
+                const stats = teamStats[team];
+                const gfgp = stats ? (stats.teamRecord_GoalsFor / stats.teamRecord_GamesPlayed).toFixed(1) : '0.0';
+                
+                // Create team logo
+                const teamLogo = document.createElement('img');
+                teamLogo.src = `/images/${team.toLowerCase()}.png`;
+                teamLogo.className = 'team-logo';
+                teamLogo.alt = team;
+                teamLogo.onerror = function() { this.style.display = 'none'; }; // Hide if logo doesn't exist
+                
+                teamCell.appendChild(teamLogo);
+                teamCell.appendChild(document.createTextNode(`${team} (${gfgp})`));
+                row.appendChild(teamCell);
+
+                // Game cells for each day
+                const teamGames = weekData[team] || [];
+                for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
+                    const gameCell = document.createElement('td');
+                    
+                    // Find game that matches this day of the week
+                    const gameForDay = teamGames.find(game => {
+                        const gameDate = new Date(game.gamedate);
+                        const dayOfWeek = gameDate.getDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
+                        // Convert to our format: 0=Monday, 1=Tuesday, ..., 6=Sunday
+                        const ourDayIndex = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+                        return ourDayIndex === dayIndex;
+                    });
+                    
+                    if (gameForDay) {
+                        const isHome = gameForDay.hometeam === team;
+                        const opponent = isHome ? gameForDay.awayteam : gameForDay.hometeam;
+                        const result = gameForDay.result;
+                        
+                        if (isMobileDevice()) {
+                            // Mobile layout: stack opponent and score vertically
+                            gameCell.className = 'mobile-game-cell';
+                            
+                            // Create mobile content wrapper
+                            const mobileContent = document.createElement('div');
+                            mobileContent.className = 'mobile-game-content';
+                            
+                            // Create opponent line (logo + name)
+                            const opponentLine = document.createElement('div');
+                            opponentLine.className = 'mobile-opponent-line';
+                            
+                            const opponentLogo = document.createElement('img');
+                            opponentLogo.src = `/images/${opponent.toLowerCase()}.png`;
+                            opponentLogo.className = 'opponent-logo';
+                            opponentLogo.alt = opponent;
+                            opponentLogo.onerror = function() { this.style.display = 'none'; };
+                            
+                            opponentLine.appendChild(opponentLogo);
+                            opponentLine.appendChild(document.createTextNode(opponent));
+                            mobileContent.appendChild(opponentLine);
+                            
+                            if (result === 'Final') {
+                                // Create score line
+                                const scoreLine = document.createElement('div');
+                                scoreLine.className = 'mobile-score-line';
+                                
+                                const scoreSpan = document.createElement('span');
+                                const overtimeMarker = (gameForDay.periodResult === 'OT' || gameForDay.periodResult === 'SO') ? '+' : '';
+                                scoreSpan.textContent = `${gameForDay.teamResult} ${gameForDay.scoreResult}${overtimeMarker}`;
+                                
+                                if (gameForDay.teamResult === 'W') {
+                                    scoreSpan.className = 'score-win';
+                                } else {
+                                    scoreSpan.className = 'score-loss';
+                                }
+                                
+                                scoreLine.appendChild(scoreSpan);
+                                mobileContent.appendChild(scoreLine);
+                            }
+                            
+                            gameCell.appendChild(mobileContent);
+                            
+                        } else {
+                            // Desktop layout: horizontal layout
+                            const opponentLogo = document.createElement('img');
+                            opponentLogo.src = `/images/${opponent.toLowerCase()}.png`;
+                            opponentLogo.className = 'opponent-logo';
+                            opponentLogo.alt = opponent;
+                            opponentLogo.onerror = function() { this.style.display = 'none'; };
+                            
+                            gameCell.appendChild(opponentLogo);
+                            gameCell.appendChild(document.createTextNode(opponent));
+                            
+                            if (result === 'Final') {
+                                gameCell.appendChild(document.createTextNode(' '));
+                                
+                                const scoreSpan = document.createElement('span');
+                                const overtimeMarker = (gameForDay.periodResult === 'OT' || gameForDay.periodResult === 'SO') ? '+' : '';
+                                scoreSpan.textContent = `${gameForDay.teamResult} ${gameForDay.scoreResult}${overtimeMarker}`;
+                                
+                                if (gameForDay.teamResult === 'W') {
+                                    scoreSpan.className = 'score-win';
+                                } else {
+                                    scoreSpan.className = 'score-loss';
+                                }
+                                
+                                gameCell.appendChild(scoreSpan);
+                            }
+                        }
+                        
+                        // Add home/away styling to cell (both mobile and desktop)
+                        if (!isHome) {
+                            if (isMobileDevice()) {
+                                gameCell.classList.add('game-away');
+                            } else {
+                                gameCell.className = 'game-away';
+                            }
+                        } else {
+                            if (isMobileDevice()) {
+                                gameCell.classList.add('game-home');
+                            } else {
+                                gameCell.className = 'game-home';
+                            }
+                        }
+                    } else {
+                        gameCell.textContent = '-';
+                    }
+                    
+                    row.appendChild(gameCell);
+                }
+
+                // Games count cell
+                const countCell = document.createElement('td');
+                countCell.textContent = teamGames.length;
+                row.appendChild(countCell);
+
+                tbody.appendChild(row);
+            });
+
+            // Debug info hidden for production
+        }
+    </script>
+</body>
+</html> 
