@@ -6,8 +6,8 @@ var logger = require('morgan');
 
 
 var gameRouter = require('./routes/game');    // game page for future game development
-var seasonScheduleRouter = require('./routes/schedule2');
-var weeklyScheduleRouter = require('./routes/test');
+//var seasonScheduleRouter = require('./routes/schedule2');
+//var weeklyScheduleRouter = require('./routes/test');
 //
 // game design book and chapters
 var gameDesignRouter = require('./routes/gameDesign/gameDesign');
@@ -68,10 +68,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'files')));
 
-app.use('/', weeklyScheduleRouter);    // default main page; currently pointing at hockey schedule page
+app.use('/', hockeytestRouter);    // default main page; currently pointing at hockey schedule page
 app.use('/game', gameRouter);   // game page for future game development
-app.use('/SeasonSchedule', seasonScheduleRouter);   // hockey schedule page - season schedule
-app.use('/WeeklySchedule', weeklyScheduleRouter);   // hockey schedule page - weekly schedule
+//app.use('/SeasonSchedule', seasonScheduleRouter);   // hockey schedule page - season schedule
+//app.use('/WeeklySchedule', weeklyScheduleRouter);   // hockey schedule page - weekly schedule
 //
 // game design book and chapters
 app.use('/gameDesign', gameDesignRouter);
@@ -130,6 +130,7 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.title = 'Error - Fantasy Hockey Central';
 
   // render the error page
   res.status(err.status || 500);

@@ -4,10 +4,10 @@ html(lang='en')
         title Fantasy Hockey Central
         //link(rel='stylesheet', href='/stylesheets/style_scheduleWeekly.css')
         link(rel='stylesheet', href='/stylesheets/test.css')
-        meta(name='viewport', content='width=device-width')
-        meta(charset="UTF-8")
-        meta(name="google" content="notranslate")
-        meta(http-equiv="Content-Language" content="en")
+        //meta(name='viewport', content='width=device-width')
+        //meta(charset="UTF-8")
+        //meta(name="google" content="notranslate")
+        //meta(http-equiv="Content-Language" content="en")
 
     - console.log(`-----------`)
     - //var current_week = 0
@@ -52,8 +52,7 @@ html(lang='en')
     
 
     body
-        block site_header
-            div.header
+        div.header
                 div.titletext NHL 2024-2025
                 select.toggleviewbutton(onChange="location = this.value")
                     //option.togglevalue(value=`/`)='Fantasy Hockey Central'
@@ -64,8 +63,7 @@ html(lang='en')
                 label(class="switch", onChange="change_mini_state()", for="state_toggle")  
                     input(type="checkbox", id="state_toggle")  
                     //span(class="slider")
-        block week_select
-            div.weekselectcontainer(id="weekselect")
+        div.weekselectcontainer(id="weekselect")
                 - schedule_string = JSON.stringify({schedule_data})
                 - teamRecords_string = JSON.stringify({teamstats_data})
                 //div="< Back" 
@@ -131,8 +129,7 @@ html(lang='en')
                 div.weeksummarycolumnheader
                     div.weekgptitle="GP"
 
-        block table_display
-            div(id='table_display')
+        div(id='table_display')
                 //- console.log('hey hey', schedule_data[0])
                 - for (const [team, teamSchedule] of Object.entries(schedule_data[current_week])) {
                     //- console.log(`team: ${team}`)

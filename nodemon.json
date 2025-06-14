@@ -1,0 +1,25 @@
+{
+  "watch": [
+    "app.js",
+    "routes/",
+    "views/",
+    "public/",
+    "bin/"
+  ],
+  "ignore": [
+    "node_modules/",
+    "files/",
+    ".git/",
+    ".cursor/",
+    ".projectplan/",
+    "public/HelloWordle.*",
+    "*.log",
+    "*.md"
+  ],
+  "ext": "js,jade,html,css,json",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "delay": 1000,
+  "verbose": true
+} 
