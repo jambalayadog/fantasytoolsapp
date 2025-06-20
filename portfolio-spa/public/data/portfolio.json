@@ -1,0 +1,470 @@
+[
+  {
+    "id": "profile",
+    "title": "Profile",
+    "role": "Jordan Watt",
+    "boxart": "/images/gameDesign/portfolio/20230806_182805_sil5.png",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/DesignExperiences.png",
+        "tag": "Expert Game Designer & Technical Designer",
+        "impact": [
+          "20+ years crafting high quality gameplay experiences across multiple genres and AAA franchises, including Star Wars, Gears of War, Need For Speed, Madden, and FIFA. I have owned numerous facets of game design across 20+ shipped AAA titles and 10+ non-shipped projects to develope expertise in design methodologies and development frameworks.",
+          "Design leader who bridges creative with practical, driving vision from concept to live service. Proven track record of mentoring and coaching, solving complex technical design challenges, and delivering player-focused experiences."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "resume",
+    "title": "Skills & Resume",
+    "role": "QA Tester",
+    "boxart": "/images/gameDesign/portfolio/resume.png",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/Skills.png",
+        "tag": "Tech Stack",
+        "impact": [
+          "Very experienced with game development engines (Unreal Engine, Unity, Godot), visual and code scripting (Python, JavaScript, Blueprint), and design tools (Confluence, Miro, Excel). Built tools and websites using web frameworks (Node, Express, React). Self-taught AI-assisted development to build personal projects.",
+		  "View or Download my [a(href='/data/Resume_JordanWatt.pdf') Resume] here." 
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eday",
+    "title": "Gears of War: E-Day",
+    "role": "Principal Technical Level Designer",
+    "boxart": "/images/gameDesign/portfolio/eday.png",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/gearseday-1717957433866.jpg",
+        "tag": "Principal Technical Level Designer - People Can Fly",
+        "impact": [
+          "Principal Technical Level Designer for cross-discipline feature development for AAA Gears of War prequel. Architecting technical design workflows and tools that accelerate team productivity. Building proof-of-concept systems and establishing production pipelines for next-generation gameplay features.",
+		  "Created comprehensive design documentation, mentored artists and designers, and lead technical validation reviews that ensure scalable, shippable content across multiple development teams."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sumo",
+    "title": "Sumo Digital",
+    "role": "Principal Technical Designer",
+    "boxart": "/images/gameDesign/portfolio/534px-Sumo_Digital_(2019).webp",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://youtu.be/5Jn38IQMpSk",
+        "tag": "Principal Technical Designer - Unreleased AAA",
+        "impact": [
+          "Led multi-disciplinary team responsible to deliver core gameplay feature for a multiplayer AAA Unreal Engine 5 title. Built comprehensive systemic prototypes, coordinated feature development across departments, managed milestone deliverables and built production roadmaps.",
+		  "Collaborated with department leadership to define and establish technical design department foundations, career paths, and performance standards.  Mentored, project planned, and career planned multiple technical designers."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gears5",
+    "title": "Gears 5",
+    "role": "Senior Game Designer - PvE + PvP",
+    "boxart": "/images/gameDesign/portfolio/Gears5.jpg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/village2.png",
+        "tag": "Senior Game Designer - PvE + PvP Level Design",
+        "impact": [
+          "Built PvP and PvE maps taking them from concept to release, following [a(href='https://youtu.be/73Pqsk74Jc0?si=sqw9bTWPN80s_gTa&t=957')long established Gears of War level design process]. I greyblocked maps first for macro and then for micro details, configured them for various multiplayer modes (spawners, cinematics, cams), and maintained integrity during art passes. I extensively playtested and iterated based on feedback, and may have even implemented an Easter Egg or two.  Check out [a(href='https://youtu.be/8C6Qsu9ZjbY?t=15')Village], a DLC map from Operation 8 that focuses on close quarters combat."
+		  
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pvzbfn",
+    "title": "Plants vs Zombies: Battle for Neighborville",
+    "role": "Senior Game Designer",
+    "boxart": "/images/gameDesign/portfolio/PVZBFN.jpg",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://youtu.be/caZCXBfxvdc",
+        "tag": "Senior Game Designer - Technical Design",
+        "impact": [
+          "Built boss encounters, including mega-boss Dreadwood; scaling to support 1-4 players.  I developed abilities and diverse AI behaviors, including an 'unalert' AI system that would be proof of concept for open world PvZ. Built DPS box used in automated testing framework to authentically measure damage calculations used for game balance. Collaborated with UX engineer to data-driven progression systems and store features serving players across live service lifecycle."
+        ]
+      },
+	  {
+        "type": "video",
+        "url": "https://youtu.be/xvTfdaOU8-o?t=12",
+        "tag": "Senior Game Designer - Monthly Activities",
+        "impact": [
+          "Overseeing another designer, I led the design of live service activities, and create a recipe process to generate monthly activities like 'Valenbrainz' and 'Luck of the Zombie.' I also developed multiplayer game modes to extend our single-player maps: scripting the game modes, organizing the playtests, collecting feedback, and iterating."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "swbf2",
+    "title": "Star Wars Battlefront 2",
+    "role": "Senior Game Designer",
+    "boxart": "/images/gameDesign/portfolio/SWBF2_box.jpg",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://youtu.be/R9bGTWy_Yxg",
+        "tag": "Senior Game Designer - Outcasts (Space combat)",
+        "impact": [
+          "Designed and scripted Outcasts mission where players defend Princess Leia's ship and stop Operation Cinder, scripting complex X-Wing combat sequences with TIE fighter dogfights and Cinder satellite destruction, and culminating in dogfighting to protect Y-Wing bombers sieging Star Destroyer shield generators.",
+          "Although not my first Star Wars project, it's exciting to work with Disney IP constraints and design processes to produce authentic Star Wars experiences."
+        ]
+      },
+	  {
+        "type": "video",
+        "url": "https://youtu.be/afnqtR31NiA",
+        "tag": "Senior Game Designer - Cross-Studio Leadership",
+        "impact": [
+          "Represented design efforts for cross-studio collaboration between EA Vancouver and EA Motive, establishing production relationships and design workflows. Inherited and delivered 'Cache Grab' mission after original designer departure, managing tight deadline while maintaining design quality.",
+          "Designed immersive AT-AT factory infiltration sequence culminating in vehicle commandeer and surface escape. Demonstrated leadership adaptability and technical execution under pressure while supporting partner studio objectives."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fifa2017",
+    "title": "FIFA 2017",
+    "role": "Game Designer",
+    "boxart": "/images/gameDesign/portfolio/FIFA_17_cover.jpg",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://youtu.be/P9LHzVEPodg",
+        "tag": "Senior Game Designer - Cinematics",
+        "impact": [
+          "With my familiarity in Frostbite's cinematic technology, I was asked to help out with the implementation of FIFA 2017's groundbreaking story mode.", 
+		  "Coordinated with designers and animators to compose complex sequences integrating characters animations, audio, interactive assets.  Optimized scene transitions and visual quality through DOF/FOV tuning, ensuring seamless and immersive narrative delivery."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pvzgw2",
+    "title": "Plants vs Zombies: Garden Warfare 2",
+    "role": "Game Designer",
+    "boxart": "/images/gameDesign/portfolio/PvZ_Garden_Warfare_2.jpg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/SoilSurvivorsIsHere.webp",
+        "tag": "Soil Survivors DLC Game Mode",
+        "impact": [
+          "Nearly single-handedly designed and built '[a(href='https://youtu.be/rHGN1rEQWNU?t=18')Soil Survivors]' game mode in 3 months, blending Counter-Strike elimination with PUBG shrinking zones. Scripted game mode systems including logic, UI, server configuration, and bot balancing using minimal development resources while maintaining high quality standards."
+        ]
+      },
+	  {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/PvZ-Garden-Warfare-2-Solo-Ops-Stuffy.webp",
+        "tag": "Solo Ops Companions",
+        "impact": [
+          "Built AI companion system for '[a(href='https://youtu.be/wPaWBYMQ5Fw')Solo Ops]' enabling single players to experience cooperative gameplay. Designed intelligent companion selection UI and modified AI behavior trees to prioritize player support and base defense, creating seamless solo-to-multiplayer experience that increased player engagement."
+        ]
+      },
+	  {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/Pvzgw2-infinity-time6.webp",
+        "tag": "Infinity Time End Game Mode",
+        "impact": [
+          "Architected '[a(href='https://youtu.be/DCBprjJiPJY')Infinity Time]' end-game mode featuring mech vs gnome army combat. Designed complete enemy ecosystem including boss behaviors, AI systems, and unique attack patterns. Collaborated with avfx & animation teams to deliver cohesive combat experience that became the game's end-game content."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bfhardline",
+    "title": "Battlefield: Hardline",
+    "role": "Game Designer",
+    "boxart": "/images/gameDesign/portfolio/Battlefield_Hardline.jpg",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://youtu.be/525NT6dwHaM",
+        "tag": "Senior Game Designer - Episodes 5 & 7",
+        "impact": [
+          "Inherited and redesigned Episodes 5 (Gauntlet) and 7 (Glass Houses) for Visceral Games, transforming open environments into focused non-linear experiences, with Gauntlet being heavily inspired by The Last of Us. Implemented natural behaviors for NPC characters to create natural and adaptive AI encounters managing player deviation from intended paths while maintaining narrative flow.",
+          "Collaborated with environment artists to create tactical terrace layouts and scripted climactic set pieces including Glass Houses' signature pool burst finale. Delivered complex branching level design that balanced player agency with directed storytelling."
+        ]
+      },
+	  {
+        "type": "video",
+        "url": "https://youtu.be/MdPfbqMeOMs",
+        "tag": "Senior Game Designer - Episode 10: Legacy",
+        "impact": [
+          "I inherited 'Legacy,' the final open-world island level, inspired by Far Cry, after it was proving to be enormous. To manage budget on this non-linear level, I developed an enemy manager system tracking alert states within demarcated areas of the island. I integrated vehicles (motorbike, boat) for player agency and adjusted geography to guide outpost entry. I also coordinated closely with environment artists using color-coded layers to help illustrate gameplay importance as sightlines needed careful management."
+        ]
+      },
+	  {
+        "type": "video",
+        "url": "https://youtu.be/P1vM2LDEaYk",
+        "tag": "Senior Game Designer - Design & Scripting",
+        "impact": [
+          "I designed puzzles/clues integrating a high-tech police scanner and set up immersive idle behaviors for NPCs. I also inherited and transformed the 'Case Closed' level into a special investigation using the scanner, working closely with the Art Director. Early on, I helped prototype dynamic AI that reacted to weapon types and weapon placement, though this vision was later abandoned."
+        ]
+      },
+	  {
+        "type": "video",
+        "url": "https://youtu.be/BUSEkn9nJcg",
+        "tag": "Senior Game Designer - Encounters & Encounter Tool",
+        "impact": [
+          "Inspired by a new Design Director from Halo, we adopted an encounter system using volumes to dynamically position enemies based on weaponry. I scripted combat for Episodes 6 and 8. While effective, the system was time-consuming for level designers. Post-project, I redesigned the tool into a 2D grid with an engineer, reducing setup time from a full day to 30 minutes for complex encounters."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "nfsrivals",
+    "title": "Need for Speed: Rivals",
+    "role": "Game Designer",
+    "boxart": "/images/gameDesign/portfolio/Need_for_Speed_Rivals_cover.jpg",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://youtu.be/YQRfzltRDCw?t=29",
+        "tag": "Senior Game Designer - Objective System",
+        "impact": [
+          "Co-architected comprehensive objective tracking system for Need for Speed Rivals, collaborating across Ghost Games and Criterion Studios. Designed real-time achievement framework covering racing stunts, pursuit mechanics, and free-roam challenges for player engagement through integrated reward multipliers and progression incentives."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ao2dc",
+    "title": "Army of Two: Devil's Cartel",
+    "role": "Game Designer",
+    "boxart": "/images/gameDesign/portfolio/ArmyOfTwo3.jpg",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://youtu.be/_gnqeOhnEZk",
+        "tag": "Game Designer - Mission & Encounter Design",
+        "impact": [
+          "Designed major level beats for Army of Two: Devil's Cartel including [a(href='https://youtu.be/_gnqeOhnEZk?si=wHdvDU-pkdLUo2aF&t=759')Gas Station], [a(href='https://youtu.be/_gnqeOhnEZk?si=9qhlVpeWUuKKkJM6&t=1104')Radar Station], and [a(href='https://www.youtube.com/watch?v=SL57b0JI_Go')Airplane Boneyard] encounters. Specialized in cooperative mechanics requiring synchronized player actions including coordinated traversal, tactical positioning, and split and shared objectives. I enjoyed the game's customization options, which inspired me to prioritize player expression in later game design and subsequent projects."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "warfighter",
+    "title": "Medal of Honor: Warfighter",
+    "role": "Game Designer",
+    "boxart": "/images/gameDesign/portfolio/Warfighter.jpg",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://youtu.be/56WtkLZLnGc",
+        "tag": "Game Designer - Level + Mission Design",
+        "impact": [
+          "Leading another designer, I co-designed and scripted two driving levels for EA LA's Danger Close Games: a Karachi slum pursuit and a Dubai escape. I laid out initial road networks and mission beats, collaborated with art on modular techniques that allowed designers to prove out entire mission flows early.  Despite our AI engineers concerns, I tuned AI to navigate RNG traffic to create a dynamic pursuit through the busy streets of Karachi."
+        ]
+      },
+	  {
+        "type": "video",
+        "url": "https://youtu.be/Ok71sKoHyJg",
+        "tag": "Game Designer - Level + Mission Design",
+        "impact": [
+          "Tasked with my first FPS level, I designed a 15 minute gameplay experience within a provided boat shell. I mapped out player routes, major beats, AI encounters, and asset needs from a top-down perspective. A key lesson learned was the critical importance of early lighting discussions, as contrasting brightness made enemy visibility challenging."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "nfstherun",
+    "title": "Need for Speed: The Run",
+    "role": "Game Designer",
+    "boxart": "/images/gameDesign/portfolio/Needforspeedtheruncover.jpg",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://youtu.be/enPPy4dYI9M",
+        "tag": "Game Designer - Story Mode Scripting",
+        "impact": [
+          "I designed and scripted key story races, including the E3 stage demo, collaborating with the Creative Director and Lead Game Designer on helicopter gameplay. I also provided technical support for other story mode races, adding falling boulders to the Avalanche level, and tuning start/finish positions, AI, and traffic."
+        ]
+      },
+	  {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/os_nfs_nissan_1200.jpg",
+        "tag": "Game Designer - Challenge Series",
+        "impact": [
+          "Working with the Creative Director, I designed the entire Challenge Series, creating novel racing experiences through unique routes, car selection, time/weather changes, and scripting cop/mob/helicopter encounters, obstacles, and traffic. I also collaborated with branding on Challenge Series UX/sponsorships, staged gameplay photos, and tuned medal times with QA."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "skate3",
+    "title": "Skate 3",
+    "role": "Game Designer",
+    "boxart": "/images/gameDesign/portfolio/Skate-3-Boxart.jpg",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://youtu.be/NvgCeMbM0ZA",
+        "tag": "Associate Game Designer - Challenges + Skate School",
+        "impact": [
+          "I led challenge design across multiple districts, introducing 'Own The Lot' challenge type for a THPS-like feel, and built 'Skate School' with Coach Frank (Jason Lee) for our onboarding. I owned design for all challenge types, collaborated on game progression, recorded AI for in-game skaters, and represented the game at a London launch event, even helping to host a live competition where the press engaged in Hall Of Meat challenges. Free skate shoes for years were a fantastic perk!"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "skate2",
+    "title": "Skate 2",
+    "role": "Game Designer",
+    "boxart": "/images/gameDesign/portfolio/Skate_2_Cover.jpg",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://youtu.be/sSveyOtp1eE?t=287",
+        "tag": "Associate Game Designer - Challenges",
+        "impact": [
+          "I became the design owner for all challenge types, carrying over Skate 1's and creating new ones like Hall of Meat and 'own/kill' features. I worked closely with engineers and UX on challenge features and UI. I built challenges for multiple districts, perfecting elements with environment artists, created an intro area for new tricks, and helped other designers troubleshoot and own challenge functionality."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "skate1",
+    "title": "Skate",
+    "role": "Game Designer",
+    "boxart": "/images/gameDesign/portfolio/Skate.png",
+    "media": [
+      {
+        "type": "video",
+        "url": "https://youtu.be/FgYX2JTbIdA?t=744'",
+        "tag": "Assistant Game Designer - Challenges",
+        "impact": [
+          "I joined pre-alpha, quickly becoming the POC for challenge implementation. I developed over 30 varied challenges, including Pro Challenges, spot challenges, competitions, deathraces, and more. These were made by creating and exporting Maya volumes & locators, and creating Lua scripts to use this data and monitor the skaters activities against challenge criteria. I closely collaborated with environment artists to find & tune spots, particularly all of Old Town, and designed  text & audio for challenge sign-ups, objectives, and feedback.  I also worked with the art director to validate the visual language of our markers, as well as create custom trick locators."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "qamanager",
+    "title": "QA Development Manager",
+    "role": "QA Manager",
+    "boxart": "/images/gameDesign/portfolio/Madden06.jpg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/platforms.png",
+        "tag": "QA Central Services - Online + Compliance",
+        "impact": [
+          "Managed cross-platform QA testing teams responsible for Online and Compliance QA for numerous EA titles during the online gaming revolution.  Oversaw test efforts across multiple titles and platforms, from PC to PS2 and PSP, and also to the the launch of Xbox Online and Xbox 360.",
+		  "During that time, my testers proved their metal on NFS Underground 2 + Most Wanted, EA Sports Online Titles: FIFA, Madden, Tiger Woods, NBA, NHL, NCAA, and shooters like Medal of Honor and Time Splitters (half my team was sent to UK for 2 months!). And, two of my testers met on the project and eventually got married!"
+        ]
+      },
+	  {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/bigstock-D-Small-People-Lupe-Audit-54898952.jpg",
+        "tag": "Submission Audit Team",
+        "impact": [
+          "Tasked to create and lead the Submission Audit Team to pre-test projects and identify critical and costly issues ahead of certification.  For this, I built a team of specialized testers from the ranks of EA QA, analyzed EA's historical data on third-party and first-party quality certification, built a test plan, and generated a submission confidence report for each project."		  
+        ]
+      }
+    ]
+  },
+  {
+    "id": "qatester",
+    "title": "QA Tester",
+    "role": "QA Tester",
+    "boxart": "/images/gameDesign/portfolio/Need_for_Speed_Underground_cover.jpg",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/connection.png",
+        "tag": "Online Clean Room",
+        "impact": [
+          "Worked with EA IT to provision a clean room space for online performance testing EAs titles using network emulation tools and real-world internet.  I was essentially off-grid in a special room inside of EA where I tested all of EA's online capable titles.",
+          "I worked directly with other studio testing departments to handle games they were not equipped for (Burnout, Fight Night, etc), worked directly with online developers to resolve performance issues, consulted with certification groups on router and port configuration issues, helped EA Singapore set up their own clean room, and built special relationships with EA's central online dev teams."
+        ]
+      },
+	  {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/easports.png",
+        "tag": "EA Sports Online",
+        "impact": [
+          "Worked with EA IT to provision a clean room space for online performance testing EAs titles using network emulation tools and real-world internet.  I was essentially off-grid in a special room inside of EA where I tested all of EA's online capable titles.",
+          "I worked directly with other studio testing departments to handle games they were not equipped for (Burnout, Fight Night, etc), worked directly with online developers to resolve performance issues, consulted with certification groups on router and port configuration issues, helped EA Singapore set up their own clean room, and built special relationships with EA's central online dev teams."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "highlights",
+    "title": "Highlights",
+    "role": "",
+    "boxart": "/images/gameDesign/portfolio/brave_Q6xtijwsQ8.png",
+    "media": [
+      {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/JWMouseHighlighter_Preview.png",
+        "tag": "Python - Mouse Highlighter",
+        "impact": [
+          "I wrote 'JW Mouse Highlighter' to make it easier to see the mouse cursor on the screen. It has an installer, runs in system tray, has customization options, and supports startup capability.",
+		  "Built in python and constructed over a weekend. This was my first experience with AI coding.",
+      "[a(href='https://github.com/jambalayadog/JWMouseHighlighter') JW Mouse Highlighter]"
+        ]
+      },
+	  {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/brave_MSZ0XOyfG1.png",
+        "tag": "Godot - Infinite Wordle",
+        "impact": [
+          "I built 'Infinite Wordle' for my mom. [a(href='https://fantasyhockeycentral.com/game_helloWordle') Hello Wordle]",
+		  "It took about two weeks to build.  I made some upgrades such as: 'forever play', and 'give up/reveal answer'",
+		  "Built in Godot, exported to html+webpack, and hosted on Digital Ocean."
+        ]
+      },
+	  {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/brave_5aCZQZmBgO.png",
+        "tag": "Full Stack Noob - Hockey Website",
+        "impact": [
+          "I made this website to practice web development.  Data is scraped automatically, compiled, and served on a droplet located in NYC",
+		  "Built with javascript, html, css, node, express, react, Digital Ocean, ubuntu, nhl.com, etc",
+          "[a(href='https://fantasyhockeycentral.com') FantasyHockeyCentral]"
+        ]
+      },
+	  {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/rpcheque2.png",
+        "tag": "EA Game Jam - Rapid Prototyping Initiative",
+        "impact": [
+          "I partnered with a Strategic Development Director on the opposite side of game development after he became interested in a post I made on our internal message boards",
+		  "The strategy involved coordinating with EA's central teams to readily augment it's developers with EA's catalog.",
+          "We entered the game jam, built two games, moved onto finalists, presented to directors, and achieved runner up for our efforts."
+        ]
+      },
+	  {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/designguilds_badge.png",
+        "tag": "EA Design Guild (2015)",
+        "impact": [
+		  "Though the EA guilds were a short-lived concept, I was fortunate enough to be selected to the Design Guild and attend the inaugural event at EA HQ in Redwood Shores.  Guided by EA's people development, around 50 designers from all facets of EA gathered to share and discuss our respective design challenges and experiences, from mobile to AAA, from junior to director.  It was an excellent opportunity to connect "
+        ]
+      },
+	  {
+        "type": "image",
+        "url": "/images/gameDesign/portfolio/showcaselondon.png",
+        "tag": "Skate 3 Launch Event @ London Showcase",
+        "impact": [
+          "I was lucky enough to represent EA and Skate 3 at our London EA Showcase event, where we shared the floor with EA-partner published games.  Over the course of two days and two evenings, I gave an [a(href='https://youtu.be/WRO58-NyUS8')exhausting amount of interviews] in front of live-skaters, hands-on demos and tutorials, and helped the MC facilitate the Hall Of Meat tournament during evening media event which was the highlight of an amazing experience.  Skate showed me just how large EA's marketing department's budget is... " 
+        ]
+      }
+    ]
+  }
+] 

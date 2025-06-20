@@ -8,7 +8,10 @@
         "dev:simple": "nodemon ./bin/www",
         "dev:debug": "nodemon --inspect ./bin/www",
         "watch": "nodemon --watch routes --watch views --watch public --watch app.js ./bin/www",
-        "test:routes": "echo 'Testing all routes...' && curl -s http://localhost:3000 > /dev/null && echo '✅ Main site' || echo '❌ Main site'"
+        "test:routes": "echo 'Testing all routes...' && curl -s http://localhost:3000 > /dev/null && echo '✅ Main site' || echo '❌ Main site'",
+        "dev:full": "concurrently \"npm run dev\" \"npm run dev:portfolio\"",
+        "dev:portfolio": "cd portfolio-spa && npm start",
+        "build:portfolio": "cd portfolio-spa && npm run build"
     },
     "dependencies": {
         "cookie-parser": "~1.4.4",
@@ -22,8 +25,8 @@
         "node-fetch": "^2.6.7"
     },
     "devDependencies": {
-        "nodemon": "^3.0.2",
+        "chalk": "^4.1.2",
         "concurrently": "^8.2.2",
-        "chalk": "^4.1.2"
+        "nodemon": "^3.0.2"
     }
 }

@@ -68,6 +68,23 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'files')));
 
+// Serve static files for the portfolio SPA
+app.use(
+  '/gamedevelopmentportfolio',
+  express.static(path.join(__dirname, 'portfolio-spa', 'build'))
+);
+
+// Serve images and other assets for the SPA (before the catch-all route)
+app.use(
+  '/gamedevelopmentportfolio',
+  express.static(path.join(__dirname, 'public'))
+);
+
+// For any SPA route, serve index.html (for client-side routing)
+app.get('/gamedevelopmentportfolio/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'portfolio-spa', 'build', 'index.html'));
+});
+
 app.use('/', hockeytestRouter);    // default main page; currently pointing at hockey schedule page
 app.use('/game', gameRouter);   // game page for future game development
 //app.use('/SeasonSchedule', seasonScheduleRouter);   // hockey schedule page - season schedule
