@@ -26,6 +26,7 @@ var gameDesign_shipAndLiveService_Router = require('./routes/gameDesign/shipAndL
 var gameDesign_coreLoops_Router = require ('./routes/gameDesign/coreLoops');
 var gameDesign_eldenRing_Router = require('./routes/gameDesign/eldenRing');
 
+/*
 //portfolia
 var portfolio_Router = require('./routes/portfolio/portfolio');
 var portfolio_skate123_Router = require('./routes/portfolio/skate123');
@@ -48,6 +49,7 @@ var portfolio_misc_Router = require('./routes/portfolio/misc')
 var portfolio_highlights_Router = require('./routes/portfolio/highlights')
 var portfolio_accomplishments_Router = require('./routes/portfolio/accomplishments')
 var portfolio_credits_Router = require('./routes/portfolio/credits')
+*/
 
 // games and stuff
 var games_helloWordle_Router = require('./routes/game_helloWordle');
@@ -74,14 +76,31 @@ app.use(
   express.static(path.join(__dirname, 'portfolio-spa', 'build'))
 );
 
+// Serve static files for the portfolio SPA (also accessible via /portfolio)
+app.use(
+  '/portfolio',
+  express.static(path.join(__dirname, 'portfolio-spa', 'build'))
+);
+
 // Serve images and other assets for the SPA (before the catch-all route)
 app.use(
   '/gamedevelopmentportfolio',
   express.static(path.join(__dirname, 'public'))
 );
 
+// Serve images and other assets for the portfolio route
+app.use(
+  '/portfolio',
+  express.static(path.join(__dirname, 'public'))
+);
+
 // For any SPA route, serve index.html (for client-side routing)
 app.get('/gamedevelopmentportfolio/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'portfolio-spa', 'build', 'index.html'));
+});
+
+// For any portfolio SPA route, serve index.html (for client-side routing)
+app.get('/portfolio/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'portfolio-spa', 'build', 'index.html'));
 });
 
@@ -107,6 +126,7 @@ app.use('/gameDesign/shipAndLiveService', gameDesign_shipAndLiveService_Router);
 app.use('/gameDesign/eldenRingAccessibility', gameDesign_eldenRing_Router);
 app.use('/gameDesign/coreLoops', gameDesign_coreLoops_Router);
 
+/*
 //portfolio
 app.use('/portfolio', portfolio_Router);
 app.use('/portfolio/skate123', portfolio_skate123_Router);
@@ -129,7 +149,7 @@ app.use('/portfolio/misc', portfolio_misc_Router)
 app.use('/portfolio/highlights', portfolio_highlights_Router)
 app.use('/portfolio/accomplishments', portfolio_accomplishments_Router)
 app.use('/portfolio/credits', portfolio_credits_Router)
-
+*/
 
 // games and stuff
 app.use('/game_helloWordle', games_helloWordle_Router);

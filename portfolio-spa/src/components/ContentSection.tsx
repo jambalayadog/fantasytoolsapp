@@ -353,7 +353,7 @@ const ContentSection: React.FC<ContentSectionProps> = ({ title, type, project, c
           style={{ 
             display: "flex",
             justifyContent: "center",
-            gap: "0rem",
+            gap: "3px",
             position: "absolute",
             bottom: "1rem",
             left: "0",

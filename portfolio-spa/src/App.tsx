@@ -6,6 +6,14 @@ import ContentSection from "./components/ContentSection";
 import LegalBar from "./components/LegalBar";
 import { PortfolioProject } from "./portfolioTypes";
 
+const getBasename = () => {
+  const path = window.location.pathname;
+  if (path.startsWith('/portfolio')) {
+    return '/portfolio';
+  }
+  return '/gamedevelopmentportfolio';
+};
+
 function App() {
   const [projects, setProjects] = useState<PortfolioProject[]>([]);
   const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
@@ -30,7 +38,7 @@ function App() {
   if (!selectedProject || projects.length === 0) return <div className="text-white">Loading...</div>;
 
   return (
-    <Router basename="/gamedevelopmentportfolio">
+    <Router basename={getBasename()}>
       <div className="h-screen flex flex-col bg-gray-900 overflow-hidden">
         {/* Title Bar - 5% of viewport height */}
         <div style={{ height: "5vh", width: "100%", border: "0px solid green"  }}>

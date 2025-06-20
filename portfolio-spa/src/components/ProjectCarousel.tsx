@@ -174,7 +174,7 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
           transform: "translateX(-50%)",
           display: "flex",
           alignItems: "center",
-          gap: "0px",
+          gap: "3px",
           zIndex: 10
         }}>
           {Array.from({ length: Math.ceil(projects.length / visibleCount) }, (_, pageIndex) => {
