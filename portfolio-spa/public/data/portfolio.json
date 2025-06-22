@@ -10,7 +10,7 @@
         "url": "/images/gameDesign/portfolio/DesignExperiences.png",
         "tag": "Expert Game Designer & Technical Designer",
         "impact": [
-          "20+ years crafting high quality gameplay experiences across multiple genres and AAA franchises, including Star Wars, Gears of War, Need For Speed, Madden, and FIFA. I have owned numerous facets of game design across 20+ shipped AAA titles and 10+ non-shipped projects to develope expertise in design methodologies and development frameworks.",
+          "20+ years delivering high quality gameplay experiences across multiple genres and AAA franchises, including Star Wars, Gears of War, Need For Speed, Madden, and FIFA. I have owned numerous facets of game design across 20+ shipped AAA titles and 10+ non-shipped projects to develope expertise in design methodologies and development frameworks.",
           "Design leader who bridges creative with practical, driving vision from concept to live service. Proven track record of mentoring and coaching, solving complex technical design challenges, and delivering player-focused experiences."
         ]
       }
@@ -25,11 +25,15 @@
       {
         "type": "image",
         "url": "/images/gameDesign/portfolio/Skills.png",
-        "tag": "Tech Stack",
+        "tag": "Skill Stack",
         "impact": [
-          "Very experienced with game development engines (Unreal Engine, Unity, Godot), visual and code scripting (Python, JavaScript, Blueprint), and design tools (Confluence, Miro, Excel). Built tools and websites using web frameworks (Node, Express, React). Self-taught AI-assisted development to build personal projects.",
+          "My comprehensive skillset spans conceptual design to technical engine implementation and shipping live products. Leveraging extensive development expertise, I'm adept at prototyping, crafting compelling player experiences that drive long-term engagement, aligning teams and driving features with clear goals, and delivering scalable, high quality experiences.",
 		  "View or Download my [a(href='/data/Resume_JordanWatt.pdf') Resume] here." 
-        ]
+        ],
+		"comment": [
+		"Very experienced with game development engines (Unreal Engine, Unity, Godot), visual and code scripting (Python, JavaScript, Blueprint), and design tools (Confluence, Miro, Excel). Built tools and websites using web frameworks (Node, Express, React). Self-taught AI-assisted development to build personal projects.",
+		  "View or Download my [a(href='/data/Resume_JordanWatt.pdf') Resume] here." 
+		]
       }
     ]
   },
