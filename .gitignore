@@ -22,3 +22,4 @@ pids
 *.pid.lock
 .vscode/settings.json
 dev-start.js
+/files/gamedesign
