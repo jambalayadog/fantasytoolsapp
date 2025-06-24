@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import { useViewport } from "../hooks/useViewport";
 import { PortfolioProject } from "../portfolioTypes";
 
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+  }
+}
+
 // Helper function to convert YouTube URLs to embed format
 const convertToEmbedUrl = (url: string): string => {
   // Handle youtu.be format
@@ -134,10 +140,22 @@ const ContentSection: React.FC<ContentSectionProps> = ({ title, type, project, c
 
   const handlePreviousMedia = () => {
     onMediaIndexChange(Math.max(0, currentMediaIndex - 1));
+    if (window.gtag) {
+      window.gtag('event', 'click', {
+        event_category: 'Media',
+        event_label: `Previous Media: ${project.title}`
+      });
+    }
   };
 
   const handleNextMedia = () => {
     onMediaIndexChange(Math.min(mediaItems.length - 1, currentMediaIndex + 1));
+    if (window.gtag) {
+      window.gtag('event', 'click', {
+        event_category: 'Media',
+        event_label: `Next Media: ${project.title}`
+      });
+    }
   };
 
   const renderMediaContent = () => (

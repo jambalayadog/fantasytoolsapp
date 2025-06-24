@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NHL Weekly Schedule - Hockey Test</title>
+    <title>NHL 2024-2025 Weekly Schedule</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -34,7 +34,7 @@
         }
         
         .nav-button {
-            background: #10101010;*/
+            background: #10101010;
             color: white;
             border: none;
             padding: 8px 12px;
@@ -298,6 +298,14 @@
             }
         }
     </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FDN2CFRV8T"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-FDN2CFRV8T');
+    </script>
 </head>
 <body>
     <div class="container">
@@ -368,15 +376,33 @@
                 currentWeek = parseInt(e.target.value);
                 renderSchedule();
                 updateNavigationButtons();
+                if (window.gtag) {
+                  window.gtag('event', 'change', {
+                    event_category: 'Navigation',
+                    event_label: `Week Select: Week ${currentWeek}`
+                  });
+                }
             });
             
             // Add event listeners for navigation buttons
             document.getElementById('prev-week-btn').addEventListener('click', function() {
                 navigateWeek(-1);
+                if (window.gtag) {
+                  window.gtag('event', 'click', {
+                    event_category: 'Navigation',
+                    event_label: 'Previous Week Button'
+                  });
+                }
             });
             
             document.getElementById('next-week-btn').addEventListener('click', function() {
                 navigateWeek(1);
+                if (window.gtag) {
+                  window.gtag('event', 'click', {
+                    event_category: 'Navigation',
+                    event_label: 'Next Week Button'
+                  });
+                }
             });
             
             // Add event listener for window resize (mobile/desktop layout changes)

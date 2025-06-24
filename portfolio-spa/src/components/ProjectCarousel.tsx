@@ -7,6 +7,12 @@ interface ProjectCarouselProps {
   onProjectSelect: (project: PortfolioProject) => void;
 }
 
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+  }
+}
+
 const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
   projects,
   selectedProject,
@@ -232,7 +238,15 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
           <div 
             key={project.id}
             className={`project-card ${selectedProject.id === project.id ? 'selected' : ''}`}
-            onClick={() => onProjectSelect(project)}
+            onClick={() => {
+              onProjectSelect(project);
+              if (window.gtag) {
+                window.gtag('event', 'click', {
+                  event_category: 'Portfolio',
+                  event_label: `Project Card: ${project.title}`
+                });
+              }
+            }}
             onMouseEnter={() => setHoveredId(project.id)}
             onMouseLeave={() => setHoveredId(null)}
             style={{
