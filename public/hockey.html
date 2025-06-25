@@ -842,7 +842,7 @@
                 
                 // Create team logo
                 const teamLogo = document.createElement('img');
-                teamLogo.src = `/images/${team.toLowerCase()}.png`;
+                teamLogo.src = `/images/${team}.png`;
                 teamLogo.className = 'team-logo';
                 teamLogo.alt = team;
                 teamLogo.onerror = function() { this.style.display = 'none'; }; // Hide if logo doesn't exist
@@ -883,7 +883,7 @@
                             opponentLine.className = 'mobile-opponent-line';
                             
                             const opponentLogo = document.createElement('img');
-                            opponentLogo.src = `/images/${opponent.toLowerCase()}.png`;
+                            opponentLogo.src = `/images/${opponent}.png`;
                             opponentLogo.className = 'opponent-logo';
                             opponentLogo.alt = opponent;
                             opponentLogo.onerror = function() { this.style.display = 'none'; };
@@ -916,7 +916,7 @@
                         } else {
                             // Desktop layout: horizontal layout
                             const opponentLogo = document.createElement('img');
-                            opponentLogo.src = `/images/${opponent.toLowerCase()}.png`;
+                            opponentLogo.src = `/images/${opponent}.png`;
                             opponentLogo.className = 'opponent-logo';
                             opponentLogo.alt = opponent;
                             opponentLogo.onerror = function() { this.style.display = 'none'; };
