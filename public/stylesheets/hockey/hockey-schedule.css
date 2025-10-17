@@ -1,0 +1,494 @@
+/* NHL Hockey Schedule Styles */
+
+/* Base Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #050505;
+}
+
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    background: slategray;
+    padding: 20px;
+    border-radius: 0px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: visible; /* Ensure sticky positioning works */
+}
+
+h1 {
+    color: white;
+    text-align: center;
+    margin-bottom: 0;
+    position: sticky;
+    top: 0;
+    background: slategray;
+    z-index: 100;
+    padding: 10px 0 5px 0;
+    margin-top: 0;
+}
+
+/* Controls */
+.controls {
+    margin-bottom: 5px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: sticky;
+    top: 48px; /* h1 height: ~48px (10px + text + 5px) */
+    background: slategray;
+    z-index: 99;
+    padding: 10px 0;
+    /*border-bottom: 1px solid #e0e0e0;*/
+}
+
+.nav-button {
+    background: #a0a0a0;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.nav-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* Today Button Special Styling */
+.today-button {
+    background: #a0a0a0;
+    color: white;
+    font-weight: 600;
+    padding: 10px 20px;
+}
+
+/*
+.today-button:hover {
+    background: #0056b3;
+    border-color: #004085;
+}
+*/
+
+select {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Table Styles */
+.schedule-table {
+    width: 100%;
+    border-collapse: separate;
+    background-color: white;
+    border-spacing: 0;
+    font-size: 12px;
+    table-layout: fixed; /* Force fixed column widths */
+}
+
+.schedule-table th,
+.schedule-table td {
+    border: 1px solid #ccc;
+    border-top: 0;
+    border-left: 0;
+    padding: 4px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.schedule-table th:first-child,
+.schedule-table td:first-child {
+    border-left: 1px solid #ccc;
+}
+
+.schedule-table thead tr:first-child th {
+    border-top: 1px solid #ccc;
+}
+
+.schedule-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.schedule-table thead th {
+    background-color: #f8f9fa;
+    position: sticky !important;
+    top: 104px !important; /* h1 (~48px) + controls (~50px with padding and border) */
+    z-index: 98 !important;
+}
+
+/* Fixed column widths */
+.schedule-table th:nth-child(1),
+.schedule-table td:nth-child(1) {
+    /*max-width: 80px; /* Team column */
+    text-align: center;
+    font-weight: bold;
+}
+
+.schedule-table th:nth-child(2),
+.schedule-table td:nth-child(2),
+.schedule-table th:nth-child(3),
+.schedule-table td:nth-child(3) {
+    /*width: 55px; /* GF/GP and GA/GP columns */
+    text-align: center;
+}
+
+.schedule-table th:nth-child(4),
+.schedule-table td:nth-child(4),
+.schedule-table th:nth-child(5),
+.schedule-table td:nth-child(5),
+.schedule-table th:nth-child(6),
+.schedule-table td:nth-child(6),
+.schedule-table th:nth-child(7),
+.schedule-table td:nth-child(7),
+.schedule-table th:nth-child(8),
+.schedule-table td:nth-child(8),
+.schedule-table th:nth-child(9),
+.schedule-table td:nth-child(9),
+.schedule-table th:nth-child(10),
+.schedule-table td:nth-child(10) {
+    width: 110px; /* Day columns (Mon-Sun) */
+}
+
+.schedule-table th:nth-child(11),
+.schedule-table td:nth-child(11) {
+    min-width: 25px; /* GP column */
+}
+
+/* Team Cell */
+.team-cell {
+    font-weight: bold;
+    text-align: center;
+    background-color: white;
+}
+
+/* Sticky Columns */
+.sticky-column {
+    position: sticky;
+    left: 0;
+    background-color: white;
+    z-index: 10;
+}
+
+/* Commented out for user's custom layout
+.sticky-column:nth-child(2) {
+    left: 80px;
+}
+
+.sticky-column:nth-child(3) {
+    left: 135px;
+}
+*/
+
+.sticky-column-right {
+    position: sticky;
+    right: 0;
+    background-color: white;
+    z-index: 10;
+}
+
+thead .sticky-column,
+thead .sticky-column-right {
+    background-color: #f8f9fa;
+    position: sticky !important;
+    top: 98px !important;
+    z-index: 99 !important; /* Higher than regular sticky headers to stay on top */
+}
+
+/* Ensure sticky columns with stat colors maintain their background */
+.sticky-column.stat-good {
+    background-color: #d4edda;
+}
+
+.sticky-column.stat-bad {
+    background-color: #f8d7da;
+}
+
+/* GP Column Styling - Ranked by value */
+.gp-highest {
+    background-color: #d4edda; /* Light green for highest value */
+}
+
+.gp-third {
+    background-color: #f8d7da; /* Light red for third highest */
+}
+
+.gp-lowest {
+    background-color: #e8d4f8; /* Light purple for lowest value */
+}
+
+/* Stat Cell with Indicators */
+.stat-cell {
+    position: relative; /* Enable absolute positioning for children */
+    text-align: center;
+    font-size: 12px;
+    color: #333;
+}
+
+/* Background shading for stat cells */
+.stat-cell.stat-good {
+    background-color: #d4edda; /* Light green */
+}
+
+.stat-cell.stat-bad {
+    background-color: #f8d7da; /* Light red */
+}
+
+.stat-arrow {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+    /*padding: 1px 3px;
+    border-radius: 2px;
+    background-color: rgba(255, 255, 255, 0.9);*/
+}
+
+.stat-arrow.good {
+    color: #28a745; /* Green for good performance */
+    border: 0px solid #28a745;
+}
+
+.stat-arrow.bad {
+    color: #dc3545; /* Red for poor performance */
+    border: 0px solid #dc3545;
+}
+
+/* Team Logo */
+.team-logo {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.opponent-logo {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-right: 3px;
+}
+
+/* Game Cells */
+.game-away {
+    background-color: #e8f0ff;
+}
+
+.game-home {
+    background-color: transparent;
+}
+
+.score-win {
+    background-color: #4CAF50;
+    color: white;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.score-loss {
+    background-color: #f44336;
+    color: white;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+/* Loading and Error States */
+.loading {
+    text-align: center;
+    padding: 40px;
+    font-size: 16px;
+}
+
+.error {
+    color: red;
+    text-align: center;
+    padding: 20px;
+}
+
+.debug-info {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+/* Table Container */
+/* Removed overflow to allow sticky positioning to work relative to viewport */
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+    .table-container {
+        margin: 0 -0px; /* Extend slightly beyond container padding */
+    }
+
+    .container {
+        padding: 0px 5px 0px 5px;
+        margin: 0;
+    }
+    
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        font-size: 16px;
+        margin: 0px 0 0 0;
+        top: 0px;
+        padding: 10px 0 5px 0;
+    }
+
+    .controls {
+        margin-bottom: 5px;
+        font-size: 12px;
+        gap: 8px;
+        top: 33px; /* h1 mobile height: ~28px */
+        padding: 5px 0;
+    }
+    
+    .schedule-table thead th {
+        top: 68px !important; /* h1 (28px) + controls (50px) = 78px */
+    }
+    
+    thead .sticky-column,
+    thead .sticky-column-right {
+        top: 68px !important; /* Same as regular thead th for mobile */
+    }
+    
+    .schedule-table {
+        font-size: 10px;
+    }
+    
+    .schedule-table th,
+    .schedule-table td {
+        padding: 1px;
+        line-height: 1.1;
+        border-width: 0.5px;
+    }
+
+    .stat-cell {
+        font-size: 10px;
+    }
+    
+    /* Stack opponent and score vertically on mobile */
+    .mobile-game-cell {
+        display: table-cell !important;
+        vertical-align: middle;
+        text-align: center;
+    }
+    
+    .mobile-game-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+    }
+    
+    .mobile-opponent-line {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .mobile-score-line {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Optimized column widths for mobile - fit ~350px */
+    .schedule-table th:nth-child(1),
+    .schedule-table td:nth-child(1) {
+        width: 50px; /* Team column */
+    }
+    
+    .schedule-table th:nth-child(2),
+    .schedule-table td:nth-child(2),
+    .schedule-table th:nth-child(3),
+    .schedule-table td:nth-child(3) {
+        width: 25px; /* GF/GP and GA/GP columns */
+    }
+
+
+    .schedule-table th:nth-child(4),
+    .schedule-table td:nth-child(4),
+    .schedule-table th:nth-child(5),
+    .schedule-table td:nth-child(5),
+    .schedule-table th:nth-child(6),
+    .schedule-table td:nth-child(6),
+    .schedule-table th:nth-child(7),
+    .schedule-table td:nth-child(7),
+    .schedule-table th:nth-child(8),
+    .schedule-table th:nth-child(9),
+    .schedule-table th:nth-child(10),
+    .schedule-table td:nth-child(10) {
+        width: 32px; /* Day columns (7 × 32px = 224px) */
+    }
+    
+    .schedule-table th:nth-child(11),
+    .schedule-table td:nth-child(11) {
+        width: 18px; /* GP column - very compact */
+        font-size: 10px; /* Slightly larger for better readability */
+    }
+
+    /* Commented out for user's custom layout
+    .sticky-column:nth-child(2) {
+        left: 50px;
+    }
+    
+    .sticky-column:nth-child(3) {
+        left: 75px;
+    }
+    */
+    
+    .team-logo {
+        width: 14px;
+        height: 14px;
+        margin-right: 2px;
+    }
+    
+    .opponent-logo {
+        width: 10px;
+        height: 10px;
+        margin-right: 1px;
+    }
+    
+    .score-win,
+    .score-loss {
+        font-size: 9px; /* Slightly larger for better readability */
+        padding: 1px 2px;
+    }
+    
+    
+    
+    .nav-button {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+    
+    select {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+    
+    .debug-info {
+        font-size: 10px;
+    }
+}
+

@@ -23,3 +23,8 @@ pids
 .vscode/settings.json
 dev-start.js
 /files/gamedesign
+/node_modules
+bin/www
+node_modules/.package-lock.json
+/tests
+screenshot-localhost-3000.png
