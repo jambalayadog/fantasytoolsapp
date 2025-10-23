@@ -33,11 +33,11 @@
             <table id="schedule-table" class="schedule-table" style="display: none;">
                 <thead>
                     <tr id="schedule-header-row">
-                        <th class="sticky-column">Team</th>
-                        <th class="sticky-column">Off</th>
-                        <th class="sticky-column">Def</th>
+                        <th class="sticky-column sortable" data-sort="team">Team <span class="sort-indicator"></span></th>
+                        <th class="sticky-column sortable" data-sort="off">Off <span class="sort-indicator"></span></th>
+                        <th class="sticky-column sortable" data-sort="def">Def <span class="sort-indicator"></span></th>
+                        <th class="sticky-column sortable" data-sort="gp">GP <span class="sort-indicator"></span></th>
                         <!-- 7 day columns will be dynamically inserted here -->
-                        <th class="sticky-column-right">GP</th>
                     </tr>
                 </thead>
                 <tbody id="schedule-tbody">
@@ -69,6 +69,9 @@
         let allGames = {}; // Will store all games for entire season by team
         let currentStartDate = null; // Start date of current 7-day window
         let seasonStartMonday = null; // Will be calculated from first game
+        let currentSortColumn = null; // Track which column is currently sorted
+        let currentSortDirection = 'asc'; // 'asc' or 'desc'
+        let tableData = []; // Store current table data for sorting
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
@@ -382,6 +385,7 @@
             if (!currentStartDate) return;
             
             currentStartDate.setDate(currentStartDate.getDate() + days);
+            clearSort(); // Clear sort state when navigating
             renderSchedule();
         }
 
@@ -393,6 +397,7 @@
             currentStartDate = new Date(today);
             currentStartDate.setDate(today.getDate() - 4); // 4 days before today
             
+            clearSort(); // Clear sort state when navigating
             renderSchedule();
         }
 
@@ -416,24 +421,149 @@
             const existingDayCols = headerRow.querySelectorAll('.day-column');
             existingDayCols.forEach(col => col.remove());
             
-            // Find the GP column (last column)
-            const gpColumn = headerRow.querySelector('.sticky-column-right');
+            // Get today's date normalized to midnight for comparison
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
             
-            // Insert 7 date columns before the GP column
+            // Append 7 date columns at the end of the header row
             windowDates.forEach((date, index) => {
                 const th = document.createElement('th');
-                th.className = 'day-column';
+                th.className = 'day-column sortable';
+                th.setAttribute('data-sort', `day${index}`);
                 
                 // Format: "Mon 10/7"
                 const dayName = DAYS_OF_WEEK[date.getDay() === 0 ? 6 : date.getDay() - 1]; // Convert Sunday=0 to our format
                 const month = date.getMonth() + 1;
                 const day = date.getDate();
                 
-                th.innerHTML = `${dayName}<br>${month}/${day}`;
+                th.innerHTML = `${dayName}<br>${month}/${day} <span class="sort-indicator"></span>`;
                 th.style.fontSize = '11px';
                 
-                headerRow.insertBefore(th, gpColumn);
+                // Check if this date is today and add special class
+                const dateNormalized = new Date(date);
+                dateNormalized.setHours(0, 0, 0, 0);
+                if (dateNormalized.getTime() === today.getTime()) {
+                    th.classList.add('today-column');
+                }
+                
+                headerRow.appendChild(th);
             });
+        }
+
+        function attachSortHandlers() {
+            // Attach click handlers to all sortable headers
+            // Use event delegation on the header row to avoid duplicate handlers
+            const headerRow = document.getElementById('schedule-header-row');
+            
+            // Remove any existing handler first
+            headerRow.removeEventListener('click', handleHeaderClick);
+            
+            // Add single delegated handler
+            headerRow.addEventListener('click', handleHeaderClick);
+            
+            // Style all sortable headers
+            const sortableHeaders = document.querySelectorAll('.sortable');
+            sortableHeaders.forEach(header => {
+                header.style.cursor = 'pointer';
+            });
+        }
+        
+        function handleHeaderClick(event) {
+            // Find the clicked header (might be the th or a child element)
+            const header = event.target.closest('.sortable');
+            if (header) {
+                const sortColumn = header.getAttribute('data-sort');
+                sortTable(sortColumn);
+            }
+        }
+
+        function clearSort() {
+            // Clear sort state and indicators
+            currentSortColumn = null;
+            currentSortDirection = 'asc';
+            updateSortIndicators();
+        }
+
+        function sortTable(column) {
+            // Toggle direction if clicking the same column
+            if (currentSortColumn === column) {
+                currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSortColumn = column;
+                // Default sort direction: desc for numeric columns (show highest first), asc for team
+                if (column === 'team' || column.startsWith('day')) {
+                    currentSortDirection = 'asc';
+                } else {
+                    currentSortDirection = 'desc'; // off, def, gp show highest first
+                }
+            }
+
+            // Sort the tableData array
+            tableData.sort((a, b) => {
+                let valA, valB;
+
+                if (column === 'team') {
+                    // Sort by position in NHL_TEAMS array (by city name order)
+                    valA = NHL_TEAMS.indexOf(a.team);
+                    valB = NHL_TEAMS.indexOf(b.team);
+                    return currentSortDirection === 'asc' 
+                        ? valA - valB
+                        : valB - valA;
+                } 
+                else if (column === 'off') {
+                    valA = a.offValue;
+                    valB = b.offValue;
+                    return currentSortDirection === 'asc' 
+                        ? valA - valB
+                        : valB - valA;
+                } 
+                else if (column === 'def') {
+                    valA = a.defValue;
+                    valB = b.defValue;
+                    // For defense, lower is better, so default 'asc' should show best (lowest) first
+                    return currentSortDirection === 'asc' 
+                        ? valA - valB
+                        : valB - valA;
+                } 
+                else if (column === 'gp') {
+                    valA = a.gamesInWindow;
+                    valB = b.gamesInWindow;
+                    return currentSortDirection === 'asc' 
+                        ? valA - valB
+                        : valB - valA;
+                } 
+                else if (column.startsWith('day')) {
+                    const dayIndex = parseInt(column.substring(3));
+                    valA = a.dayGames[dayIndex] ? 1 : 0;
+                    valB = b.dayGames[dayIndex] ? 1 : 0;
+                    return currentSortDirection === 'asc' 
+                        ? valB - valA  // Games first (1 before 0)
+                        : valA - valB;
+                }
+                return 0;
+            });
+
+            // Update sort indicators
+            updateSortIndicators();
+
+            // Re-render the table with sorted data
+            renderSortedTable();
+        }
+
+        function updateSortIndicators() {
+            // Clear all indicators
+            document.querySelectorAll('.sort-indicator').forEach(indicator => {
+                indicator.textContent = '';
+            });
+
+            // Set indicator for current sort column
+            const currentHeader = document.querySelector(`[data-sort="${currentSortColumn}"]`);
+            if (currentHeader) {
+                const indicator = currentHeader.querySelector('.sort-indicator');
+                if (indicator) {
+                    indicator.textContent = currentSortDirection === 'asc' ? ' ▲' : ' ▼';
+                }
+            }
         }
 
 
@@ -580,6 +710,9 @@
 
             // Update table header with actual dates
             updateTableHeaderWithDates(windowDates);
+            
+            // Attach sort handlers after header is updated with day columns
+            attachSortHandlers();
 
             // Calculate percentiles for GF/GP and GA/GP to determine arrow indicators
             const gfgpValues = [];
@@ -604,11 +737,61 @@
             const gagpLowThreshold = gagpValues[Math.floor(gagpValues.length / 3)];
             const gagpHighThreshold = gagpValues[Math.floor(gagpValues.length * 2 / 3)];
 
+            // Build table data array for all teams
+            tableData = [];
+            
+            NHL_TEAMS.forEach(team => {
+                const stats = teamStats[team];
+                const offValue = stats ? (stats.teamRecord_GoalsFor / stats.teamRecord_GamesPlayed) : 0;
+                const defValue = stats ? (stats.teamRecord_GoalsAgainst / stats.teamRecord_GamesPlayed) : 0;
+                
+                // Count games and store game data for each day
+                const teamGames = allGames[team] || [];
+                let gamesInWindow = 0;
+                const dayGames = [];
+                
+                for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
+                    const windowDate = windowDates[dayIndex];
+                    windowDate.setHours(0, 0, 0, 0);
+                    
+                    const gameForDay = teamGames.find(game => {
+                        const gameDate = new Date(game.gamedate);
+                        gameDate.setHours(0, 0, 0, 0);
+                        return gameDate.getTime() === windowDate.getTime();
+                    });
+                    
+                    dayGames.push(gameForDay || null);
+                    if (gameForDay) gamesInWindow++;
+                }
+                
+                tableData.push({
+                    team: team,
+                    stats: stats,
+                    offValue: offValue,
+                    defValue: defValue,
+                    gamesInWindow: gamesInWindow,
+                    dayGames: dayGames,
+                    gfgpHighThreshold: gfgpHighThreshold,
+                    gfgpLowThreshold: gfgpLowThreshold,
+                    gagpHighThreshold: gagpHighThreshold,
+                    gagpLowThreshold: gagpLowThreshold
+                });
+            });
+
+            // Render the table
+            renderSortedTable();
+        }
+
+        function renderSortedTable() {
+            const tbody = document.getElementById('schedule-tbody');
+            tbody.innerHTML = '';
+            
             // Array to store GP values and cells for styling after rendering
             const gpData = [];
 
-            // Render each team row
-            NHL_TEAMS.forEach(team => {
+            // Render each team row from tableData
+            tableData.forEach(rowData => {
+                const team = rowData.team;
                 const row = document.createElement('tr');
                 
                 // Team name cell with logo only
@@ -627,8 +810,8 @@
                 row.appendChild(teamCell);
 
                 // GF/GP cell
-                const stats = teamStats[team];
-                const gfgpValue = stats ? (stats.teamRecord_GoalsFor / stats.teamRecord_GamesPlayed) : 0;
+                const stats = rowData.stats;
+                const gfgpValue = rowData.offValue;
                 const gfgp = gfgpValue.toFixed(1);
                 const gfgpCell = document.createElement('td');
                 gfgpCell.className = 'stat-cell sticky-column';
@@ -636,13 +819,13 @@
                 
                 // Add arrow indicator and background color for GF/GP (higher is better)
                 if (stats && stats.teamRecord_GamesPlayed > 0) {
-                    if (gfgpValue >= gfgpHighThreshold) {
+                    if (gfgpValue >= rowData.gfgpHighThreshold) {
                         gfgpCell.classList.add('stat-good');
                         const arrow = document.createElement('span');
                         arrow.className = 'stat-arrow good';
                         arrow.textContent = '+';
                         gfgpCell.appendChild(arrow);
-                    } else if (gfgpValue <= gfgpLowThreshold) {
+                    } else if (gfgpValue <= rowData.gfgpLowThreshold) {
                         gfgpCell.classList.add('stat-bad');
                         const arrow = document.createElement('span');
                         arrow.className = 'stat-arrow bad';
@@ -653,7 +836,7 @@
                 row.appendChild(gfgpCell);
                 
                 // GA/GP cell
-                const gagpValue = stats ? (stats.teamRecord_GoalsAgainst / stats.teamRecord_GamesPlayed) : 0;
+                const gagpValue = rowData.defValue;
                 const gagp = gagpValue.toFixed(1);
                 const gagpCell = document.createElement('td');
                 gagpCell.className = 'stat-cell sticky-column';
@@ -661,13 +844,13 @@
                 
                 // Add arrow indicator and background color for GA/GP (lower is better for defense)
                 if (stats && stats.teamRecord_GamesPlayed > 0) {
-                    if (gagpValue <= gagpLowThreshold) {
+                    if (gagpValue <= rowData.gagpLowThreshold) {
                         gagpCell.classList.add('stat-good');
                         const arrow = document.createElement('span');
                         arrow.className = 'stat-arrow good';
                         arrow.textContent = '+';
                         gagpCell.appendChild(arrow);
-                    } else if (gagpValue >= gagpHighThreshold) {
+                    } else if (gagpValue >= rowData.gagpHighThreshold) {
                         gagpCell.classList.add('stat-bad');
                         const arrow = document.createElement('span');
                         arrow.className = 'stat-arrow bad';
@@ -677,26 +860,17 @@
                 }
                 row.appendChild(gagpCell);
 
+                // Games count cell - create it now, will populate after rendering game cells
+                const countCell = document.createElement('td');
+                countCell.className = 'sticky-column';
+                row.appendChild(countCell);
+
                 // Game cells for each day in the 7-day window
-                const teamGames = allGames[team] || [];
-                let gamesInWindow = 0; // Count games in this 7-day window
-                
                 for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
                     const gameCell = document.createElement('td');
-                    
-                    // Get the date for this specific day in the window
-                    const windowDate = windowDates[dayIndex];
-                    windowDate.setHours(0, 0, 0, 0);
-                    
-                    // Find game that matches this exact date
-                    const gameForDay = teamGames.find(game => {
-                        const gameDate = new Date(game.gamedate);
-                        gameDate.setHours(0, 0, 0, 0);
-                        return gameDate.getTime() === windowDate.getTime();
-                    });
+                    const gameForDay = rowData.dayGames[dayIndex];
                     
                     if (gameForDay) {
-                        gamesInWindow++; // Increment game count for this window
                         
                         const isHome = gameForDay.hometeam === team;
                         const opponent = isHome ? gameForDay.awayteam : gameForDay.hometeam;
@@ -794,14 +968,11 @@
                     row.appendChild(gameCell);
                 }
 
-                // Games count cell - shows games in current 7-day window (0-7)
-                const countCell = document.createElement('td');
-                countCell.className = 'sticky-column-right';
-                countCell.textContent = gamesInWindow;
-                row.appendChild(countCell);
+                // Now populate the GP cell with the count
+                countCell.textContent = rowData.gamesInWindow;
 
                 // Store GP value and cell for styling later
-                gpData.push({ value: gamesInWindow, cell: countCell });
+                gpData.push({ value: rowData.gamesInWindow, cell: countCell });
 
                 tbody.appendChild(row);
             });
