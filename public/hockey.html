@@ -129,10 +129,25 @@
             });
             
             // Add event listener for window resize (mobile/desktop layout changes)
+            // Only re-render if width changes (orientation/real resize), not height (address bar)
+            let resizeTimeout;
+            let lastWidth = window.innerWidth;
+            
             window.addEventListener('resize', function() {
-                if (hockeyData) {
-                    renderSchedule();
-                }
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(function() {
+                    const currentWidth = window.innerWidth;
+                    const widthChange = Math.abs(currentWidth - lastWidth);
+                    
+                    // Only re-render if width changed by more than 50px (orientation change or real resize)
+                    // Ignore height-only changes (address bar showing/hiding)
+                    if (widthChange > 50) {
+                        lastWidth = currentWidth;
+                        if (hockeyData) {
+                            renderSchedule();
+                        }
+                    }
+                }, 250); // Wait 250ms after resize stops
             });
             
             // Add touch swipe functionality for mobile
@@ -176,9 +191,13 @@
             function handleSwipe() {
                 const deltaX = endX - startX;
                 const deltaY = Math.abs(endY - startY);
+                const absDeltaX = Math.abs(deltaX);
                 
                 // Check if it's a horizontal swipe (not vertical scroll)
-                if (Math.abs(deltaX) > minSwipeDistance && deltaY < maxVerticalDistance) {
+                // Horizontal movement must be:
+                // 1. Greater than minimum distance (50px)
+                // 2. At least 2x the vertical movement (to distinguish from vertical scroll)
+                if (absDeltaX > minSwipeDistance && absDeltaX > deltaY * 2) {
                     if (deltaX > 0) {
                         // Swipe right - go to previous week
                         navigateWeek(-1);
@@ -782,6 +801,21 @@
             renderSortedTable();
         }
 
+        function getStatColor(value, isOffense, thresholds) {
+            // Returns color class for stat indicators
+            // isOffense: true for offense (higher is better), false for defense (lower is better)
+            if (isOffense) {
+                // Offense: higher is better
+                if (value >= thresholds.high) return 'stat-indicator-good';
+                if (value <= thresholds.low) return 'stat-indicator-bad';
+            } else {
+                // Defense: lower is better
+                if (value <= thresholds.low) return 'stat-indicator-good';
+                if (value >= thresholds.high) return 'stat-indicator-bad';
+            }
+            return 'stat-indicator-neutral';
+        }
+
         function renderSortedTable() {
             const tbody = document.getElementById('schedule-tbody');
             tbody.innerHTML = '';
@@ -815,24 +849,22 @@
                 const gfgp = gfgpValue.toFixed(1);
                 const gfgpCell = document.createElement('td');
                 gfgpCell.className = 'stat-cell sticky-column';
-                gfgpCell.textContent = gfgp;
                 
-                // Add arrow indicator and background color for GF/GP (higher is better)
+                // Create colored box for GF/GP (higher is better)
+                const gfgpBox = document.createElement('span');
+                gfgpBox.className = 'stat-value-box';
+                gfgpBox.textContent = gfgp;
+                
                 if (stats && stats.teamRecord_GamesPlayed > 0) {
-                    if (gfgpValue >= rowData.gfgpHighThreshold) {
-                        gfgpCell.classList.add('stat-good');
-                        const arrow = document.createElement('span');
-                        arrow.className = 'stat-arrow good';
-                        arrow.textContent = '+';
-                        gfgpCell.appendChild(arrow);
-                    } else if (gfgpValue <= rowData.gfgpLowThreshold) {
-                        gfgpCell.classList.add('stat-bad');
-                        const arrow = document.createElement('span');
-                        arrow.className = 'stat-arrow bad';
-                        arrow.textContent = '-';
-                        gfgpCell.appendChild(arrow);
-                    }
+                    const colorClass = getStatColor(
+                        gfgpValue, 
+                        true, 
+                        {high: rowData.gfgpHighThreshold, low: rowData.gfgpLowThreshold}
+                    );
+                    gfgpBox.classList.add(colorClass);
                 }
+                
+                gfgpCell.appendChild(gfgpBox);
                 row.appendChild(gfgpCell);
                 
                 // GA/GP cell
@@ -840,29 +872,27 @@
                 const gagp = gagpValue.toFixed(1);
                 const gagpCell = document.createElement('td');
                 gagpCell.className = 'stat-cell sticky-column';
-                gagpCell.textContent = gagp;
                 
-                // Add arrow indicator and background color for GA/GP (lower is better for defense)
+                // Create colored box for GA/GP (lower is better for defense)
+                const gagpBox = document.createElement('span');
+                gagpBox.className = 'stat-value-box';
+                gagpBox.textContent = gagp;
+                
                 if (stats && stats.teamRecord_GamesPlayed > 0) {
-                    if (gagpValue <= rowData.gagpLowThreshold) {
-                        gagpCell.classList.add('stat-good');
-                        const arrow = document.createElement('span');
-                        arrow.className = 'stat-arrow good';
-                        arrow.textContent = '+';
-                        gagpCell.appendChild(arrow);
-                    } else if (gagpValue >= rowData.gagpHighThreshold) {
-                        gagpCell.classList.add('stat-bad');
-                        const arrow = document.createElement('span');
-                        arrow.className = 'stat-arrow bad';
-                        arrow.textContent = '-';
-                        gagpCell.appendChild(arrow);
-                    }
+                    const colorClass = getStatColor(
+                        gagpValue, 
+                        false, 
+                        {high: rowData.gagpHighThreshold, low: rowData.gagpLowThreshold}
+                    );
+                    gagpBox.classList.add(colorClass);
                 }
+                
+                gagpCell.appendChild(gagpBox);
                 row.appendChild(gagpCell);
 
                 // Games count cell - create it now, will populate after rendering game cells
                 const countCell = document.createElement('td');
-                countCell.className = 'sticky-column';
+                countCell.className = 'sticky-column gp-cell';
                 row.appendChild(countCell);
 
                 // Game cells for each day in the 7-day window
@@ -915,24 +945,61 @@
                                 
                                 scoreLine.appendChild(scoreSpan);
                                 mobileContent.appendChild(scoreLine);
+                            } else {
+                                // Game not final - show opponent stat indicators
+                                const opponentData = tableData.find(d => d.team === opponent);
+                                if (opponentData) {
+                                    const indicatorLine = document.createElement('div');
+                                    indicatorLine.className = 'mobile-indicator-line';
+                                    
+                                    // Offense indicator
+                                    const offBox = document.createElement('span');
+                                    offBox.className = 'stat-indicator ' + getStatColor(
+                                        opponentData.offValue, 
+                                        true, 
+                                        {high: rowData.gfgpHighThreshold, low: rowData.gfgpLowThreshold}
+                                    );
+                                    indicatorLine.appendChild(offBox);
+                                    
+                                    // Defense indicator
+                                    const defBox = document.createElement('span');
+                                    defBox.className = 'stat-indicator ' + getStatColor(
+                                        opponentData.defValue, 
+                                        false, 
+                                        {high: rowData.gagpHighThreshold, low: rowData.gagpLowThreshold}
+                                    );
+                                    indicatorLine.appendChild(defBox);
+                                    
+                                    mobileContent.appendChild(indicatorLine);
+                                }
                             }
                             
                             gameCell.appendChild(mobileContent);
                             
                         } else {
-                            // Desktop layout: horizontal layout
+                            // Desktop layout: split layout with team | info
+                            const desktopContainer = document.createElement('div');
+                            desktopContainer.className = 'desktop-game-container';
+                            
+                            // Left side: Team name/logo
+                            const teamSide = document.createElement('div');
+                            teamSide.className = 'desktop-game-team';
+                            
                             const opponentLogo = document.createElement('img');
                             opponentLogo.src = `/images/${opponent}.png`;
                             opponentLogo.className = 'opponent-logo';
                             opponentLogo.alt = opponent;
                             opponentLogo.onerror = function() { this.style.display = 'none'; };
                             
-                            gameCell.appendChild(opponentLogo);
-                            gameCell.appendChild(document.createTextNode(opponent));
+                            teamSide.appendChild(opponentLogo);
+                            teamSide.appendChild(document.createTextNode(opponent));
+                            desktopContainer.appendChild(teamSide);
                             
-                            if (result === 'Final') {
-                                gameCell.appendChild(document.createTextNode(' '));
+                            // Right side: Score or indicators
+                            const infoSide = document.createElement('div');
+                            infoSide.className = 'desktop-game-info';
                                 
+                            if (result === 'Final') {
                                 const scoreSpan = document.createElement('span');
                                 const overtimeMarker = (gameForDay.periodResult === 'OT' || gameForDay.periodResult === 'SO') ? '+' : '';
                                 scoreSpan.textContent = `${gameForDay.teamResult} ${gameForDay.scoreResult}${overtimeMarker}`;
@@ -943,8 +1010,33 @@
                                     scoreSpan.className = 'score-loss';
                                 }
                                 
-                                gameCell.appendChild(scoreSpan);
+                                infoSide.appendChild(scoreSpan);
+                            } else {
+                                // Game not final - show opponent stat indicators
+                                const opponentData = tableData.find(d => d.team === opponent);
+                                if (opponentData) {
+                                    // Offense indicator
+                                    const offBox = document.createElement('span');
+                                    offBox.className = 'stat-indicator ' + getStatColor(
+                                        opponentData.offValue, 
+                                        true, 
+                                        {high: rowData.gfgpHighThreshold, low: rowData.gfgpLowThreshold}
+                                    );
+                                    infoSide.appendChild(offBox);
+                                    
+                                    // Defense indicator
+                                    const defBox = document.createElement('span');
+                                    defBox.className = 'stat-indicator ' + getStatColor(
+                                        opponentData.defValue, 
+                                        false, 
+                                        {high: rowData.gagpHighThreshold, low: rowData.gagpLowThreshold}
+                                    );
+                                    infoSide.appendChild(defBox);
+                                }
                             }
+                            
+                            desktopContainer.appendChild(infoSide);
+                            gameCell.appendChild(desktopContainer);
                         }
                         
                         // Add home/away styling to cell (both mobile and desktop)
@@ -962,7 +1054,7 @@
                             }
                         }
                     } else {
-                        gameCell.textContent = '-';
+                        gameCell.textContent = '';
                     }
                     
                     row.appendChild(gameCell);
