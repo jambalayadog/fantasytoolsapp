@@ -56,6 +56,10 @@ var games_helloWordle_Router = require('./routes/game_helloWordle');
 
 // modernized hockey schedule
 var hockeytestRouter = require('./routes/hockeytest');
+var adminRouter = require('./routes/admin');
+
+// NHL data scheduler
+const scheduler = require('./scripts/scheduler');
 
 var app = express();
 
@@ -156,6 +160,12 @@ app.use('/game_helloWordle', games_helloWordle_Router);
 
 // modernized hockey schedule
 app.use('/hockeytest', hockeytestRouter);
+
+// admin controls
+app.use('/admin', adminRouter);
+
+// Start NHL data scheduler
+scheduler.start();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

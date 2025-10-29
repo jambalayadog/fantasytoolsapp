@@ -1,0 +1,365 @@
+/* Admin Console Styles - Matches Hockey Site Theme */
+:root {
+    --page_background_color: slategrey;
+    --away_background_color: rgb(41, 41, 41);
+    --home_background_color: rgb(238, 238, 238);
+    --tableheader_background_color: #f8f9fa;
+    --table_background_color: rgb(238, 238, 238);
+    --button_background_color: #006a94;
+    --button_background_color_hover: #005578;
+    --low_value_red: #ffbac0;
+    --high_value_green: #c2ffd1;
+    --neutral_value_white: white;
+    --really_low_value_purple: #e8d4f8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: var(--page_background_color);
+    min-height: 100vh;
+    padding: 15px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--neutral_value_white);
+    border-radius: 0px;
+    /*box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);*/
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.header p {
+    opacity: 0.8;
+    font-size: 13px;
+}
+
+.content {
+    padding: 10px;
+    background-color: var(--page_background_color);
+}
+
+.section {
+    background: var(--tableheader_background_color);
+    border-radius: 0px;
+    padding: 18px;
+    margin-bottom: 5px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #2c3e50;
+}
+
+.section-title .emoji {
+    font-size: 20px;
+}
+
+.status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.status-card {
+    background: var(--neutral_value_white);
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.status-card .label {
+    font-size: 10px;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.status-card .value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.status-card.highlight .value {
+    color: var(--button_background_color);
+}
+
+.button-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-primary,
+.btn-success,
+.btn-danger,
+.btn-secondary {
+    background: var(--button_background_color);
+    color: white;
+}
+
+.btn-primary:hover:not(:disabled),
+.btn-success:hover:not(:disabled),
+.btn-danger:hover:not(:disabled),
+.btn-secondary:hover:not(:disabled) {
+    background: var(--button_background_color_hover);
+}
+
+.scheduler-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.control-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #495057;
+}
+
+.control-group select,
+.control-group input {
+    padding: 8px;
+    border: 2px solid #e9ecef;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.control-group select:focus,
+.control-group input:focus {
+    outline: none;
+    border-color: var(--button_background_color);
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .3s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--button_background_color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.logs-list {
+    background: var(--neutral_value_white);
+    border-radius: 6px;
+    padding: 12px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.log-entry {
+    padding: 10px;
+    border-left: 3px solid var(--button_background_color);
+    margin-bottom: 8px;
+    background: var(--tableheader_background_color);
+    border-radius: 3px;
+    font-size: 13px;
+}
+
+.log-entry .timestamp {
+    color: #6c757d;
+    font-size: 11px;
+}
+
+.log-entry.success {
+    border-left-color: var(--high_value_green);
+}
+
+.log-entry.error {
+    border-left-color: var(--low_value_red);
+}
+
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-indicator.running {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-indicator.stopped {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.status-indicator .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.output-box {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 15px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    max-height: 350px;
+    overflow-y: auto;
+    margin-top: 12px;
+    display: none;
+}
+
+.output-box.show {
+    display: block;
+}
+
+.output-box pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.loading {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .content {
+        padding: 15px;
+    }
+    
+    .section {
+        padding: 15px;
+    }
+    
+    .scheduler-controls {
+        grid-template-columns: 1fr;
+    }
+    
+    .status-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .header h1 {
+        font-size: 24px;
+    }
+}

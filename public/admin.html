@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Console - NHL Data</title>
+    <link rel="stylesheet" href="/stylesheets/admin.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏒 NHL Data Admin Console</h1>
+            <p>Manage data updates and scheduler configuration</p>
+        </div>
+
+        <div class="content">
+            <!-- Status Section -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="emoji">📊</span>
+                    <span>Current Status</span>
+                </div>
+                
+                <div class="status-grid">
+                    <div class="status-card">
+                        <div class="label">Last Update</div>
+                        <div class="value" id="last-update">Loading...</div>
+                    </div>
+                    <div class="status-card highlight">
+                        <div class="label">Total Games</div>
+                        <div class="value" id="total-games">-</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="label">Games Completed</div>
+                        <div class="value" id="games-completed">-</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="label">Games In Progress</div>
+                        <div class="value" id="games-in-progress">-</div>
+                    </div>
+                </div>
+                
+                <div class="status-grid" style="margin-top: 8px;">
+                    <div class="status-card">
+                        <div class="label">Season Start</div>
+                        <div class="value" id="season-start">-</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="label">Season End</div>
+                        <div class="value" id="season-end">-</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="label">Current Date</div>
+                        <div class="value" id="current-date">-</div>
+                    </div>
+                    <div class="status-card highlight">
+                        <div class="label">Current Week</div>
+                        <div class="value" id="current-week">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Management Section -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="emoji">🔧</span>
+                    <span>Data Management</span>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" id="btn-backfill" onclick="runBackfill()">
+                        Full Season
+                    </button>
+                    <button class="btn btn-success" id="btn-update" onclick="runUpdate()">
+                        Update Week x3
+                    </button>
+                    <button class="btn btn-success" id="btn-update-week" onclick="runUpdateWeek()">
+                        Update Week
+                    </button>
+                    <button class="btn btn-secondary" id="btn-refresh-status" onclick="refreshStatus()">
+                        Refresh Status
+                    </button>
+                </div>
+
+                <div class="output-box" id="output-box">
+                    <pre id="output-content"></pre>
+                </div>
+            </div>
+
+            <!-- Scheduler Section -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="emoji">⏰</span>
+                    <span>Scheduler</span>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <span style="font-size: 14px; color: #495057; margin-right: 10px;">Status:</span>
+                    <span class="status-indicator stopped" id="scheduler-status">
+                        <span class="dot"></span>
+                        <span>Stopped</span>
+                    </span>
+                </div>
+
+                <div class="scheduler-controls">
+                    <div class="control-group">
+                        <label>Update Interval</label>
+                        <select id="interval-select" onchange="updateSchedulerConfig()">
+                            <option value="0.5">Every 30 seconds (TEST)</option>
+                            <option value="1">Every 1 minute (TEST)</option>
+                            <option value="15">Every 15 minutes</option>
+                            <option value="30" selected>Every 30 minutes</option>
+                            <option value="60">Every 60 minutes</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Smart Mode (Check game times)</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="smart-mode" checked onchange="updateSchedulerConfig()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="button-group" style="margin-top: 20px;">
+                    <button class="btn btn-success" id="btn-start-scheduler" onclick="toggleScheduler(true)">
+                        Start Scheduler
+                    </button>
+                    <button class="btn btn-danger" id="btn-stop-scheduler" onclick="toggleScheduler(false)">
+                        Stop Scheduler
+                    </button>
+                </div>
+
+                <p style="margin-top: 15px; font-size: 13px; color: #6c757d;">
+                    ℹ️ Note: Scheduler changes apply immediately without server restart
+                </p>
+            </div>
+
+            <!-- Recent Updates Log -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="emoji">📈</span>
+                    <span>Recent Updates</span>
+                </div>
+                
+                <div class="logs-list" id="logs-list">
+                    <p style="color: #6c757d; text-align: center;">No recent updates</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load initial status on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            refreshStatus();
+        });
+
+        async function refreshStatus() {
+            try {
+                const response = await fetch('/admin/api/status');
+                const data = await response.json();
+                
+                // Update status cards
+                if (data.metadata) {
+                    // Format last update time
+                    const lastUpdate = new Date(data.metadata.generatedAt);
+                    const now = new Date();
+                    const diffMs = now - lastUpdate;
+                    const diffMins = Math.floor(diffMs / 60000);
+                    
+                    let timeAgo;
+                    if (diffMins < 1) {
+                        timeAgo = 'Just now';
+                    } else if (diffMins < 60) {
+                        timeAgo = `${diffMins} min ago`;
+                    } else {
+                        const diffHours = Math.floor(diffMins / 60);
+                        if (diffHours < 24) {
+                            timeAgo = `${diffHours} hr ago`;
+                        } else {
+                            timeAgo = lastUpdate.toLocaleDateString();
+                        }
+                    }
+                    document.getElementById('last-update').textContent = timeAgo;
+                    
+                    // Game statistics
+                    document.getElementById('total-games').textContent = data.metadata.totalGames || '-';
+                    document.getElementById('games-completed').textContent = data.metadata.gamesCompleted || '-';
+                    document.getElementById('games-in-progress').textContent = data.metadata.gamesInProgress || '0';
+                    
+                    // Season information
+                    document.getElementById('season-start').textContent = data.metadata.seasonStart 
+                        ? new Date(data.metadata.seasonStart).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                        : '-';
+                    document.getElementById('season-end').textContent = data.metadata.seasonEnd 
+                        ? new Date(data.metadata.seasonEnd).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                        : '-';
+                    document.getElementById('current-date').textContent = data.metadata.currentDate 
+                        ? new Date(data.metadata.currentDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                        : '-';
+                    document.getElementById('current-week').textContent = data.metadata.currentWeek !== undefined 
+                        ? `Week ${data.metadata.currentWeek + 1} of ${data.metadata.totalWeeks}`
+                        : '-';
+                }
+                
+                // Update scheduler status
+                if (data.scheduler) {
+                    const statusEl = document.getElementById('scheduler-status');
+                    if (data.scheduler.enabled) {
+                        statusEl.className = 'status-indicator running';
+                        statusEl.innerHTML = '<span class="dot"></span><span>Running</span>';
+                    } else {
+                        statusEl.className = 'status-indicator stopped';
+                        statusEl.innerHTML = '<span class="dot"></span><span>Stopped</span>';
+                    }
+                    
+                    document.getElementById('interval-select').value = data.scheduler.interval || 30;
+                    document.getElementById('smart-mode').checked = data.scheduler.smartMode !== false;
+                }
+                
+                // Update logs
+                if (data.logs && data.logs.length > 0) {
+                    const logsHtml = data.logs.reverse().map(log => {
+                        const time = new Date(log.timestamp).toLocaleTimeString();
+                        const date = new Date(log.timestamp).toLocaleDateString();
+                        return `
+                            <div class="log-entry ${log.success ? 'success' : 'error'}">
+                                <div class="timestamp">${date} ${time}</div>
+                                <div>${log.type === 'backfill' ? '🔄 Backfill' : log.type === 'week' ? '📅 Week Update' : '⚡ Update'}: ${log.gamesProcessed} games fetched</div>
+                            </div>
+                        `;
+                    }).join('');
+                    document.getElementById('logs-list').innerHTML = logsHtml;
+                }
+            } catch (error) {
+                console.error('Error refreshing status:', error);
+            }
+        }
+
+        async function runBackfill() {
+            const btn = document.getElementById('btn-backfill');
+            const outputBox = document.getElementById('output-box');
+            const outputContent = document.getElementById('output-content');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span><span>Running Backfill...</span>';
+            outputBox.classList.add('show');
+            outputContent.textContent = 'Starting full backfill...\n';
+            
+            try {
+                const response = await fetch('/admin/api/backfill', { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    outputContent.textContent += '\n✅ ' + data.message + '\n\n' + data.output;
+                    setTimeout(() => refreshStatus(), 1000);
+                } else {
+                    outputContent.textContent += '\n❌ Error: ' + data.error + '\n\n' + data.output;
+                }
+            } catch (error) {
+                outputContent.textContent += '\n❌ Error: ' + error.message;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>🔄</span><span>Full Backfill</span>';
+            }
+        }
+
+        async function runUpdate() {
+            const btn = document.getElementById('btn-update');
+            const outputBox = document.getElementById('output-box');
+            const outputContent = document.getElementById('output-content');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span><span>Updating...</span>';
+            outputBox.classList.add('show');
+            outputContent.textContent = 'Starting update...\n';
+            
+            try {
+                const response = await fetch('/admin/api/update', { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    outputContent.textContent += '\n✅ ' + data.message + '\n\n' + data.output;
+                    setTimeout(() => refreshStatus(), 1000);
+                } else {
+                    outputContent.textContent += '\n❌ Error: ' + data.error + '\n\n' + data.output;
+                }
+            } catch (error) {
+                outputContent.textContent += '\n❌ Error: ' + error.message;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Update Now';
+            }
+        }
+
+        async function runUpdateWeek() {
+            const btn = document.getElementById('btn-update-week');
+            const outputBox = document.getElementById('output-box');
+            const outputContent = document.getElementById('output-content');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span><span>Updating Week...</span>';
+            outputBox.classList.add('show');
+            outputContent.textContent = 'Starting week update...\n';
+            
+            try {
+                const response = await fetch('/admin/api/update-week', { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    outputContent.textContent += '\n✅ ' + data.message + '\n\n' + data.output;
+                    setTimeout(() => refreshStatus(), 1000);
+                } else {
+                    outputContent.textContent += '\n❌ Error: ' + data.error + '\n\n' + data.output;
+                }
+            } catch (error) {
+                outputContent.textContent += '\n❌ Error: ' + error.message;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Update Week';
+            }
+        }
+
+        async function updateSchedulerConfig() {
+            const interval = parseInt(document.getElementById('interval-select').value);
+            const smartMode = document.getElementById('smart-mode').checked;
+            
+            try {
+                const response = await fetch('/admin/api/scheduler/config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ interval, smartMode })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    console.log('Scheduler config updated:', data.config);
+                }
+            } catch (error) {
+                console.error('Error updating scheduler config:', error);
+            }
+        }
+
+        async function toggleScheduler(enabled) {
+            try {
+                const response = await fetch('/admin/api/scheduler/config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ enabled })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    refreshStatus();
+                }
+            } catch (error) {
+                console.error('Error toggling scheduler:', error);
+            }
+        }
+    </script>
+</body>
+</html>
+

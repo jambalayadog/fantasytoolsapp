@@ -143,9 +143,9 @@
                     // Ignore height-only changes (address bar showing/hiding)
                     if (widthChange > 50) {
                         lastWidth = currentWidth;
-                        if (hockeyData) {
-                            renderSchedule();
-                        }
+                if (hockeyData) {
+                    renderSchedule();
+                }
                     }
                 }, 250); // Wait 250ms after resize stops
             });
@@ -347,7 +347,20 @@
             try {
                 clearError();
                 showLoading(true);
-                const response = await fetch('/hockeytest/api/data');
+                
+                // Check for beta flag in URL (?beta)
+                const urlParams = new URLSearchParams(window.location.search);
+                const useBeta = urlParams.has('beta');
+                const endpoint = useBeta ? '/hockeytest/api/data/new' : '/hockeytest/api/data';
+                
+                if (useBeta) {
+                    console.log('🔬 BETA MODE: Using new server-generated data');
+                    addBetaBadge();
+                } else {
+                    console.log('📡 Using legacy GitHub data');
+                }
+                
+                const response = await fetch(endpoint);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -503,6 +516,23 @@
             updateSortIndicators();
         }
 
+        function addBetaBadge() {
+            // Check if badge already exists
+            if (document.querySelector('.beta-badge')) return;
+            
+            // Create beta badge
+            const badge = document.createElement('div');
+            badge.className = 'beta-badge';
+            badge.innerHTML = '🔬 BETA';
+            badge.title = 'Using new server-generated data';
+            
+            // Add to page (top right of container)
+            const container = document.querySelector('.container');
+            if (container) {
+                container.appendChild(badge);
+            }
+        }
+
         function sortTable(column) {
             // Toggle direction if clicking the same column
             if (currentSortColumn === column) {
@@ -553,11 +583,62 @@
                 } 
                 else if (column.startsWith('day')) {
                     const dayIndex = parseInt(column.substring(3));
-                    valA = a.dayGames[dayIndex] ? 1 : 0;
-                    valB = b.dayGames[dayIndex] ? 1 : 0;
-                    return currentSortDirection === 'asc' 
-                        ? valB - valA  // Games first (1 before 0)
-                        : valA - valB;
+                    
+                    const gameA = a.dayGames[dayIndex];
+                    const gameB = b.dayGames[dayIndex];
+                    
+                    // Calculate priority:
+                    // 1 = Has game (played or unplayed)
+                    // 0 = No game (empty cell)
+                    const getPriority = (game) => {
+                        return game ? 1 : 0;
+                    };
+                    
+                    const priorityA = getPriority(gameA);
+                    const priorityB = getPriority(gameB);
+                    
+                    // If priorities differ, sort by priority
+                    if (priorityA !== priorityB) {
+                        // Ascending: Has game (1) → Empty (0)
+                        // Descending: Empty (0) → Has game (1)
+                        return currentSortDirection === 'asc' 
+                            ? priorityB - priorityA
+                            : priorityA - priorityB;
+                    }
+                    
+                    // Same priority - if both have games, sort by time then game number then home/away
+                    if (gameA && gameB) {
+                        // Sort by game time
+                        const timeA = new Date(gameA.startTimeUTC || gameA.gamedate).getTime();
+                        const timeB = new Date(gameB.startTimeUTC || gameB.gamedate).getTime();
+                        
+                        if (timeA !== timeB) {
+                            return currentSortDirection === 'asc'
+                                ? timeA - timeB  // Earliest first
+                                : timeB - timeA; // Latest first
+                        }
+                        
+                        // Same time - sort by game number to keep opponents together
+                        const gameNumA = gameA.gamenumber || 0;
+                        const gameNumB = gameB.gamenumber || 0;
+                        
+                        if (gameNumA !== gameNumB) {
+                            return gameNumA - gameNumB;
+                        }
+                        
+                        // Same game - sort by home/away
+                        // Home team = 1, Away team = 0
+                        const isHomeA = gameA.hometeam === a.team ? 1 : 0;
+                        const isHomeB = gameB.hometeam === b.team ? 1 : 0;
+                        
+                        // Ascending: Home (1) first, Away (0) second
+                        // Descending: Away (0) first, Home (1) second
+                        return currentSortDirection === 'asc'
+                            ? isHomeB - isHomeA  // Home first
+                            : isHomeA - isHomeB; // Away first
+                    }
+                    
+                    return 0;
                 }
                 return 0;
             });
