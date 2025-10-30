@@ -5,7 +5,7 @@ const path = require('path');
 
 // Paths
 const CONFIG_PATH = path.join(__dirname, '../config/scheduler-config.json');
-const DATA_PATH = path.join(__dirname, '../files/new/03_NHLWeeklySchedules.json');
+const DATA_PATH = path.join(__dirname, '../files/03_NHLWeeklySchedules.json');
 const LOGS_DIR = path.join(__dirname, '../logs');
 const LOGS_PATH = path.join(LOGS_DIR, 'update-history.json');
 
@@ -69,6 +69,12 @@ function loadConfig() {
 
 function saveConfig(config) {
     try {
+        // Ensure config directory exists
+        const configDir = path.dirname(CONFIG_PATH);
+        if (!fs.existsSync(configDir)) {
+            fs.mkdirSync(configDir, { recursive: true });
+        }
+        
         fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2));
     } catch (error) {
         console.error('Error saving scheduler config:', error);
@@ -77,6 +83,12 @@ function saveConfig(config) {
 
 function watchConfig() {
     // Watch for config changes and restart scheduler
+    // Only watch if config file exists
+    if (!fs.existsSync(CONFIG_PATH)) {
+        console.log('⚠️ Scheduler config not found, using defaults');
+        return;
+    }
+    
     fs.watch(CONFIG_PATH, (eventType) => {
         if (eventType === 'change') {
             console.log('🔄 Config changed, reloading scheduler...');

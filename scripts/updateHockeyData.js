@@ -5,7 +5,7 @@ const path = require('path');
 console.log('🏒 NHL Data Update Script Starting...');
 
 // Configuration
-const OUTPUT_DIR = path.join(__dirname, '../files/new');
+const OUTPUT_DIR = path.join(__dirname, '../files');
 const NHL_TEAMS = ['ANA', 'BOS', 'BUF', 'CGY', 'CAR', 'CHI', 'COL', 'CBJ', 
                    'DAL', 'DET', 'EDM', 'FLA', 'LAK', 'MIN', 'MTL', 'NSH', 
                    'NJD', 'NYI', 'NYR', 'OTT', 'PHI', 'PIT', 'SJS', 'SEA', 

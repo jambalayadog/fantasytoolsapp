@@ -348,19 +348,8 @@
                 clearError();
                 showLoading(true);
                 
-                // Check for beta flag in URL (?beta)
-                const urlParams = new URLSearchParams(window.location.search);
-                const useBeta = urlParams.has('beta');
-                const endpoint = useBeta ? '/hockeytest/api/data/new' : '/hockeytest/api/data';
-                
-                if (useBeta) {
-                    console.log('🔬 BETA MODE: Using new server-generated data');
-                    addBetaBadge();
-                } else {
-                    console.log('📡 Using legacy GitHub data');
-                }
-                
-                const response = await fetch(endpoint);
+                // Fetch data from server-generated local files
+                const response = await fetch('/hockeytest/api/data');
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -516,22 +505,6 @@
             updateSortIndicators();
         }
 
-        function addBetaBadge() {
-            // Check if badge already exists
-            if (document.querySelector('.beta-badge')) return;
-            
-            // Create beta badge
-            const badge = document.createElement('div');
-            badge.className = 'beta-badge';
-            badge.innerHTML = '🔬 BETA';
-            badge.title = 'Using new server-generated data';
-            
-            // Add to page (top right of container)
-            const container = document.querySelector('.container');
-            if (container) {
-                container.appendChild(badge);
-            }
-        }
 
         function sortTable(column) {
             // Toggle direction if clicking the same column

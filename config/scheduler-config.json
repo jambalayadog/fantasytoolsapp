@@ -1,7 +1,7 @@
 {
   "enabled": true,
   "interval": 30,
-  "smartMode": true,
+  "smartMode": false,
   "lastRun": null,
   "nextRun": null
 }

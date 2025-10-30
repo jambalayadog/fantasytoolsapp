@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 router.get('/api/status', function(req, res, next) {
   try {
     // Read metadata
-    const metadataPath = path.join(__dirname, '../files/new/_metadata.json');
+    const metadataPath = path.join(__dirname, '../files/_metadata.json');
     let metadata = {};
     if (fs.existsSync(metadataPath)) {
       metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
