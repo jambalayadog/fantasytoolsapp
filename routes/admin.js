@@ -123,7 +123,7 @@ router.post('/api/update-week', function(req, res, next) {
 // Update scheduler settings
 router.post('/api/scheduler/config', function(req, res, next) {
   try {
-    const { enabled, interval, smartMode } = req.body;
+    const { enabled, interval, smartMode, liveGameInterval, pregameWindow } = req.body;
     const configPath = path.join(__dirname, '../config/scheduler-config.json');
     
     // Read current config
@@ -136,6 +136,8 @@ router.post('/api/scheduler/config', function(req, res, next) {
     if (enabled !== undefined) config.enabled = enabled;
     if (interval !== undefined) config.interval = interval;
     if (smartMode !== undefined) config.smartMode = smartMode;
+    if (liveGameInterval !== undefined) config.liveGameInterval = liveGameInterval;
+    if (pregameWindow !== undefined) config.pregameWindow = pregameWindow;
     
     // Save config
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));

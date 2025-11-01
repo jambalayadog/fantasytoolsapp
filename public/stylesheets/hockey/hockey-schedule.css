@@ -73,7 +73,7 @@ h1 {
     color: white;
     border: none;
     padding: 8px 12px;
-    border-radius: 4px;
+    border-radius: 0px;
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.2s;
@@ -121,7 +121,7 @@ select {
     border: 1px solid #ccc;
     border-top: 0;
     border-left: 0;
-    padding: 4px;
+    padding: 0px;
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -155,6 +155,8 @@ select {
     /*max-width: 80px; /* Team column */
     text-align: center;
     font-weight: bold;
+    padding: 0 !important; /* Remove padding so wrapper fills entire cell */
+    width: 10%;
 }
 
 .schedule-table th:nth-child(2),
@@ -163,12 +165,14 @@ select {
 .schedule-table td:nth-child(3) {
     /*width: 55px; /* GF/GP and GA/GP columns */
     text-align: center;
+    width: 5%;
 }
 
 .schedule-table th:nth-child(4),
 .schedule-table td:nth-child(4) {
-    min-width: 25px; /* GP column */
+    /*min-width: 25px; /* GP column */
     text-align: center;
+    width: 5%;
 }
 
 .schedule-table th:nth-child(5),
@@ -185,14 +189,38 @@ select {
 .schedule-table td:nth-child(10),
 .schedule-table th:nth-child(11),
 .schedule-table td:nth-child(11) {
-    width: 110px; /* Day columns (Mon-Sun) */
+    width: 80%/7; /* Day columns (Mon-Sun) */
 }
 
-/* Team Cell */
+/* Team Cell - wrapper div fills entire td */
 .team-cell {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
     font-weight: bold;
     text-align: center;
     background-color: var(--tableheader_background_color) !important;
+    box-sizing: border-box;
+    justify-content: center;
+}
+
+.team-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.team-name {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.last-ten-record {
+    font-size: 12px;
+    color: #444;
+    font-weight: normal;
 }
 
 /* Sticky Columns */
@@ -334,7 +362,7 @@ thead .sticky-column-right {
     width: 20px;
     height: 20px;
     vertical-align: middle;
-    margin-right: 5px;
+    margin: 0;
 }
 
 .opponent-logo {
@@ -380,21 +408,23 @@ thead .sticky-column-right {
 }
 
 .score-win {
-    background-color: #4CAF50;
+    background-color: #008004;
     color: white;
     padding: 2px 4px;
     border-radius: 0px;
     font-weight: bold;
     font-size: 11px;
+    width: 100%;
 }
 
 .score-loss {
-    background-color: #f44336;
+    background-color: #b11a0f;
     color: white;
     padding: 2px 4px;
     border-radius: 0px;
     font-weight: bold;
     font-size: 11px;
+    width: 100%;
 }
 
 /* Loading and Error States */
@@ -422,13 +452,13 @@ thead .sticky-column-right {
 /* Removed overflow to allow sticky positioning to work relative to viewport */
 
 /* Mobile Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .table-container {
         margin: 0 -0px; /* Extend slightly beyond container padding */
     }
 
     .container {
-        padding: 0px 5px 0px 5px;
+        padding: 0px 0px 0px 0px;
         margin: 0;
         max-width: 100%;
     }
@@ -468,7 +498,7 @@ thead .sticky-column-right {
     
     .schedule-table th,
     .schedule-table td {
-        padding: 1px;
+        padding: 0px;
         line-height: 1.1;
         border-width: 0.5px;
     }
@@ -519,24 +549,26 @@ thead .sticky-column-right {
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 100%;
     }
     
     /* Optimized column widths for mobile - fit ~350px */
     .schedule-table th:nth-child(1),
     .schedule-table td:nth-child(1) {
-        width: 50px; /* Team column */
+        width: 14%; /* Team column - increased for logo + stacked text */
+        padding: 0 !important; /* Remove padding, let wrapper handle spacing */
     }
     
     .schedule-table th:nth-child(2),
     .schedule-table td:nth-child(2),
     .schedule-table th:nth-child(3),
     .schedule-table td:nth-child(3) {
-        width: 25px; /* GF/GP and GA/GP columns */
+        width: 7%; /* GF/GP and GA/GP columns */
     }
 
     .schedule-table th:nth-child(4),
     .schedule-table td:nth-child(4) {
-        width: 18px; /* GP column - very compact */
+        width: 6%; /* GP column - very compact */
         /*font-size: 10px;*/
     }
 
@@ -554,7 +586,7 @@ thead .sticky-column-right {
     .schedule-table td:nth-child(10),
     .schedule-table th:nth-child(11),
     .schedule-table td:nth-child(11) {
-        width: 32px; /* Day columns (7 × 32px = 224px) */
+        width: 66%/7; /* Day columns (7 × 32px = 224px) */
     }
 
     /* Commented out for user's custom layout
@@ -570,7 +602,41 @@ thead .sticky-column-right {
     .team-logo {
         width: 14px;
         height: 14px;
-        margin-right: 2px;
+        margin: 0;
+        flex-shrink: 0;
+    }
+
+    .team-cell {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        padding: 2px !important; /* Small padding to fill cell */
+        min-height: 34px; /* Match typical row height */
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Team Info - Stack vertically on mobile */
+    .team-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0px;
+        line-height: 1;
+    }
+    
+    .team-name {
+        font-size: 12px;
+        line-height: 1.1;
+    }
+    
+    .last-ten-record {
+        font-size: 10px;
+        color: #444;
+        line-height: 1.1;
     }
     
     .opponent-logo {
@@ -581,8 +647,9 @@ thead .sticky-column-right {
     
     .score-win,
     .score-loss {
-        font-size: 9px; /* Slightly larger for better readability */
-        padding: 1px 2px;
+        font-size: 10px; /* Slightly larger for better readability */
+        font-weight: regular;
+        padding: 0.5px;
     }
     
     

@@ -63,7 +63,9 @@ function loadConfig() {
     return {
         enabled: false,
         interval: 60,
-        smartMode: true
+        smartMode: true,
+        liveGameInterval: 5,
+        pregameWindow: 30
     };
 }
 
@@ -115,14 +117,14 @@ function scheduleUpdates(config) {
     
     let interval = config.interval;
     
-    // Smart mode: Check for live games and adjust interval
+    // Smart mode: Check for live/upcoming games and adjust interval
     if (config.smartMode) {
-        const hasLiveGames = checkForLiveGames();
-        if (hasLiveGames) {
-            interval = 30; // Switch to 30 min when games are live
-            console.log(`   🎮 Live games detected! Using ${interval} min interval`);
+        const hasActiveGames = checkForUpcomingOrLiveGames(config);
+        if (hasActiveGames) {
+            interval = config.liveGameInterval || 5; // Use configured fast interval
+            console.log(`   🎮 Active/upcoming games detected! Using ${interval} min interval`);
         } else {
-            console.log(`   😴 No live games. Using ${interval} min interval`);
+            console.log(`   😴 No active games. Using ${interval} min interval`);
         }
     }
     
@@ -187,10 +189,10 @@ function runUpdate(config) {
 }
 
 // =============================================================================
-// LIVE GAME DETECTION
+// LIVE/UPCOMING GAME DETECTION
 // =============================================================================
 
-function checkForLiveGames() {
+function checkForUpcomingOrLiveGames(config) {
     try {
         if (!fs.existsSync(DATA_PATH)) {
             return false;
@@ -198,41 +200,50 @@ function checkForLiveGames() {
         
         const data = JSON.parse(fs.readFileSync(DATA_PATH, 'utf8'));
         const now = new Date();
-        const todayStr = now.toDateString();
+        const pregameWindowMs = (config.pregameWindow || 30) * 60 * 1000; // Convert to milliseconds
         
-        // Check all weeks for today's games
+        let liveGames = [];
+        let upcomingGames = [];
+        
+        // Check all weeks for today's and upcoming games
         for (const week in data) {
             for (const team in data[week]) {
                 const games = data[week][team];
                 
                 for (const game of games) {
-                    // Check if game is today
-                    if (game.gamedate === todayStr) {
-                        // Check if game is live or recently finished
-                        const gameState = game.gameState;
+                    const gameState = game.gameState;
+                    
+                    // Check for currently LIVE games
+                    if (gameState === 'LIVE' || gameState === 'CRIT') {
+                        liveGames.push(`${game.awayteam} @ ${game.hometeam}`);
+                    }
+                    
+                    // Check for upcoming games (FUT state)
+                    if (gameState === 'FUT' && game.startTimeUTC) {
+                        const startTime = new Date(game.startTimeUTC);
+                        const timeUntilStart = startTime - now;
                         
-                        if (gameState === 'LIVE' || gameState === 'CRIT') {
-                            console.log(`   🎮 Live game found: ${game.awayteam} @ ${game.hometeam}`);
-                            return true;
-                        }
-                        
-                        // Check if game recently finished (within last hour)
-                        if (gameState === 'FINAL' || gameState === 'OFF') {
-                            // Games typically 7pm-11pm, check if we're in that window
-                            const hour = now.getHours();
-                            if (hour >= 19 && hour <= 23) {
-                                console.log(`   🏁 Recent game: ${game.awayteam} @ ${game.hometeam}`);
-                                return true;
-                            }
+                        // Game starts within the pregame window
+                        if (timeUntilStart > 0 && timeUntilStart <= pregameWindowMs) {
+                            const minutesUntil = Math.floor(timeUntilStart / 60000);
+                            upcomingGames.push(`${game.awayteam} @ ${game.hometeam} (in ${minutesUntil}m)`);
                         }
                     }
                 }
             }
         }
         
-        return false;
+        // Log findings
+        if (liveGames.length > 0) {
+            console.log(`   🎮 ${liveGames.length} live game(s): ${liveGames.join(', ')}`);
+        }
+        if (upcomingGames.length > 0) {
+            console.log(`   ⏰ ${upcomingGames.length} upcoming game(s): ${upcomingGames.join(', ')}`);
+        }
+        
+        return liveGames.length > 0 || upcomingGames.length > 0;
     } catch (error) {
-        console.error('Error checking for live games:', error.message);
+        console.error('Error checking for active games:', error.message);
         return false;
     }
 }

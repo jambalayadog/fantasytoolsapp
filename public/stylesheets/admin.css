@@ -1,6 +1,6 @@
 /* Admin Console Styles - Matches Hockey Site Theme */
 :root {
-    --page_background_color: slategrey;
+    --page_background_color: rgb(49, 55, 61);
     --away_background_color: rgb(41, 41, 41);
     --home_background_color: rgb(238, 238, 238);
     --tableheader_background_color: #f8f9fa;
@@ -10,7 +10,10 @@
     --low_value_red: #ffbac0;
     --high_value_green: #c2ffd1;
     --neutral_value_white: white;
+    --neutral_value_grey: grey;
     --really_low_value_purple: #e8d4f8;
+    --admin_log_bg_color: rgb(120, 120, 120);
+    --dropdown_background_color: rgb(189, 189, 189);
 }
 
 * {
@@ -58,10 +61,17 @@ body {
 }
 
 .section {
-    background: var(--tableheader_background_color);
+    background: var(--page_background_color);
     border-radius: 0px;
-    padding: 18px;
-    margin-bottom: 5px;
+    padding: 10px;
+    margin-bottom: 2px;
+    
+}
+
+.section .info-note {
+    margin-top: 15px;
+    font-size: 13px;
+    color: var(--dropdown_background_color);
 }
 
 .section-title {
@@ -71,7 +81,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #2c3e50;
+    color: var(--neutral_value_white);
 }
 
 .section-title .emoji {
@@ -85,8 +95,12 @@ body {
     margin-bottom: 10px;
 }
 
+.status-grid.season-grid {
+    margin-top: 8px;
+}
+
 .status-card {
-    background: var(--neutral_value_white);
+    background: rgb(189, 189, 189);
     padding: 10px;
     border-radius: 4px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
@@ -94,7 +108,7 @@ body {
 
 .status-card .label {
     font-size: 10px;
-    color: #6c757d;
+    /*color: #6c757d;*/
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 4px;
@@ -116,17 +130,21 @@ body {
     flex-wrap: wrap;
 }
 
+.button-group.spaced-top {
+    margin-top: 20px;
+}
+
 .btn {
     padding: 10px 20px;
     border: none;
     border-radius: 6px;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
 }
 
 .btn:hover {
@@ -174,8 +192,8 @@ body {
 
 .control-group label {
     font-size: 13px;
+    color: var(--dropdown_background_color);
     font-weight: 600;
-    color: #495057;
 }
 
 .control-group select,
@@ -185,6 +203,7 @@ body {
     border-radius: 4px;
     font-size: 14px;
     transition: border-color 0.2s ease;
+    background: var(--dropdown_background_color);
 }
 
 .control-group select:focus,
@@ -239,24 +258,28 @@ input:checked + .slider:before {
 }
 
 .logs-list {
-    background: var(--neutral_value_white);
+    background: rgb(189, 189, 189);
     border-radius: 6px;
     padding: 12px;
     max-height: 250px;
     overflow-y: auto;
 }
 
+.logs-list .empty-message {
+    text-align: center;
+}
+
 .log-entry {
     padding: 10px;
     border-left: 3px solid var(--button_background_color);
     margin-bottom: 8px;
-    background: var(--tableheader_background_color);
+    background: var(--admin_log_bg_color);
     border-radius: 3px;
     font-size: 13px;
 }
 
 .log-entry .timestamp {
-    color: #6c757d;
+    color: var(--neutral_value_white);
     font-size: 11px;
 }
 
@@ -299,6 +322,17 @@ input:checked + .slider:before {
 @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
+}
+
+.scheduler-status-wrapper {
+    margin-bottom: 20px;
+}
+
+.scheduler-status-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dropdown_background_color);
+    margin-right: 10px;
 }
 
 .output-box {

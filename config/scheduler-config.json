@@ -1,7 +1,9 @@
 {
   "enabled": true,
-  "interval": 30,
+  "interval": 60,
   "smartMode": false,
+  "liveGameInterval": 15,
+  "pregameWindow": 5,
   "lastRun": null,
   "nextRun": null
 }

@@ -405,9 +405,13 @@
         function navigateDays(days) {
             if (!currentStartDate) return;
             
+            const scrollPos = window.scrollY; // Save scroll position
+            
             currentStartDate.setDate(currentStartDate.getDate() + days);
             clearSort(); // Clear sort state when navigating
             renderSchedule();
+            
+            window.scrollTo(0, scrollPos); // Restore scroll position
         }
 
         function resetToToday() {
@@ -415,11 +419,15 @@
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             
+            const scrollPos = window.scrollY; // Save scroll position
+            
             currentStartDate = new Date(today);
             currentStartDate.setDate(today.getDate() - 4); // 4 days before today
             
             clearSort(); // Clear sort state when navigating
             renderSchedule();
+            
+            window.scrollTo(0, scrollPos); // Restore scroll position
         }
 
         function updateTodayButton() {
@@ -882,9 +890,12 @@
                 const team = rowData.team;
                 const row = document.createElement('tr');
                 
-                // Team name cell with logo only
+                // Team name cell with logo and last 10 record
                 const teamCell = document.createElement('td');
-                teamCell.className = 'team-cell';
+                
+                // Create wrapper div for flex layout
+                const teamCellWrapper = document.createElement('div');
+                teamCellWrapper.className = 'team-cell';
                 
                 // Create team logo
                 const teamLogo = document.createElement('img');
@@ -893,8 +904,27 @@
                 teamLogo.alt = team;
                 teamLogo.onerror = function() { this.style.display = 'none'; }; // Hide if logo doesn't exist
                 
-                teamCell.appendChild(teamLogo);
-                teamCell.appendChild(document.createTextNode(` ${team}`));
+                // Create container for team name and record
+                const teamInfo = document.createElement('div');
+                teamInfo.className = 'team-info';
+                
+                // Team name
+                const teamName = document.createElement('span');
+                teamName.className = 'team-name';
+                teamName.textContent = team;
+                
+                // Last 10 record
+                const lastTen = document.createElement('span');
+                lastTen.className = 'last-ten-record';
+                const lastTenData = rowData.stats?.teamRecord_LastTen || '';
+                lastTen.textContent = lastTenData ? ` ${lastTenData}` : '';
+                
+                teamInfo.appendChild(teamName);
+                teamInfo.appendChild(lastTen);
+                
+                teamCellWrapper.appendChild(teamLogo);
+                teamCellWrapper.appendChild(teamInfo);
+                teamCell.appendChild(teamCellWrapper);
                 row.appendChild(teamCell);
 
                 // GF/GP cell

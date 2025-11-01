@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 
-                <div class="status-grid" style="margin-top: 8px;">
+                <div class="status-grid season-grid">
                     <div class="status-card">
                         <div class="label">Season Start</div>
                         <div class="value" id="season-start">-</div>
@@ -94,8 +94,8 @@
                     <span>Scheduler</span>
                 </div>
                 
-                <div style="margin-bottom: 20px;">
-                    <span style="font-size: 14px; color: #495057; margin-right: 10px;">Status:</span>
+                <div class="scheduler-status-wrapper">
+                    <span class="scheduler-status-label">Status:</span>
                     <span class="status-indicator stopped" id="scheduler-status">
                         <span class="dot"></span>
                         <span>Stopped</span>
@@ -121,9 +121,34 @@
                             <span class="slider"></span>
                         </label>
                     </div>
+                    
+                    <div class="control-group">
+                        <label>Live Game Interval</label>
+                        <select id="live-game-interval-select" onchange="updateSchedulerConfig()">
+                            <option value="1">Every 1 minute</option>
+                            <option value="2">Every 2 minutes</option>
+                            <option value="5" selected>Every 5 minutes</option>
+                            <option value="10">Every 10 minutes</option>
+                            <option value="15">Every 15 minutes</option>
+                            <option value="20">Every 20 minutes</option>
+                            <option value="30">Every 30 minutes</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Pre-Game Detection Window</label>
+                        <select id="pregame-window-select" onchange="updateSchedulerConfig()">
+                            <option value="5">5 minutes before</option>
+                            <option value="10">10 minutes before</option>
+                            <option value="15">15 minutes before</option>
+                            <option value="30" selected>30 minutes before</option>
+                            <option value="45">45 minutes before</option>
+                            <option value="60">60 minutes before</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="button-group" style="margin-top: 20px;">
+                <div class="button-group spaced-top">
                     <button class="btn btn-success" id="btn-start-scheduler" onclick="toggleScheduler(true)">
                         Start Scheduler
                     </button>
@@ -132,7 +157,7 @@
                     </button>
                 </div>
 
-                <p style="margin-top: 15px; font-size: 13px; color: #6c757d;">
+                <p class="info-note">
                     ℹ️ Note: Scheduler changes apply immediately without server restart
                 </p>
             </div>
@@ -145,7 +170,7 @@
                 </div>
                 
                 <div class="logs-list" id="logs-list">
-                    <p style="color: #6c757d; text-align: center;">No recent updates</p>
+                    <p class="empty-message">No recent updates</p>
                 </div>
             </div>
         </div>
@@ -218,6 +243,8 @@
                     
                     document.getElementById('interval-select').value = data.scheduler.interval || 30;
                     document.getElementById('smart-mode').checked = data.scheduler.smartMode !== false;
+                    document.getElementById('live-game-interval-select').value = data.scheduler.liveGameInterval || 5;
+                    document.getElementById('pregame-window-select').value = data.scheduler.pregameWindow || 30;
                 }
                 
                 // Update logs
@@ -324,14 +351,16 @@
         }
 
         async function updateSchedulerConfig() {
-            const interval = parseInt(document.getElementById('interval-select').value);
+            const interval = parseFloat(document.getElementById('interval-select').value);
             const smartMode = document.getElementById('smart-mode').checked;
+            const liveGameInterval = parseInt(document.getElementById('live-game-interval-select').value);
+            const pregameWindow = parseInt(document.getElementById('pregame-window-select').value);
             
             try {
                 const response = await fetch('/admin/api/scheduler/config', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ interval, smartMode })
+                    body: JSON.stringify({ interval, smartMode, liveGameInterval, pregameWindow })
                 });
                 
                 const data = await response.json();
