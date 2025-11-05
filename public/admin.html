@@ -252,10 +252,30 @@
                     const logsHtml = data.logs.reverse().map(log => {
                         const time = new Date(log.timestamp).toLocaleTimeString();
                         const date = new Date(log.timestamp).toLocaleDateString();
+                        
+                        // Determine log type and label
+                        let label, emoji;
+                        if (log.type === 'auto-backfill') {
+                            emoji = '🔧';
+                            label = `Auto-Backfill (${log.reason || 'startup'})`;
+                        } else if (log.type === 'backfill') {
+                            emoji = '🔄';
+                            label = 'Backfill';
+                        } else if (log.type === 'week') {
+                            emoji = '📅';
+                            label = 'Week Update';
+                        } else {
+                            emoji = '⚡';
+                            label = 'Update';
+                        }
+                        
+                        // Determine status class
+                        const statusClass = log.status === 'success' || log.success ? 'success' : 'error';
+                        
                         return `
-                            <div class="log-entry ${log.success ? 'success' : 'error'}">
+                            <div class="log-entry ${statusClass}">
                                 <div class="timestamp">${date} ${time}</div>
-                                <div>${log.type === 'backfill' ? '🔄 Backfill' : log.type === 'week' ? '📅 Week Update' : '⚡ Update'}: ${log.gamesProcessed} games fetched</div>
+                                <div>${emoji} ${label}: ${log.gamesProcessed} games fetched</div>
                             </div>
                         `;
                     }).join('');

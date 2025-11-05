@@ -174,10 +174,10 @@ async function main() {
         
         // Calculate game statistics
         const gamesCompleted = gameLibrary.filter(g => 
-            g.gameSummaryDetailedState === 'Final' || g.gameSummaryStatus === 'OFF' || g.gameState === 'OFF'
+            g.gameSummaryDetailedState === 'Final' || g.gameSummaryStatus === 'OFF' || g.gameState === 'OFF' || g.gameState === 'FINAL'
         ).length;
         const gamesInProgress = gameLibrary.filter(g => 
-            g.gameSummaryStatus === 'LIVE' || g.gameState === 'LIVE'
+            g.gameSummaryStatus === 'LIVE' || g.gameState === 'LIVE' || g.gameState === 'CRIT'
         ).length;
         
         // Calculate current week

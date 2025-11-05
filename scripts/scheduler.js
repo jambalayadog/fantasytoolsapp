@@ -17,13 +17,16 @@ let lastDailyCheck = null;
 // SCHEDULER CORE
 // =============================================================================
 
-function start() {
+async function start() {
     console.log('🏒 NHL Data Scheduler starting...');
     
     // Ensure logs directory exists
     if (!fs.existsSync(LOGS_DIR)) {
         fs.mkdirSync(LOGS_DIR, { recursive: true });
     }
+    
+    // Check data completeness on startup
+    await checkDataCompleteness();
     
     // Load config and start scheduler
     const config = loadConfig();
@@ -275,6 +278,133 @@ function logUpdate(type, success, gamesProcessed, error = null) {
         fs.writeFileSync(LOGS_PATH, JSON.stringify(logs, null, 2));
     } catch (error) {
         console.error('Error logging update:', error.message);
+    }
+}
+
+// =============================================================================
+// AUTO-BACKFILL ON STARTUP
+// =============================================================================
+
+async function checkDataCompleteness() {
+    try {
+        const dataPath = path.join(__dirname, '../files/00_GameSummaryLibrary.json');
+        
+        // If no data file exists yet, trigger backfill (fresh deployment)
+        if (!fs.existsSync(dataPath)) {
+            console.log('   🔧 No data file found - triggering auto-backfill for fresh deployment');
+            await runAutoBackfill('fresh-deployment');
+            return;
+        }
+        
+        const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+        // File structure is an array of games, not { games: [...] }
+        const games = Array.isArray(data) ? data : (data.games || []);
+        
+        if (games.length === 0) {
+            console.log('   🔧 Empty data file detected - triggering auto-backfill');
+            await runAutoBackfill('empty-data-file');
+            return;
+        }
+        
+        // Find oldest game date
+        const oldestGame = games.reduce((oldest, game) => {
+            const gameDate = new Date(game.gameSummaryDate);
+            return !oldest || gameDate < new Date(oldest.gameSummaryDate) 
+                ? game 
+                : oldest;
+        }, null);
+        
+        if (!oldestGame) {
+            console.log('   ⚠️  Could not determine oldest game - skipping backfill check');
+            return;
+        }
+        
+        const seasonStart = new Date('2025-10-07'); // NHL 2025-2026 season start (3 games)
+        const oldestDate = new Date(oldestGame.gameSummaryDate);
+        const daysSinceSeasonStart = (oldestDate - seasonStart) / (1000 * 60 * 60 * 24);
+        
+        // If oldest game is more than 7 days after season start, data is incomplete
+        if (daysSinceSeasonStart > 7) {
+            console.log(`   🔧 Incomplete data detected:`);
+            console.log(`      Oldest game: ${oldestGame.gameSummaryDate}`);
+            console.log(`      Season start: 2025-10-07`);
+            console.log(`      Missing: ${Math.floor(daysSinceSeasonStart)} days of history`);
+            console.log(`      Triggering auto-backfill...`);
+            await runAutoBackfill('missing-season-data');
+        } else {
+            console.log(`   ✅ Data complete - coverage back to ${oldestGame.gameSummaryDate} (${games.length} games)`);
+        }
+        
+    } catch (error) {
+        console.error('   ⚠️  Error checking data completeness:', error.message);
+        console.error('      Skipping auto-backfill - can be run manually via admin panel');
+    }
+}
+
+async function runAutoBackfill(reason) {
+    return new Promise((resolve, reject) => {
+        const startTime = Date.now();
+        
+        console.log(`\n⚡ AUTO-BACKFILL STARTED`);
+        console.log(`   Reason: ${reason}`);
+        console.log(`   Running: node scripts/updateHockeyData.js backfill\n`);
+        
+        exec('node scripts/updateHockeyData.js backfill', (error, stdout, stderr) => {
+            const executionTime = ((Date.now() - startTime) / 1000).toFixed(2);
+            
+            if (error) {
+                console.error(`\n❌ AUTO-BACKFILL FAILED after ${executionTime}s`);
+                console.error(stderr);
+                
+                // Log failure
+                logAutoBackfill(reason, 'failed', 0, executionTime, stderr);
+                reject(error);
+                return;
+            }
+            
+            // Extract games processed from output
+            const gamesMatch = stdout.match(/✅ Processed (\d+) games/);
+            const gamesProcessed = gamesMatch ? parseInt(gamesMatch[1]) : 0;
+            
+            console.log(`\n✅ AUTO-BACKFILL COMPLETE`);
+            console.log(`   Duration: ${executionTime}s`);
+            console.log(`   Games processed: ${gamesProcessed}`);
+            console.log(`   Ready for normal operations\n`);
+            
+            // Log success
+            logAutoBackfill(reason, 'success', gamesProcessed, executionTime);
+            resolve();
+        });
+    });
+}
+
+function logAutoBackfill(reason, status, gamesProcessed, executionTime, errorMessage = null) {
+    try {
+        let history = [];
+        if (fs.existsSync(LOGS_PATH)) {
+            history = JSON.parse(fs.readFileSync(LOGS_PATH, 'utf8'));
+        }
+        
+        const logEntry = {
+            timestamp: new Date().toISOString(),
+            type: 'auto-backfill',
+            reason: reason,
+            status: status,
+            gamesProcessed: gamesProcessed,
+            executionTime: executionTime,
+            error: errorMessage
+        };
+        
+        history.unshift(logEntry);
+        
+        // Keep last 50 entries
+        if (history.length > 50) {
+            history = history.slice(0, 50);
+        }
+        
+        fs.writeFileSync(LOGS_PATH, JSON.stringify(history, null, 2));
+    } catch (error) {
+        console.error('Error logging auto-backfill:', error.message);
     }
 }
 

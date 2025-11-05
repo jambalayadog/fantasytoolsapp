@@ -34,9 +34,9 @@
                 <thead>
                     <tr id="schedule-header-row">
                         <th class="sticky-column sortable" data-sort="team">Team <span class="sort-indicator"></span></th>
+                        <th class="sticky-column sortable" data-sort="gp">GP <span class="sort-indicator"></span></th>
                         <th class="sticky-column sortable" data-sort="off">Off <span class="sort-indicator"></span></th>
                         <th class="sticky-column sortable" data-sort="def">Def <span class="sort-indicator"></span></th>
-                        <th class="sticky-column sortable" data-sort="gp">GP <span class="sort-indicator"></span></th>
                         <!-- 7 day columns will be dynamically inserted here -->
                     </tr>
                 </thead>
@@ -878,6 +878,45 @@
             return 'stat-indicator-neutral';
         }
 
+        function isGameInProgress(game) {
+            // Check if a game is currently in progress
+            // States: LIVE = in progress, CRIT = critical (end of period/game), FINAL = done, OFF = done, FUT = future
+            return game.gameState === 'LIVE' || 
+                   game.gameState === 'CRIT' ||
+                   (game.gameSummaryDetailedState && 
+                    game.gameSummaryDetailedState !== 'Final' && 
+                    game.gameSummaryStatus !== 'OFF');
+        }
+
+        function getInProgressScore(game, team) {
+            // Returns score display info for in-progress games
+            // Use goalsFor and goalsAgainst from weekly schedule data
+            const teamScore = game.goalsFor || 0;
+            const opponentScore = game.goalsAgainst || 0;
+            
+            let indicator, status, displayScore;
+            if (teamScore > opponentScore) {
+                indicator = '▲'; // Winning
+                status = 'W';
+                displayScore = `${teamScore}-${opponentScore}`; // Higher score first (already correct)
+            } else if (teamScore < opponentScore) {
+                indicator = '▼'; // Losing
+                status = 'L';
+                displayScore = `${opponentScore}-${teamScore}`; // Higher score first (swap order)
+            } else {
+                indicator = 'T'; // Tied
+                status = 'T';
+                displayScore = `${teamScore}-${opponentScore}`; // Equal scores
+            }
+            
+            return {
+                indicator: indicator,
+                status: status,
+                score: displayScore,
+                display: `${indicator} ${displayScore}`
+            };
+        }
+
         function renderSortedTable() {
             const tbody = document.getElementById('schedule-tbody');
             tbody.innerHTML = '';
@@ -927,7 +966,12 @@
                 teamCell.appendChild(teamCellWrapper);
                 row.appendChild(teamCell);
 
-                // GF/GP cell
+                // Games count cell - create it now, will populate after rendering game cells
+                const countCell = document.createElement('td');
+                countCell.className = 'sticky-column gp-cell';
+                row.appendChild(countCell);
+
+                // GF/GP cell - offense value 'Off'
                 const stats = rowData.stats;
                 const gfgpValue = rowData.offValue;
                 const gfgp = gfgpValue.toFixed(1);
@@ -951,7 +995,7 @@
                 gfgpCell.appendChild(gfgpBox);
                 row.appendChild(gfgpCell);
                 
-                // GA/GP cell
+                // GA/GP cell - defense value 'Def'
                 const gagpValue = rowData.defValue;
                 const gagp = gagpValue.toFixed(1);
                 const gagpCell = document.createElement('td');
@@ -974,11 +1018,6 @@
                 gagpCell.appendChild(gagpBox);
                 row.appendChild(gagpCell);
 
-                // Games count cell - create it now, will populate after rendering game cells
-                const countCell = document.createElement('td');
-                countCell.className = 'sticky-column gp-cell';
-                row.appendChild(countCell);
-
                 // Game cells for each day in the 7-day window
                 for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
                     const gameCell = document.createElement('td');
@@ -989,6 +1028,7 @@
                         const isHome = gameForDay.hometeam === team;
                         const opponent = isHome ? gameForDay.awayteam : gameForDay.hometeam;
                         const result = gameForDay.result;
+                        const isFinalGame = (result === 'Final' || gameForDay.gameState === 'FINAL');
                         
                         if (isMobileDevice()) {
                             // Mobile layout: stack opponent and score vertically
@@ -1012,20 +1052,43 @@
                             opponentLine.appendChild(document.createTextNode(opponent));
                             mobileContent.appendChild(opponentLine);
                             
-                            if (result === 'Final') {
-                                // Create score line
+                            if (isFinalGame) {
+                                // Create score line for final games
                                 const scoreLine = document.createElement('div');
                                 scoreLine.className = 'mobile-score-line';
                                 
                                 const scoreSpan = document.createElement('span');
                                 const overtimeMarker = (gameForDay.periodResult === 'OT' || gameForDay.periodResult === 'SO') ? '+' : '';
-                                scoreSpan.textContent = `${gameForDay.teamResult} ${gameForDay.scoreResult}${overtimeMarker}`;
                                 
-                                if (gameForDay.teamResult === 'W') {
-                                    scoreSpan.className = 'score-win';
+                                // Check if we have teamResult/scoreResult (older format) or need to calculate from goalsFor/goalsAgainst
+                                let displayText, isWin;
+                                if (gameForDay.teamResult && gameForDay.scoreResult) {
+                                    // Standard format with teamResult and scoreResult
+                                    displayText = `${gameForDay.teamResult} ${gameForDay.scoreResult}${overtimeMarker}`;
+                                    isWin = gameForDay.teamResult === 'W';
                                 } else {
-                                    scoreSpan.className = 'score-loss';
+                                    // Calculate from goalsFor/goalsAgainst (game just ended)
+                                    const teamScore = gameForDay.goalsFor || 0;
+                                    const oppScore = gameForDay.goalsAgainst || 0;
+                                    isWin = teamScore > oppScore;
+                                    const resultLetter = isWin ? 'W' : 'L';
+                                    displayText = `${resultLetter} ${teamScore}-${oppScore}${overtimeMarker}`;
                                 }
+                                
+                                scoreSpan.textContent = displayText;
+                                scoreSpan.className = isWin ? 'score-win' : 'score-loss';
+                                
+                                scoreLine.appendChild(scoreSpan);
+                                mobileContent.appendChild(scoreLine);
+                            } else if (isGameInProgress(gameForDay)) {
+                                // Create score line for in-progress games
+                                const scoreLine = document.createElement('div');
+                                scoreLine.className = 'mobile-score-line';
+                                
+                                const scoreInfo = getInProgressScore(gameForDay, team);
+                                const scoreSpan = document.createElement('span');
+                                scoreSpan.textContent = scoreInfo.display;
+                                scoreSpan.className = 'score-in-progress';
                                 
                                 scoreLine.appendChild(scoreSpan);
                                 mobileContent.appendChild(scoreLine);
@@ -1083,16 +1146,36 @@
                             const infoSide = document.createElement('div');
                             infoSide.className = 'desktop-game-info';
                                 
-                            if (result === 'Final') {
+                            if (isFinalGame) {
+                                // Final game - show W/L with score
                                 const scoreSpan = document.createElement('span');
                                 const overtimeMarker = (gameForDay.periodResult === 'OT' || gameForDay.periodResult === 'SO') ? '+' : '';
-                                scoreSpan.textContent = `${gameForDay.teamResult} ${gameForDay.scoreResult}${overtimeMarker}`;
                                 
-                                if (gameForDay.teamResult === 'W') {
-                                    scoreSpan.className = 'score-win';
+                                // Check if we have teamResult/scoreResult (older format) or need to calculate from goalsFor/goalsAgainst
+                                let displayText, isWin;
+                                if (gameForDay.teamResult && gameForDay.scoreResult) {
+                                    // Standard format with teamResult and scoreResult
+                                    displayText = `${gameForDay.teamResult} ${gameForDay.scoreResult}${overtimeMarker}`;
+                                    isWin = gameForDay.teamResult === 'W';
                                 } else {
-                                    scoreSpan.className = 'score-loss';
+                                    // Calculate from goalsFor/goalsAgainst (game just ended)
+                                    const teamScore = gameForDay.goalsFor || 0;
+                                    const oppScore = gameForDay.goalsAgainst || 0;
+                                    isWin = teamScore > oppScore;
+                                    const resultLetter = isWin ? 'W' : 'L';
+                                    displayText = `${resultLetter} ${teamScore}-${oppScore}${overtimeMarker}`;
                                 }
+                                
+                                scoreSpan.textContent = displayText;
+                                scoreSpan.className = isWin ? 'score-win' : 'score-loss';
+                                
+                                infoSide.appendChild(scoreSpan);
+                            } else if (isGameInProgress(gameForDay)) {
+                                // In-progress game - show arrow with score
+                                const scoreInfo = getInProgressScore(gameForDay, team);
+                                const scoreSpan = document.createElement('span');
+                                scoreSpan.textContent = scoreInfo.display;
+                                scoreSpan.className = 'score-in-progress';
                                 
                                 infoSide.appendChild(scoreSpan);
                             } else {
